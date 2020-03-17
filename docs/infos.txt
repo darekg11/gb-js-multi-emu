@@ -1,0 +1,34 @@
+Ultimate talk:
+https://www.youtube.com/watch?v=HyzD8pNlpwI
+
+Specs:
+http://marc.rawer.de/Gameboy/Docs/GBCPUman.pdf
+
+CPU: 8bit 4.194304 MHz (8.388MHz GBC)
+RAM: 8KB (16KB GBC) 65535
+VRAM: 8KB (16KB GBC)
+Resolution: 160x144 (20x18 tiles) but background is 256x256
+Kolory: 4 (shades of grey)
+Max # of sprites: 40
+Max # sprites/line: 10
+Max sprite size: 8x16
+Min sprite size: 8x8
+It can address FFFF RAM -> 2^16. 16 because it uses combined registers as desribed below to have 16 bytes.
+
+CPU:
+8 registers 8 bits: A, B, C, D, E, F, H, L
+You can combine AB, CD, EF, HL together to get 16bits
+2 registers 16bits: SP, PC
+
+MEMORY:
+Map:
+0000 - 4000 -> Bank 0 ROM 16kB
+4000 - 8000 -> Switchable Bank ROM 16kB
+8000 - A000 -> VRAM 8kB
+A000 - C000 -> External RAM switchabke 8kB
+C000 - E000 -> Internal RAM
+E000 - FE00 -> Echo of 8kB Internal RAM so when you write to C000, you automatically write to E000
+FE00 - FEA0 -> Sprite Attribute Memory OAM 40 sprites each 4 bytes
+FEA0 - FF00 -> Empty
+FF00 - FF80 -> IO Ports
+FF80 - FFFF -> Internal RAM (FF0F -> Interrupt Flag, FFFF -> Interrupt Enable)
