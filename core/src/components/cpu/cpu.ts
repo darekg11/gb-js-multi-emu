@@ -157,6 +157,14 @@ class CPU {
     public setRegisterHLValue(value: number) {
         this.setRegisterValue("HL", value);
     }
+
+    public getProgramCounter() {
+        return this.PC;
+    }
+
+    public increaseProgramCounter(value = 1) {
+        this.PC += value;
+    }
 }
 
 export default CPU;

@@ -162,3 +162,15 @@ describe("CPU - Registers - Sets and Gets", () => {
         expect(cpu.getRegisterAFValue()).toBe(0);
     });
 })
+
+describe("Program Counter - Increase and Get", () => {
+    test("Should correctly increase and get value of PC", () => {
+        const cpu = new CPU();
+        expect(cpu.getProgramCounter()).toBe(0);
+        cpu.increaseProgramCounter(10);
+        expect(cpu.getProgramCounter()).toBe(10);
+        cpu.increaseProgramCounter(2);
+        expect(cpu.getProgramCounter()).toBe(12);
+    })
+
+});
