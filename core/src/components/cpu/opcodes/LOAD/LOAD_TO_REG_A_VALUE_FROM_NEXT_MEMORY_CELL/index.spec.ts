@@ -2,8 +2,8 @@ import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
 
-describe("LOAD_TO_REG_A_VALUE_OF_REG_A", () => {
-    test("Should set value correctly and increase PC by 1", () => {
+describe("LOAD_TO_REG_A_VALUE_FROM_NEXT_MEMORY_CELL", () => {
+    test("Should set value correctly and increase PC by 2", () => {
         const TEST_VALUE = 198;
         const cpu = new CPU();
         const memory = new Memory();
@@ -21,7 +21,7 @@ describe("LOAD_TO_REG_A_VALUE_OF_REG_A", () => {
         expect(cpu.getRegisterAFValue()).toBe(0);
         expect(cpu.getProgramCounter()).toBe(0);
 
-        cpu.setRegisterAValue(TEST_VALUE);
+        memory.write8BitsValue(1, TEST_VALUE);
 
         handle({ CPU: cpu, Memory: memory });
 
@@ -37,6 +37,6 @@ describe("LOAD_TO_REG_A_VALUE_OF_REG_A", () => {
         expect(cpu.getRegisterDEValue()).toBe(0);
         expect(cpu.getRegisterHLValue()).toBe(0);
         expect(cpu.getRegisterAFValue()).toBe(TEST_VALUE << 8);
-        expect(cpu.getProgramCounter()).toBe(1);
+        expect(cpu.getProgramCounter()).toBe(2);
     });
 })
