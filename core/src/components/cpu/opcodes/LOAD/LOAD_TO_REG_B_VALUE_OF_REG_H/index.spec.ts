@@ -1,10 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
+import Memory from "../../../../memory/memory";
 
 describe("LOAD_TO_REG_B_VALUE_OF_REG_H", () => {
     test("Should set value correctly and increase PC by 1", () => {
         const TEST_VALUE = 198;
         const cpu = new CPU();
+        const memory = new Memory();
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
         expect(cpu.getRegisterCValue()).toBe(0);
@@ -21,7 +23,7 @@ describe("LOAD_TO_REG_B_VALUE_OF_REG_H", () => {
 
         cpu.setRegisterHValue(TEST_VALUE);
 
-        handle({ CPU: cpu });
+        handle({ CPU: cpu, Memory: memory });
 
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(TEST_VALUE);
