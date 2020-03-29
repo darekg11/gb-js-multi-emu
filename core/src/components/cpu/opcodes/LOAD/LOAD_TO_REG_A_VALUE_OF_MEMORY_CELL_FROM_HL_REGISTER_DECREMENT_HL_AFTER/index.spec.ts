@@ -2,7 +2,7 @@ import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
 
-describe("LOAD_TO_REF_A_VALUE_OF_MEMORY_CELL_FROM_HL_REGISTER_DECREMENT_HL_AFTER", () => {
+describe("LOAD_TO_REG_A_VALUE_OF_MEMORY_CELL_FROM_HL_REGISTER_DECREMENT_HL_AFTER", () => {
     test("Should set value correctly and increase PC by 1 and decrement HL register", () => {
         const TEST_VALUE = 198;
         const TEST_INDEX = 44001;
