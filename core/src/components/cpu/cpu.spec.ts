@@ -12,6 +12,7 @@ describe("CPU - Registers - Sets and Gets", () => {
         expect(cpu.getRegisterFValue()).toBe(0);
         expect(cpu.getRegisterHValue()).toBe(0);
         expect(cpu.getRegisterLValue()).toBe(0);
+        expect(cpu.getRegisterSPValue()).toBe(0);
     });
     test("Register B", () => {
         const cpu = new CPU();
@@ -24,6 +25,7 @@ describe("CPU - Registers - Sets and Gets", () => {
         expect(cpu.getRegisterFValue()).toBe(0);
         expect(cpu.getRegisterHValue()).toBe(0);
         expect(cpu.getRegisterLValue()).toBe(0);
+        expect(cpu.getRegisterSPValue()).toBe(0);
     });
     test("Register C", () => {
         const cpu = new CPU();
@@ -36,6 +38,7 @@ describe("CPU - Registers - Sets and Gets", () => {
         expect(cpu.getRegisterFValue()).toBe(0);
         expect(cpu.getRegisterHValue()).toBe(0);
         expect(cpu.getRegisterLValue()).toBe(0);
+        expect(cpu.getRegisterSPValue()).toBe(0);
     });
     test("Register D", () => {
         const cpu = new CPU();
@@ -48,6 +51,7 @@ describe("CPU - Registers - Sets and Gets", () => {
         expect(cpu.getRegisterFValue()).toBe(0);
         expect(cpu.getRegisterHValue()).toBe(0);
         expect(cpu.getRegisterLValue()).toBe(0);
+        expect(cpu.getRegisterSPValue()).toBe(0);
     });
     test("Register E", () => {
         const cpu = new CPU();
@@ -60,6 +64,7 @@ describe("CPU - Registers - Sets and Gets", () => {
         expect(cpu.getRegisterFValue()).toBe(0);
         expect(cpu.getRegisterHValue()).toBe(0);
         expect(cpu.getRegisterLValue()).toBe(0);
+        expect(cpu.getRegisterSPValue()).toBe(0);
     });
     test("Register F", () => {
         const cpu = new CPU();
@@ -72,6 +77,7 @@ describe("CPU - Registers - Sets and Gets", () => {
         expect(cpu.getRegisterFValue()).toBe(99);
         expect(cpu.getRegisterHValue()).toBe(0);
         expect(cpu.getRegisterLValue()).toBe(0);
+        expect(cpu.getRegisterSPValue()).toBe(0);
     });
     test("Register H", () => {
         const cpu = new CPU();
@@ -84,6 +90,7 @@ describe("CPU - Registers - Sets and Gets", () => {
         expect(cpu.getRegisterFValue()).toBe(0);
         expect(cpu.getRegisterHValue()).toBe(134);
         expect(cpu.getRegisterLValue()).toBe(0);
+        expect(cpu.getRegisterSPValue()).toBe(0);
     });
     test("Register L", () => {
         const cpu = new CPU();
@@ -96,6 +103,7 @@ describe("CPU - Registers - Sets and Gets", () => {
         expect(cpu.getRegisterFValue()).toBe(0);
         expect(cpu.getRegisterHValue()).toBe(0);
         expect(cpu.getRegisterLValue()).toBe(201);
+        expect(cpu.getRegisterSPValue()).toBe(0);
     });
     test("Register AF", () => {
         const cpu = new CPU();
@@ -112,6 +120,7 @@ describe("CPU - Registers - Sets and Gets", () => {
         expect(cpu.getRegisterDEValue()).toBe(0);
         expect(cpu.getRegisterHLValue()).toBe(0);
         expect(cpu.getRegisterAFValue()).toBe(45907);
+        expect(cpu.getRegisterSPValue()).toBe(0);
     });
     test("Register BC", () => {
         const cpu = new CPU();
@@ -128,6 +137,7 @@ describe("CPU - Registers - Sets and Gets", () => {
         expect(cpu.getRegisterDEValue()).toBe(0);
         expect(cpu.getRegisterHLValue()).toBe(0);
         expect(cpu.getRegisterAFValue()).toBe(0);
+        expect(cpu.getRegisterSPValue()).toBe(0);
     });
     test("Register DE", () => {
         const cpu = new CPU();
@@ -144,6 +154,7 @@ describe("CPU - Registers - Sets and Gets", () => {
         expect(cpu.getRegisterBCValue()).toBe(0);
         expect(cpu.getRegisterHLValue()).toBe(0);
         expect(cpu.getRegisterAFValue()).toBe(0);
+        expect(cpu.getRegisterSPValue()).toBe(0);
     });
     test("Register HL", () => {
         const cpu = new CPU();
@@ -160,6 +171,20 @@ describe("CPU - Registers - Sets and Gets", () => {
         expect(cpu.getRegisterBCValue()).toBe(0);
         expect(cpu.getRegisterDEValue()).toBe(0);
         expect(cpu.getRegisterAFValue()).toBe(0);
+        expect(cpu.getRegisterSPValue()).toBe(0);
+    });
+    test("Register SP", () => {
+        const cpu = new CPU();
+        cpu.setRegisterSPValue(55021);
+        expect(cpu.getRegisterAValue()).toBe(0);
+        expect(cpu.getRegisterBValue()).toBe(0);
+        expect(cpu.getRegisterCValue()).toBe(0);
+        expect(cpu.getRegisterDValue()).toBe(0);
+        expect(cpu.getRegisterEValue()).toBe(0);
+        expect(cpu.getRegisterFValue()).toBe(0);
+        expect(cpu.getRegisterHValue()).toBe(0);
+        expect(cpu.getRegisterLValue()).toBe(0);
+        expect(cpu.getRegisterSPValue()).toBe(55021);
     });
 })
 

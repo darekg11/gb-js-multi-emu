@@ -6,6 +6,9 @@ class CPU {
     private running: boolean = false;
     // program counter
     private PC: number = 0;
+
+    // stack pointer
+    private SP: number = 0;
     // 8 bytes registers
     private registers: ICPURegisters = {
         A: 0,
@@ -30,6 +33,9 @@ class CPU {
         }
         if (register === "HL") {
             return numberUtils.combineTwo8BitsNumbersInto16BitsNumber(this.registers.H, this.registers.L);
+        }
+        if (register === "SP") {
+            return this.SP;
         }
         return this.registers[register];
     }
@@ -57,6 +63,10 @@ class CPU {
             const [ H, L ] = numberUtils.split16BitsNumberIntoTwo8BitsNumbers(value);
             this.registers.H = H;
             this.registers.L = L;
+            return;
+        }
+        if (register === "SP") {
+            this.SP = value;
             return;
         }
         this.registers[register] = value;
@@ -156,6 +166,14 @@ class CPU {
 
     public setRegisterHLValue(value: number) {
         this.setRegisterValue("HL", value);
+    }
+
+    public getRegisterSPValue() {
+        return this.getRegisterValue("SP");
+    }
+
+    public setRegisterSPValue(value: number) {
+        this.setRegisterValue("SP", value);
     }
 
     public getProgramCounter() {

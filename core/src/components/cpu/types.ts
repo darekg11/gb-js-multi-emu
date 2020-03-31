@@ -1,4 +1,4 @@
-export type CPU_REGISTERS = "A" | "B" | "C" | "D" | "E" | "F" | "H" | "L" | "AF" | "BC" | "DE" | "HL"
+export type CPU_REGISTERS = "A" | "B" | "C" | "D" | "E" | "F" | "H" | "L" | "AF" | "BC" | "DE" | "HL" | "SP"
 export interface ICPURegisters {
     A: number
     B: number
