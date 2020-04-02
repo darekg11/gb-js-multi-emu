@@ -197,5 +197,23 @@ describe("Program Counter - Increase and Get", () => {
         cpu.increaseProgramCounter(2);
         expect(cpu.getProgramCounter()).toBe(12);
     })
+});
 
+describe("Interrupts - Enable / Disable / Get", () => {
+    test("Should correctly return state of interrupts", () => {
+        const cpu = new CPU();
+        expect(cpu.areInterruptsEnabled()).toBe(true);
+    });
+    test("Should disable interrupts", () => {
+        const cpu = new CPU();
+        cpu.disableInterrupts();
+        expect(cpu.areInterruptsEnabled()).toBe(false);
+    });
+    test("Should enable interrupts", () => {
+        const cpu = new CPU();
+        cpu.disableInterrupts();
+        expect(cpu.areInterruptsEnabled()).toBe(false);
+        cpu.enableInterrupts();
+        expect(cpu.areInterruptsEnabled()).toBe(true);
+    });
 });

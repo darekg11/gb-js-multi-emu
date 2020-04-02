@@ -21,6 +21,8 @@ class CPU {
         L: 0
     }
 
+    private interruptsEnabled: boolean = true;
+
     private getRegisterValue = (register: CPU_REGISTERS): number => {
         if (register === "AF") {
             return numberUtils.combineTwo8BitsNumbersInto16BitsNumber(this.registers.A, this.registers.F);
@@ -182,6 +184,18 @@ class CPU {
 
     public increaseProgramCounter(value = 1) {
         this.PC += value;
+    }
+
+    public enableInterrupts() {
+        this.interruptsEnabled = true;
+    }
+
+    public disableInterrupts() {
+        this.interruptsEnabled = false;
+    }
+
+    public areInterruptsEnabled() {
+        return this.interruptsEnabled;
     }
 }
 
