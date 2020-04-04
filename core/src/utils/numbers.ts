@@ -16,4 +16,22 @@ const split16BitsNumberIntoTwo8BitsNumbers = (value: number): [number, number] =
     return [ first, second ];
 }
 
-export {combineTwo8BitsNumbersInto16BitsNumber, split16BitsNumberIntoTwo8BitsNumbers};
+const isBitSet = (value: number, bit: number) => {
+    return  (value & (1 << bit)) !== 0;
+}
+
+const setBit = (value: number, bit: number) => {
+    return value | (1 << bit);
+}
+
+const unsetBit = (value: number, bit: number) => {
+    return value & (~(1 << bit));
+}
+
+export {
+    combineTwo8BitsNumbersInto16BitsNumber,
+    split16BitsNumberIntoTwo8BitsNumbers,
+    isBitSet,
+    setBit,
+    unsetBit
+};

@@ -217,3 +217,127 @@ describe("Interrupts - Enable / Disable / Get", () => {
         expect(cpu.areInterruptsEnabled()).toBe(true);
     });
 });
+
+describe("Zero Flag - Statuses", () => {
+    test("isZeroFlagSet - return true when flag is indeed set", () => {
+        const F_REGISTER_VALUE = 0b10000000;
+        const cpu = new CPU();
+        expect(cpu.isZeroFlagSet()).toBe(false);
+        cpu.setRegisterFValue(F_REGISTER_VALUE);
+        expect(cpu.isZeroFlagSet()).toBe(true);
+    });
+
+    test("setZeroFlag - set flag", () => {
+        const F_REGISTER_VALUE = 0b10000000;
+        const cpu = new CPU();
+        expect(cpu.isZeroFlagSet()).toBe(false);
+        cpu.setZeroFlag();
+        expect(cpu.isZeroFlagSet()).toBe(true);
+        expect(cpu.getRegisterFValue()).toBe(F_REGISTER_VALUE);
+    });
+
+    test("unsetZeroFlag - set flag", () => {
+        const F_REGISTER_VALUE = 0b10000000;
+        const cpu = new CPU();
+        expect(cpu.isZeroFlagSet()).toBe(false);
+        cpu.setZeroFlag();
+        expect(cpu.isZeroFlagSet()).toBe(true);
+        expect(cpu.getRegisterFValue()).toBe(F_REGISTER_VALUE);
+        cpu.unsetZeroFlag();
+        expect(cpu.isZeroFlagSet());
+        expect(cpu.getRegisterFValue()).toBe(0);
+    });
+});
+
+describe("Subtraction Flag - Statuses", () => {
+    test("isSubtractionFlagSet - return true when flag is indeed set", () => {
+        const F_REGISTER_VALUE = 0b01000000;
+        const cpu = new CPU();
+        expect(cpu.isSubtractionFlagSet()).toBe(false);
+        cpu.setRegisterFValue(F_REGISTER_VALUE);
+        expect(cpu.isSubtractionFlagSet()).toBe(true);
+    });
+
+    test("setSubtractionFlag - set flag", () => {
+        const F_REGISTER_VALUE = 0b01000000;
+        const cpu = new CPU();
+        expect(cpu.isSubtractionFlagSet()).toBe(false);
+        cpu.setSubtractionFlag();
+        expect(cpu.isSubtractionFlagSet()).toBe(true);
+        expect(cpu.getRegisterFValue()).toBe(F_REGISTER_VALUE);
+    });
+
+    test("unsetSubtractionFlag - set flag", () => {
+        const F_REGISTER_VALUE = 0b01000000;
+        const cpu = new CPU();
+        expect(cpu.isSubtractionFlagSet()).toBe(false);
+        cpu.setSubtractionFlag();
+        expect(cpu.isSubtractionFlagSet()).toBe(true);
+        expect(cpu.getRegisterFValue()).toBe(F_REGISTER_VALUE);
+        cpu.unsetSubtractionFlag();
+        expect(cpu.isSubtractionFlagSet());
+        expect(cpu.getRegisterFValue()).toBe(0);
+    });
+});
+
+describe("Half Carry Flag - Statuses", () => {
+    test("isHalfCarryFlagSet - return true when flag is indeed set", () => {
+        const F_REGISTER_VALUE = 0b00100000;
+        const cpu = new CPU();
+        expect(cpu.isHalfCarryFlagSet()).toBe(false);
+        cpu.setRegisterFValue(F_REGISTER_VALUE);
+        expect(cpu.isHalfCarryFlagSet()).toBe(true);
+    });
+
+    test("setHalfCarryFlag - set flag", () => {
+        const F_REGISTER_VALUE = 0b00100000;
+        const cpu = new CPU();
+        expect(cpu.isHalfCarryFlagSet()).toBe(false);
+        cpu.setHalfCarryFlag();
+        expect(cpu.isHalfCarryFlagSet()).toBe(true);
+        expect(cpu.getRegisterFValue()).toBe(F_REGISTER_VALUE);
+    });
+
+    test("unsetHalfCarryFlag - set flag", () => {
+        const F_REGISTER_VALUE = 0b00100000;
+        const cpu = new CPU();
+        expect(cpu.isHalfCarryFlagSet()).toBe(false);
+        cpu.setHalfCarryFlag();
+        expect(cpu.isHalfCarryFlagSet()).toBe(true);
+        expect(cpu.getRegisterFValue()).toBe(F_REGISTER_VALUE);
+        cpu.unsetHalfCarryFlag();
+        expect(cpu.isHalfCarryFlagSet());
+        expect(cpu.getRegisterFValue()).toBe(0);
+    });
+});
+
+describe("Carry Flag - Statuses", () => {
+    test("isCarryFlagSet - return true when flag is indeed set", () => {
+        const F_REGISTER_VALUE = 0b00010000;
+        const cpu = new CPU();
+        expect(cpu.isCarryFlagSet()).toBe(false);
+        cpu.setRegisterFValue(F_REGISTER_VALUE);
+        expect(cpu.isCarryFlagSet()).toBe(true);
+    });
+
+    test("setCarryFlag - set flag", () => {
+        const F_REGISTER_VALUE = 0b00010000;
+        const cpu = new CPU();
+        expect(cpu.isCarryFlagSet()).toBe(false);
+        cpu.setCarryFlag();
+        expect(cpu.isCarryFlagSet()).toBe(true);
+        expect(cpu.getRegisterFValue()).toBe(F_REGISTER_VALUE);
+    });
+
+    test("unsetCarryFlag - set flag", () => {
+        const F_REGISTER_VALUE = 0b00010000;
+        const cpu = new CPU();
+        expect(cpu.isCarryFlagSet()).toBe(false);
+        cpu.setCarryFlag();
+        expect(cpu.isCarryFlagSet()).toBe(true);
+        expect(cpu.getRegisterFValue()).toBe(F_REGISTER_VALUE);
+        cpu.unsetCarryFlag();
+        expect(cpu.isCarryFlagSet());
+        expect(cpu.getRegisterFValue()).toBe(0);
+    });
+});

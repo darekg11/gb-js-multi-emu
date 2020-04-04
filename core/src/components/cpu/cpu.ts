@@ -1,6 +1,11 @@
 import { CPU_REGISTERS, ICPURegisters } from "./types";
 import { numberUtils } from "../../utils/index";
 
+const ZERO_FLAG_BIT = 7;
+const SUBTRACTION_FLAG_BIT = 6;
+const HALF_CARRY_FLAG_BIT = 5;
+const CARRY_FLAG_BIT = 4;
+
 class CPU {
     // is CPU running?
     private running: boolean = false;
@@ -197,6 +202,55 @@ class CPU {
     public areInterruptsEnabled() {
         return this.interruptsEnabled;
     }
+
+    public isZeroFlagSet() {
+        return numberUtils.isBitSet(this.registers.F, ZERO_FLAG_BIT);
+    }
+
+    public setZeroFlag() {
+        this.registers.F = numberUtils.setBit(this.registers.F, ZERO_FLAG_BIT);
+    }
+
+    public unsetZeroFlag() {
+        this.registers.F = numberUtils.unsetBit(this.registers.F, ZERO_FLAG_BIT);
+    }
+
+    public isSubtractionFlagSet() {
+        return numberUtils.isBitSet(this.registers.F, SUBTRACTION_FLAG_BIT);
+    }
+
+    public setSubtractionFlag() {
+        this.registers.F = numberUtils.setBit(this.registers.F, SUBTRACTION_FLAG_BIT);
+    }
+
+    public unsetSubtractionFlag() {
+        this.registers.F = numberUtils.unsetBit(this.registers.F, SUBTRACTION_FLAG_BIT);
+    }
+
+    public isHalfCarryFlagSet() {
+        return numberUtils.isBitSet(this.registers.F, HALF_CARRY_FLAG_BIT);
+    }
+
+    public setHalfCarryFlag() {
+        this.registers.F = numberUtils.setBit(this.registers.F, HALF_CARRY_FLAG_BIT);
+    }
+
+    public unsetHalfCarryFlag() {
+        this.registers.F = numberUtils.unsetBit(this.registers.F, HALF_CARRY_FLAG_BIT);
+    }
+
+    public isCarryFlagSet() {
+        return numberUtils.isBitSet(this.registers.F, CARRY_FLAG_BIT);
+    }
+
+    public setCarryFlag() {
+        this.registers.F = numberUtils.setBit(this.registers.F, CARRY_FLAG_BIT);
+    }
+
+    public unsetCarryFlag() {
+        this.registers.F = numberUtils.unsetBit(this.registers.F, CARRY_FLAG_BIT);
+    }
+
 }
 
 export default CPU;

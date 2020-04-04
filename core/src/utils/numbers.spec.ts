@@ -29,3 +29,57 @@ describe("flow", () => {
         expect(result).toBe(EXAMPLE_HEX_VALUE);
     })
 });
+
+describe("isBitSet", () => {
+    test("should return false when bit is 0", () => {
+        const TEST_VALUE = 16;
+        const TEST_BIT = 0;
+        expect(numbersUtil.isBitSet(TEST_VALUE, TEST_BIT)).toBe(false);
+    });
+
+    test("should return true when bit is 1", () => {
+        const TEST_VALUE = 16;
+        const TEST_BIT = 4;
+        expect(numbersUtil.isBitSet(TEST_VALUE, TEST_BIT)).toBe(true);
+    })
+});
+
+describe("setBit", () => {
+    test("should set bit to 1 when bit is 0", () => {
+        const TEST_VALUE = 16;
+        const TEST_BIT = 0;
+        expect(numbersUtil.isBitSet(TEST_VALUE, TEST_BIT)).toBe(false);
+        const updated = numbersUtil.setBit(TEST_VALUE, TEST_BIT);
+        expect(updated).toBe(TEST_VALUE + 1);
+        expect(numbersUtil.isBitSet(updated, TEST_BIT)).toBe(true);
+    });
+
+    test("should set bit to 1 when bit is 1", () => {
+        const TEST_VALUE = 16;
+        const TEST_BIT = 4;
+        expect(numbersUtil.isBitSet(TEST_VALUE, TEST_BIT)).toBe(true);
+        const updated = numbersUtil.setBit(TEST_VALUE, TEST_BIT);
+        expect(updated).toBe(TEST_VALUE);
+        expect(numbersUtil.isBitSet(updated, TEST_BIT)).toBe(true);
+    })
+});
+
+describe("unsetBit", () => {
+    test("should set bit to 0 when bit is 1", () => {
+        const TEST_VALUE = 16;
+        const TEST_BIT = 4;
+        expect(numbersUtil.isBitSet(TEST_VALUE, TEST_BIT)).toBe(true);
+        const updated = numbersUtil.unsetBit(TEST_VALUE, TEST_BIT);
+        expect(updated).toBe(0);
+        expect(numbersUtil.isBitSet(updated, TEST_BIT)).toBe(false);
+    });
+
+    test("should set bit to 0 when bit is 0", () => {
+        const TEST_VALUE = 16;
+        const TEST_BIT = 0;
+        expect(numbersUtil.isBitSet(TEST_VALUE, TEST_BIT)).toBe(false);
+        const updated = numbersUtil.unsetBit(TEST_VALUE, TEST_BIT);
+        expect(updated).toBe(TEST_VALUE);
+        expect(numbersUtil.isBitSet(updated, TEST_BIT)).toBe(false);
+    })
+});
