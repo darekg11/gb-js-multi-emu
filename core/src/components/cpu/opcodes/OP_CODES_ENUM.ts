@@ -107,6 +107,7 @@ export enum NON_PREFIX_OP_CODES {
 
     ADD_TO_REG_A_VALUE_OF_REG_B = 0x80,
     ADD_TO_REG_A_VALUE_OF_REG_C = 0x81,
+    ADD_TO_REG_A_VALUE_OF_REG_D = 0x82,
 
 }
 
