@@ -2,9 +2,9 @@ import { IOpCodeHanlePayload } from "../../types";
 import { numberUtils } from "../../../../../utils";
 
 /*
-  OP Code: 0x80
-  Memonic: ADD A, B
-  Description: Adds to register A a value of register B
+  OP Code: 0x81
+  Memonic: ADD A, C
+  Description: Adds to register A a value of register C
     Sets SUBTRACTION flag to 0
     Sets CARRY flag if we overflow 255 value
     Sets ZERO flag if result is 0
@@ -15,8 +15,8 @@ import { numberUtils } from "../../../../../utils";
 */
 const handle = (payload: IOpCodeHanlePayload) => {
     const registerAValue = payload.CPU.getRegisterAValue();
-    const registerBValue = payload.CPU.getRegisterBValue();
-    const sum = registerAValue + registerBValue;
+    const registerCValue = payload.CPU.getRegisterCValue();
+    const sum = registerAValue + registerCValue;
     if (sum > 255) {
         payload.CPU.setCarryFlag();
     }
@@ -24,7 +24,7 @@ const handle = (payload: IOpCodeHanlePayload) => {
     if (wrappedValue === 0) {
         payload.CPU.setZeroFlag();
     }
-    const shouldSetHalfCarryFlag = (registerAValue & 0xF) + (registerBValue & 0xF) > 0xF;
+    const shouldSetHalfCarryFlag = (registerAValue & 0xF) + (registerCValue & 0xF) > 0xF;
     if (shouldSetHalfCarryFlag) {
         payload.CPU.setHalfCarryFlag();
     }
