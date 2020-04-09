@@ -118,7 +118,7 @@ export enum NON_PREFIX_OP_CODES {
     ADC_TO_REG_A_VALUE_OF_REG_C = 0x89,
     ADC_TO_REG_A_VALUE_OF_REG_D = 0x8A,
     ADC_TO_REG_A_VALUE_OF_REG_E = 0x8B,
-
+    ADC_TO_REG_A_VALUE_OF_REG_H = 0x8C,
 }
 
 export enum CB_OP_CODES {
