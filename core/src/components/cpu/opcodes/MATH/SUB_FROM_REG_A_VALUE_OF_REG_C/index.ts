@@ -1,9 +1,9 @@
 import { IOpCodeHanlePayload } from "../../types";
 
 /*
-  OP Code: 0x90
-  Memonic: SUB A, B
-  Description: Subtracts from register A a value of register B
+  OP Code: 0x91
+  Memonic: SUB A, C
+  Description: Subtracts from register A a value of register C
     Sets SUBTRACTION flag to 1
     Sets CARRY flag if we underflow 0 value
     Sets ZERO flag if result is 0
@@ -14,8 +14,8 @@ import { IOpCodeHanlePayload } from "../../types";
 */
 const handle = (payload: IOpCodeHanlePayload) => {
     const registerAValue = payload.CPU.getRegisterAValue();
-    const registerBValue = payload.CPU.getRegisterBValue();
-    const diff = registerAValue - registerBValue;
+    const registerCValue = payload.CPU.getRegisterCValue();
+    const diff = registerAValue - registerCValue;
     if (diff < 0) {
         payload.CPU.setCarryFlag();
     }
@@ -23,7 +23,7 @@ const handle = (payload: IOpCodeHanlePayload) => {
     if (wrappedValue === 0) {
         payload.CPU.setZeroFlag();
     }
-    const shouldSetHalfCarryFlag = (registerAValue & 0xF) + (registerBValue & 0xF) > 0xF;
+    const shouldSetHalfCarryFlag = (registerAValue & 0xF) + (registerCValue & 0xF) > 0xF;
     if (shouldSetHalfCarryFlag) {
         payload.CPU.setHalfCarryFlag();
     }
