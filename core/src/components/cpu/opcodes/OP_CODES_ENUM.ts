@@ -133,6 +133,7 @@ export enum NON_PREFIX_OP_CODES {
     SUB_FROM_REG_A_VALUE_OF_REG_A = 0x97,
 
     SBC_FROM_REG_A_VALUE_OF_REG_B = 0x98,
+    SBC_FROM_REG_A_VALUE_OF_REG_C = 0x99,
 }
 
 export enum CB_OP_CODES {
