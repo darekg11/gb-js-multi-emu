@@ -144,7 +144,8 @@ export enum NON_PREFIX_OP_CODES {
     AND_B = 0xA0,
     AND_C = 0xA1,
     AND_D = 0xA2,
-    AND_E = 0xA3
+    AND_E = 0xA3,
+    AND_H = 0xA4,
 }
 
 export enum CB_OP_CODES {
