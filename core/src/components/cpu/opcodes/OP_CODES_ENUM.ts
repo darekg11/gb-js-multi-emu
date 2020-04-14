@@ -147,6 +147,7 @@ export enum NON_PREFIX_OP_CODES {
     AND_E = 0xA3,
     AND_H = 0xA4,
     AND_L = 0xA5,
+    AND_A_VALUE_OF_MEMORY_CELL_FROM_HL_REGISTER = 0xA6,
 }
 
 export enum CB_OP_CODES {
