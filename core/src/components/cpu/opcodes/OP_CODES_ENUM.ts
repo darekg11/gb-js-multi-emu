@@ -142,6 +142,7 @@ export enum NON_PREFIX_OP_CODES {
     SBC_FROM_REG_A_VALUE_OF_REG_A = 0x9F,
 
     AND_B = 0xA0,
+    AND_C = 0xA1
 }
 
 export enum CB_OP_CODES {
