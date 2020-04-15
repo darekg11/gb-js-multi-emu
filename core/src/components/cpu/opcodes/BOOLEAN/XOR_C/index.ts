@@ -1,7 +1,7 @@
 import { IOpCodeHanlePayload } from "../../types";
 
 /*
-  OP Code: 0xA8
+  OP Code: 0xA9
   Memonic: XOR B
   Description: Bitwise XOR of A register value and B register value - store result in register A.
     Sets SUBTRACTION flag to 0
@@ -14,8 +14,8 @@ import { IOpCodeHanlePayload } from "../../types";
 */
 const handle = (payload: IOpCodeHanlePayload) => {
     const registerAValue = payload.CPU.getRegisterAValue();
-    const registerBValue = payload.CPU.getRegisterBValue();
-    const value = registerAValue ^ registerBValue;
+    const registerCValue = payload.CPU.getRegisterCValue();
+    const value = registerAValue ^ registerCValue;
     const safeValue = value & 255;
     if (safeValue === 0) {
         payload.CPU.setZeroFlag();
