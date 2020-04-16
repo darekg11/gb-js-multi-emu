@@ -157,6 +157,7 @@ export enum NON_PREFIX_OP_CODES {
     XOR_H = 0xAC,
     XOR_L = 0xAD,
     XOR_A_VALUE_OF_MEMORY_CELL_FROM_HL_REGISTER = 0xAE,
+    XOR_A = 0xAF,
 }
 
 export enum CB_OP_CODES {
