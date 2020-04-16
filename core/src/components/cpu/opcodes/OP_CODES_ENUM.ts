@@ -154,6 +154,7 @@ export enum NON_PREFIX_OP_CODES {
     XOR_C = 0xA9,
     XOR_D = 0xAA,
     XOR_E = 0xAB,
+    XOR_H = 0xAC,
 }
 
 export enum CB_OP_CODES {
