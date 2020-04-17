@@ -164,6 +164,7 @@ export enum NON_PREFIX_OP_CODES {
     OR_D = 0xB2,
     OR_E = 0xB3,
     OR_H = 0xB4,
+    OR_L = 0xB5,
 }
 
 export enum CB_OP_CODES {
