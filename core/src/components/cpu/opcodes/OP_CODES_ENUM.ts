@@ -160,6 +160,7 @@ export enum NON_PREFIX_OP_CODES {
     XOR_A = 0xAF,
 
     OR_B = 0xB0,
+    OR_C = 0xB1,
 }
 
 export enum CB_OP_CODES {
