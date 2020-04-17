@@ -165,6 +165,7 @@ export enum NON_PREFIX_OP_CODES {
     OR_E = 0xB3,
     OR_H = 0xB4,
     OR_L = 0xB5,
+    OR_A_VALUE_OF_MEMORY_CELL_FROM_HL_REGISTER = 0xB6,
 }
 
 export enum CB_OP_CODES {
