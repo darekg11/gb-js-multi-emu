@@ -174,6 +174,7 @@ export enum NON_PREFIX_OP_CODES {
     CP_E = 0xBB,
     CP_H = 0xBC,
     CP_L = 0xBD,
+    CP_A_VALUE_OF_MEMORY_CELL_FROM_HL_REGISTER = 0xBE,
 }
 
 export enum CB_OP_CODES {
