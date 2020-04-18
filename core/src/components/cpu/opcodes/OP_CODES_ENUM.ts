@@ -172,6 +172,7 @@ export enum NON_PREFIX_OP_CODES {
     CP_C = 0xB9,
     CP_D = 0xBA,
     CP_E = 0xBB,
+    CP_H = 0xBC,
 }
 
 export enum CB_OP_CODES {
