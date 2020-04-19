@@ -151,6 +151,7 @@ export enum NON_PREFIX_OP_CODES {
     AND_A = 0xA7,
 
     INC_BC = 0x03,
+    INC_DE = 0x13,
 
     XOR_B = 0xA8,
     XOR_C = 0xA9,
