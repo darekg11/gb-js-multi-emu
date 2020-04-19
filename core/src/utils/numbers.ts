@@ -5,12 +5,9 @@ const combineTwo8BitsNumbersInto16BitsNumber = (a: number, b: number): number =>
 }
 
 const split16BitsNumberIntoTwo8BitsNumbers = (value: number): [number, number] => {
-    // get only bits from first half, 0 rest
-    // so you get 1111 1111 0000 0000
-    const firstHalf = value & 0xFF00;
     // drop remaining 0 from previous operation
     // so you get 1111 1111
-    const first = firstHalf >> 8;
+    const first = value >> 8;
     // get only second half
     const second = value & 0xFF;
     return [ first, second ];
