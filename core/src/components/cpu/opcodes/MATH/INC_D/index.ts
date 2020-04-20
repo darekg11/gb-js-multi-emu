@@ -1,10 +1,9 @@
 import { IOpCodeHanlePayload } from "../../types";
-import { numberUtils } from "../../../../../utils";
 
 /*
-  OP Code: 0x04
+  OP Code: 0x14
   Memonic: INC B
-  Description: Increases value stored in B register.
+  Description: Increases value stored in D register.
     Sets SUBTRACTION flag to 1
     Sets CARRY flag if we underflow 0 value
     Sets ZERO flag if result is 0
@@ -15,8 +14,8 @@ import { numberUtils } from "../../../../../utils";
   Flags affected: None
 */
 const handle = (payload: IOpCodeHanlePayload) => {
-    const registerBValue = payload.CPU.getRegisterBValue();
-    const incremented = registerBValue + 1;
+    const registerDValue = payload.CPU.getRegisterDValue();
+    const incremented = registerDValue + 1;
     if (incremented > 255) {
         payload.CPU.setCarryFlag();
     }
@@ -24,12 +23,12 @@ const handle = (payload: IOpCodeHanlePayload) => {
     if (safeValue === 0) {
         payload.CPU.setZeroFlag();
     }
-    const shouldSetHalfCarryFlag = (registerBValue & 0xF) + (1 & 0xF) > 0xF;
+    const shouldSetHalfCarryFlag = (registerDValue & 0xF) + (1 & 0xF) > 0xF;
     if (shouldSetHalfCarryFlag) {
         payload.CPU.setHalfCarryFlag();
     }
     payload.CPU.unsetSubtractionFlag();
-    payload.CPU.setRegisterBValue(safeValue);
+    payload.CPU.setRegisterDValue(safeValue);
     payload.CPU.increaseProgramCounter();
 }
 
