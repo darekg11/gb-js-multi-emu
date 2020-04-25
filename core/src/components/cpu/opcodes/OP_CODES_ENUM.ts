@@ -166,6 +166,7 @@ export enum NON_PREFIX_OP_CODES {
     DEC_BC = 0x0B,
     DEC_DE = 0x1B,
     DEC_HL = 0x2B,
+    DEC_SP = 0x3B,
 
     XOR_B = 0xA8,
     XOR_C = 0xA9,
