@@ -155,6 +155,7 @@ export enum NON_PREFIX_OP_CODES {
     INC_HL = 0x23,
     INC_SP = 0x33,
     INC_B = 0x04,
+    INC_C = 0x0C,
     INC_D = 0x14,
     INC_H = 0x24,
     INC_A_VALUE_OF_MEMORY_CELL_FROM_HL_REGISTER = 0x34,
