@@ -154,6 +154,7 @@ export enum NON_PREFIX_OP_CODES {
     INC_DE = 0x13,
     INC_HL = 0x23,
     INC_SP = 0x33,
+    INC_A = 0x3C,
     INC_B = 0x04,
     INC_C = 0x0C,
     INC_D = 0x14,
