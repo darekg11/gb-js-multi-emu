@@ -159,6 +159,8 @@ export enum NON_PREFIX_OP_CODES {
     INC_H = 0x24,
     INC_A_VALUE_OF_MEMORY_CELL_FROM_HL_REGISTER = 0x34,
 
+    DEC_B = 0x05,
+
     XOR_B = 0xA8,
     XOR_C = 0xA9,
     XOR_D = 0xAA,
