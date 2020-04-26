@@ -152,6 +152,7 @@ export enum NON_PREFIX_OP_CODES {
     ADD_HL_BC = 0x09,
     ADD_HL_DE = 0x19,
     ADD_HL_HL = 0x29,
+    ADD_HL_SP = 0x39,
 
     INC_BC = 0x03,
     INC_DE = 0x13,
