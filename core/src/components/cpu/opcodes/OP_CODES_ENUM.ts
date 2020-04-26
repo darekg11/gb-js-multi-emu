@@ -4,6 +4,7 @@ export enum NON_PREFIX_OP_CODES {
     ENABLE_INTERRUPTS = 0xFB,
     SCF = 0x37,
     CPL = 0x2F,
+    CCF = 0x3F,
 
     LOAD_TO_REG_A_VALUE_OF_REG_A = 0x7F,
     LOAD_TO_REG_A_VALUE_OF_REG_B = 0x78,
