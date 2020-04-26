@@ -1,9 +1,9 @@
 import { IOpCodeHanlePayload } from "../../types";
 
 /*
-  OP Code: 0x19
-  Memonic: ADD HL DE
-  Description: Adds to register HL a value of register DE.
+  OP Code: 0x29
+  Memonic: ADD HL HL
+  Description: Adds to register HL a value of register HL.
     Sets SUBTRACTION flag to 0
     Sets CARRY flag if we overflow 65535 value
     Do not change ZERO flag state
@@ -14,13 +14,12 @@ import { IOpCodeHanlePayload } from "../../types";
 */
 const handle = (payload: IOpCodeHanlePayload) => {
     const registerHLValue = payload.CPU.getRegisterHLValue();
-    const registerDEValue = payload.CPU.getRegisterDEValue();
-    const sum = registerHLValue + registerDEValue;
+    const sum = registerHLValue + registerHLValue;
     if (sum > 65535) {
         payload.CPU.setCarryFlag();
     }
     const wrappedValue = sum & 65535;
-    const shouldSetHalfCarryFlag = (registerHLValue & 0xF) + (registerDEValue & 0xF) > 0xF;
+    const shouldSetHalfCarryFlag = (registerHLValue & 0xF) + (registerHLValue & 0xF) > 0xF;
     if (shouldSetHalfCarryFlag) {
         payload.CPU.setHalfCarryFlag();
     }

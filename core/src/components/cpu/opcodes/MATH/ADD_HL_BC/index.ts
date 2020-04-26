@@ -19,7 +19,7 @@ const handle = (payload: IOpCodeHanlePayload) => {
     if (sum > 65535) {
         payload.CPU.setCarryFlag();
     }
-    const wrappedValue = sum & 655535;
+    const wrappedValue = sum & 65535;
     const shouldSetHalfCarryFlag = (registerHLValue & 0xF) + (registerBCValue & 0xF) > 0xF;
     if (shouldSetHalfCarryFlag) {
         payload.CPU.setHalfCarryFlag();
