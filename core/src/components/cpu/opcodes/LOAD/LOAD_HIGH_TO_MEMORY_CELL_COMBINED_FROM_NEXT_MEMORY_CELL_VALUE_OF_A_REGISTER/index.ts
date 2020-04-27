@@ -3,8 +3,8 @@ import { numberUtils } from "../../../../../utils";
 
 /*
   OP Code: 0xE0
-  Memonic: LD (n), A
-  Description: Loads to memory cell under index combined from next memory cell (PC++), a value of Register A
+  Memonic: LDH (n), A
+  Description: Loads high (0xFF00 + n) to memory cell under index combined from next memory cell (PC++), a value of Register A
   Size: 2 Byte - increments PC by 2
   Cycles: 3
   Flags affected: None
