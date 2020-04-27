@@ -189,6 +189,7 @@ class CPU {
 
     public increaseProgramCounter(value = 1) {
         this.PC += value;
+        this.PC = this.PC & 0xFFFF;
     }
 
     public enableInterrupts() {
