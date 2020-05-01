@@ -223,7 +223,8 @@ export enum NON_PREFIX_OP_CODES {
     CP_A = 0xBF,
     CP_A_VALUE_FROM_NEXT_MEMORY_CELL = 0xFE,
 
-    POP_BC = 0xC1
+    POP_BC = 0xC1,
+    POP_DE = 0xD1,
 }
 
 export enum CB_OP_CODES {
