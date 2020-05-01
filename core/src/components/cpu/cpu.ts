@@ -74,6 +74,7 @@ class CPU {
         }
         if (register === "SP") {
             this.SP = value;
+            this.SP = this.SP & 0xFFFF;
             return;
         }
         this.registers[register] = value;
@@ -190,6 +191,16 @@ class CPU {
     public increaseProgramCounter(value = 1) {
         this.PC += value;
         this.PC = this.PC & 0xFFFF;
+    }
+
+    public increaseStackPointer(value = 1) {
+        this.SP += value;
+        this.SP = this.SP & 0xFFFF;
+    }
+
+    public decreaseStackPointer(value = 1) {
+        this.SP -= value;
+        this.SP = this.SP & 0xFFFF;
     }
 
     public enableInterrupts() {

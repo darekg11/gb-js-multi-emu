@@ -199,6 +199,42 @@ describe("Program Counter - Increase and Get", () => {
     })
 });
 
+describe("SP pointer - Increase and Get", () => {
+    test("Should correctly increase and get value of PC", () => {
+        const cpu = new CPU();
+        expect(cpu.getRegisterSPValue()).toBe(0);
+        cpu.increaseStackPointer(10);
+        expect(cpu.getRegisterSPValue()).toBe(10);
+        cpu.increaseStackPointer(2);
+        expect(cpu.getRegisterSPValue()).toBe(12);
+    })
+    test("Should wrap index if exceeds 0xFFFF", () => {
+        const cpu = new CPU();
+        expect(cpu.getRegisterSPValue()).toBe(0);
+        cpu.increaseStackPointer(0xFFFF);
+        expect(cpu.getRegisterSPValue()).toBe(0xFFFF);
+        cpu.increaseStackPointer(1);
+        expect(cpu.getRegisterSPValue()).toBe(0);
+    })
+});
+
+describe("SP pointer - Decrease and Get", () => {
+    test("Should correctly decrease and get value of PC", () => {
+        const cpu = new CPU();
+        expect(cpu.getRegisterSPValue()).toBe(0);
+        cpu.increaseStackPointer(10);
+        expect(cpu.getRegisterSPValue()).toBe(10);
+        cpu.decreaseStackPointer(2);
+        expect(cpu.getRegisterSPValue()).toBe(8);
+    })
+    test("Should wrap index if fals below 0", () => {
+        const cpu = new CPU();
+        expect(cpu.getRegisterSPValue()).toBe(0);
+        cpu.decreaseStackPointer(1);
+        expect(cpu.getRegisterSPValue()).toBe(0xFFFF);
+    })
+});
+
 describe("Interrupts - Enable / Disable / Get", () => {
     test("Should correctly return state of interrupts", () => {
         const cpu = new CPU();
