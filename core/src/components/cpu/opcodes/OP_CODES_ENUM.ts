@@ -227,6 +227,7 @@ export enum NON_PREFIX_OP_CODES {
     POP_DE = 0xD1,
     POP_HL = 0xE1,
     POP_AF = 0xF1,
+    PUSH_BC = 0xC5,
 }
 
 export enum CB_OP_CODES {
