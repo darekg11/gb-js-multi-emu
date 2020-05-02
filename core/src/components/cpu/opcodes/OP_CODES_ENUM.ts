@@ -231,6 +231,8 @@ export enum NON_PREFIX_OP_CODES {
     PUSH_DE = 0xD5,
     PUSH_HL = 0xE5,
     PUSH_AF = 0xF5,
+
+    JMP_RELATIVE_IF_ZERO_FLAG_IS_NOT_SET = 0x20,
 }
 
 export enum CB_OP_CODES {

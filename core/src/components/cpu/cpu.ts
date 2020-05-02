@@ -184,6 +184,10 @@ class CPU {
         this.setRegisterValue("SP", value);
     }
 
+    public jump(address: number) {
+        this.PC = address & 0xFFFF;
+    }
+
     public getProgramCounter() {
         return this.PC;
     }
