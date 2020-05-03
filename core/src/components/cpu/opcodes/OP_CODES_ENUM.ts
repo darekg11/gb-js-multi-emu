@@ -239,6 +239,7 @@ export enum NON_PREFIX_OP_CODES {
     JMP_RELATIVE = 0x18,
     JMP_IF_ZERO_FLAG_IS_NOT_SET = 0xC2,
     JMP_IF_CARRY_FLAG_IS_NOT_SET = 0xD2,
+    JMP = 0xC3,
 }
 
 export enum CB_OP_CODES {
