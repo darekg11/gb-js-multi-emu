@@ -250,6 +250,8 @@ export enum NON_PREFIX_OP_CODES {
     CALL_IF_CARRY_IS_SET = 0xDC,
     CALL = 0xCD,
 
+    RETURN_IF_ZERO_FLAG_IS_NOT_SET = 0xC0,
+
 }
 
 export enum CB_OP_CODES {
