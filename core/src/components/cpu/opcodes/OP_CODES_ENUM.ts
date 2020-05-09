@@ -244,6 +244,7 @@ export enum NON_PREFIX_OP_CODES {
     JMP = 0xC3,
     JMP_TO_HL = 0xE9,
     RST_0 = 0xC7,
+    RST_08 = 0xCF,
 
     CALL_IF_ZERO_FLAG_IS_NOT_SET = 0xC4,
     CALL_IF_ZERO_FLAG_IS_SET = 0xCC,
