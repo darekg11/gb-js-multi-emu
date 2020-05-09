@@ -246,6 +246,7 @@ export enum NON_PREFIX_OP_CODES {
     RST_0 = 0xC7,
     RST_08 = 0xCF,
     RST_10 = 0xD7,
+    RST_18 = 0xDF,
 
     CALL_IF_ZERO_FLAG_IS_NOT_SET = 0xC4,
     CALL_IF_ZERO_FLAG_IS_SET = 0xCC,
