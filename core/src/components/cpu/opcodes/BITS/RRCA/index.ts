@@ -1,11 +1,11 @@
 import { IOpCodeHanlePayload } from "../../types";
 
 /*
-  OP Code: 0x07
-  Memonic: RLCA
-  Description: Shifts register A by 1 bit to the left.
-  Carry flag is set to value of bit 7 of register A.
-  Bit 0 of register A is set to value of bit 7 of register A.
+  OP Code: 0x0F
+  Memonic: RRCA
+  Description: Shifts register A by 1 bit to the right.
+  Carry flag is set to value of bit 0 of register A.
+  Bit 7 of register A is set to value of bit 0 of register A.
   Size: 1 Byte - increments PC by 1
   Cycles: 4
   Flags affected:
@@ -16,13 +16,14 @@ import { IOpCodeHanlePayload } from "../../types";
 
 */
 const handle = (payload: IOpCodeHanlePayload) => {
-    if (payload.CPU.getRegisterAValue() > 0x7F) {
+    const registerAZerobitValue = payload.CPU.getRegisterAValue() & 1;
+    if (registerAZerobitValue === 1) {
         payload.CPU.setCarryFlag();
     } else {
         payload.CPU.unsetCarryFlag();
     }
-    // >> 7 shifts 7 bit position to the 0 bit so it can be OR easily
-    payload.CPU.setRegisterAValue((payload.CPU.getRegisterAValue() << 1 & 0xFF) | (payload.CPU.getRegisterAValue() >> 7));
+    // << 7 shifts 0 bit position to the 7 bit so it can be OR easily
+    payload.CPU.setRegisterAValue((payload.CPU.getRegisterAValue() >> 1 & 0xFF) | (registerAZerobitValue << 7));
     payload.CPU.unsetZeroFlag();
     payload.CPU.unsetSubtractionFlag();
     payload.CPU.unsetHalfCarryFlag();
