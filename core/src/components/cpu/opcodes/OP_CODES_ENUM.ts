@@ -214,6 +214,7 @@ export enum NON_PREFIX_OP_CODES {
     OR_A_VALUE_FROM_NEXT_MEMORY_CELL = 0xF6,
 
     RLA = 0x17,
+    RRA = 0x1F,
 
     CP_B = 0xB8,
     CP_C = 0xB9,
