@@ -215,6 +215,7 @@ export enum NON_PREFIX_OP_CODES {
 
     RLA = 0x17,
     RRA = 0x1F,
+    RLCA = 0x07,
 
     CP_B = 0xB8,
     CP_C = 0xB9,

@@ -2,10 +2,12 @@ import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
 
-describe("RLA", () => {
-    test("Should rotate register A value to the left by 1 bit. Should set carry flag if bit 7 of register A is set. Carry flag set", () => {
+describe("RLCA", () => {
+    test("Should rotate register A value to the left by 1 bit. Should set carry flag if bit 7 of register A is set.", () => {
         const REG_A_VALUE = 130;
-        // << 1 + 1 from carry flag in bit 0 & 255
+        // 130 << 1 gives 260
+        // 260 & 255 === 4
+        // 130 >> 7 leaves 1 since it is larger than 128 (2^7)
         const EXPETCTED_REG_A_VALUE = 5;
         const cpu = new CPU();
         const memory = new Memory();
@@ -25,8 +27,6 @@ describe("RLA", () => {
         expect(cpu.getProgramCounter()).toBe(0);
 
         cpu.setRegisterAValue(REG_A_VALUE);
-        cpu.setZeroFlag();
-        cpu.setCarryFlag();
 
         handle({ CPU: cpu, Memory: memory });
 
@@ -49,55 +49,9 @@ describe("RLA", () => {
         expect(cpu.isCarryFlagSet()).toBe(true);
     });
 
-    test("Should rotate register A value to the left by 1 bit. Should set carry flag if bit 7 of register A is set. Unset carry flag set", () => {
-        const REG_A_VALUE = 130;
-        // << 1 + 0 from carry flag in bit 0 & 255
-        const EXPETCTED_REG_A_VALUE = 4;
-        const cpu = new CPU();
-        const memory = new Memory();
-        const EXPECTED_F_REG_VALUE = 0b00010000;
-        expect(cpu.getRegisterAValue()).toBe(0);
-        expect(cpu.getRegisterBValue()).toBe(0);
-        expect(cpu.getRegisterCValue()).toBe(0);
-        expect(cpu.getRegisterDValue()).toBe(0);
-        expect(cpu.getRegisterEValue()).toBe(0);
-        expect(cpu.getRegisterFValue()).toBe(0);
-        expect(cpu.getRegisterHValue()).toBe(0);
-        expect(cpu.getRegisterLValue()).toBe(0);
-        expect(cpu.getRegisterBCValue()).toBe(0);
-        expect(cpu.getRegisterDEValue()).toBe(0);
-        expect(cpu.getRegisterHLValue()).toBe(0);
-        expect(cpu.getRegisterAFValue()).toBe(0);
-        expect(cpu.getProgramCounter()).toBe(0);
-
-        cpu.setRegisterAValue(REG_A_VALUE);
-        cpu.unsetCarryFlag();
-
-        handle({ CPU: cpu, Memory: memory });
-
-        expect(cpu.getRegisterAValue()).toBe(EXPETCTED_REG_A_VALUE);
-        expect(cpu.getRegisterBValue()).toBe(0);
-        expect(cpu.getRegisterCValue()).toBe(0);
-        expect(cpu.getRegisterDValue()).toBe(0);
-        expect(cpu.getRegisterEValue()).toBe(0);
-        expect(cpu.getRegisterFValue()).toBe(EXPECTED_F_REG_VALUE);
-        expect(cpu.getRegisterHValue()).toBe(0);
-        expect(cpu.getRegisterLValue()).toBe(0);
-        expect(cpu.getRegisterBCValue()).toBe(0);
-        expect(cpu.getRegisterDEValue()).toBe(0);
-        expect(cpu.getRegisterHLValue()).toBe(0);
-        expect(cpu.getRegisterAFValue()).toBe(EXPETCTED_REG_A_VALUE << 8 | EXPECTED_F_REG_VALUE );
-        expect(cpu.getProgramCounter()).toBe(1);
-        expect(cpu.isZeroFlagSet()).toBe(false);
-        expect(cpu.isSubtractionFlagSet()).toBe(false);
-        expect(cpu.isHalfCarryFlagSet()).toBe(false);
-        expect(cpu.isCarryFlagSet()).toBe(true);
-    });
-
-    test("Should rotate register A value to the left by 1 bit. Should unset carry flag if bit 7 of register A is not set. Carry flag set", () => {
+    test("Should rotate register A value to the left by 1 bit. Should unset carry flag if bit 7 of register A is not set.", () => {
         const REG_A_VALUE = 32;
-        // << 1 + 1 from carry flag in bit 0
-        const EXPETCTED_REG_A_VALUE = 65;
+        const EXPETCTED_REG_A_VALUE = 64;
         const cpu = new CPU();
         const memory = new Memory();
         const EXPECTED_F_REG_VALUE = 0b00000000;
