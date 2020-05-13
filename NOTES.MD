@@ -5,3 +5,6 @@
 4. Need to return machine cycles for each OPCode execution
 5. RETI - should it do more than just flip interrupt flag?
 6. Interruptions - how?
+7. STOP OP CODE
+8. HALT OP CODE
+9. PREFIX CB OP CODE
