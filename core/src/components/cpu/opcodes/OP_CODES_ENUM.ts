@@ -5,6 +5,7 @@ export enum NON_PREFIX_OP_CODES {
     SCF = 0x37,
     CPL = 0x2F,
     CCF = 0x3F,
+    DAA = 0x27,
 
     LOAD_TO_REG_A_VALUE_OF_REG_A = 0x7F,
     LOAD_TO_REG_A_VALUE_OF_REG_B = 0x78,
