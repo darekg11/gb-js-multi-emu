@@ -274,6 +274,7 @@ export enum NON_PREFIX_OP_CODES {
 }
 
 export enum CB_OP_CODES {
+    RLCA = 0x07,
     RLCB = 0x00,
     RLCC = 0x01,
     RLCD = 0x02,
