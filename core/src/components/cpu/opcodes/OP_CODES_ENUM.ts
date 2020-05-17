@@ -286,4 +286,5 @@ export enum CB_OP_CODES {
     RRCB = 0x08,
     RRCC = 0x09,
     RRCD = 0x0A,
+    RRCE = 0x0B,
 }
