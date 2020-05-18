@@ -3,13 +3,14 @@ import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
 
 describe("RRCHL", () => {
-    test("Should rotate register HL value to the right by 1 bit. Should set carry flag if bit 0 of register HL is set.", () => {
-        const REG_HL_VALUE = 33;
+    test("Should rotate value from register HL memory index to the right by 1 bit. Should set carry flag if bit 0 of value from memory index under register HL is set.", () => {
+        const MEMORY_VALUE = 33;
+        const MEMORY_INDEX = 43987;
         // 33 >> 1 gives 16
         // 16 & 255 === 16
         // Moving bit 0 to bit 7 by doing << 7 bumps this value by 128
         // 16 + 128 == 144
-        const EXPETCTED_REG_HL_VALUE = 144;
+        const EXPETCTED_MEMORY_VALUE = 144;
         const cpu = new CPU();
         const memory = new Memory();
         const EXPECTED_F_REG_VALUE = 0b00010000;
@@ -27,7 +28,8 @@ describe("RRCHL", () => {
         expect(cpu.getRegisterAFValue()).toBe(0);
         expect(cpu.getProgramCounter()).toBe(0);
 
-        cpu.setRegisterHLValue(REG_HL_VALUE);
+        memory.write16BitsValue(MEMORY_INDEX, MEMORY_VALUE);
+        cpu.setRegisterHLValue(MEMORY_INDEX);
 
         handle({ CPU: cpu, Memory: memory });
 
@@ -37,22 +39,24 @@ describe("RRCHL", () => {
         expect(cpu.getRegisterDValue()).toBe(0);
         expect(cpu.getRegisterEValue()).toBe(0);
         expect(cpu.getRegisterFValue()).toBe(EXPECTED_F_REG_VALUE);
-        expect(cpu.getRegisterHValue()).toBe(EXPETCTED_REG_HL_VALUE >> 8);
-        expect(cpu.getRegisterLValue()).toBe(EXPETCTED_REG_HL_VALUE & 0x00FF);
+        expect(cpu.getRegisterHValue()).toBe(MEMORY_INDEX >> 8);
+        expect(cpu.getRegisterLValue()).toBe(MEMORY_INDEX & 0x00FF);
         expect(cpu.getRegisterBCValue()).toBe(0);
         expect(cpu.getRegisterDEValue()).toBe(0);
-        expect(cpu.getRegisterHLValue()).toBe(EXPETCTED_REG_HL_VALUE);
+        expect(cpu.getRegisterHLValue()).toBe(MEMORY_INDEX);
         expect(cpu.getRegisterAFValue()).toBe(EXPECTED_F_REG_VALUE );
         expect(cpu.getProgramCounter()).toBe(2);
         expect(cpu.isZeroFlagSet()).toBe(false);
         expect(cpu.isSubtractionFlagSet()).toBe(false);
         expect(cpu.isHalfCarryFlagSet()).toBe(false);
         expect(cpu.isCarryFlagSet()).toBe(true);
+        expect(memory.read16BitsValue(MEMORY_INDEX)).toBe(EXPETCTED_MEMORY_VALUE);
     });
 
-    test("Should rotate register HL value to the right by 1 bit. Should unset carry flag if bit 0 of register HL is not set.", () => {
-        const REG_HL_VALUE = 32;
-        const EXPETCTED_REG_HL_VALUE = 16;
+    test("Should rotate value from register HL memory index to the right by 1 bit. Should unset carry flag if bit 0 of value from memory index under register HL is set.", () => {
+        const MEMORY_VALUE = 32;
+        const MEMORY_INDEX = 43987;
+        const EXPETCTED_MEMORY_VALUE = 16;
         const cpu = new CPU();
         const memory = new Memory();
         const EXPECTED_F_REG_VALUE = 0b00000000;
@@ -71,7 +75,8 @@ describe("RRCHL", () => {
         expect(cpu.getProgramCounter()).toBe(0);
 
         cpu.setZeroFlag();
-        cpu.setRegisterHLValue(REG_HL_VALUE);
+        memory.write16BitsValue(MEMORY_INDEX, MEMORY_VALUE);
+        cpu.setRegisterHLValue(MEMORY_INDEX);
         cpu.setCarryFlag();
 
         handle({ CPU: cpu, Memory: memory });
@@ -82,17 +87,18 @@ describe("RRCHL", () => {
         expect(cpu.getRegisterDValue()).toBe(0);
         expect(cpu.getRegisterEValue()).toBe(0);
         expect(cpu.getRegisterFValue()).toBe(0);
-        expect(cpu.getRegisterHValue()).toBe(EXPETCTED_REG_HL_VALUE >> 8);
-        expect(cpu.getRegisterLValue()).toBe(EXPETCTED_REG_HL_VALUE & 0x00FF);
+        expect(cpu.getRegisterHValue()).toBe(MEMORY_INDEX >> 8);
+        expect(cpu.getRegisterLValue()).toBe(MEMORY_INDEX & 0x00FF);
         expect(cpu.getRegisterBCValue()).toBe(0);
         expect(cpu.getRegisterDEValue()).toBe(0);
-        expect(cpu.getRegisterHLValue()).toBe(EXPETCTED_REG_HL_VALUE);
+        expect(cpu.getRegisterHLValue()).toBe(MEMORY_INDEX);
         expect(cpu.getRegisterAFValue()).toBe(0);
         expect(cpu.getProgramCounter()).toBe(2);
         expect(cpu.isZeroFlagSet()).toBe(false);
         expect(cpu.isSubtractionFlagSet()).toBe(false);
         expect(cpu.isHalfCarryFlagSet()).toBe(false);
         expect(cpu.isCarryFlagSet()).toBe(false);
+        expect(memory.read16BitsValue(MEMORY_INDEX)).toBe(EXPETCTED_MEMORY_VALUE);
     });
 
 })
