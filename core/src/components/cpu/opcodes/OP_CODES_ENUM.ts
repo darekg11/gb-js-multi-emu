@@ -293,4 +293,5 @@ export enum CB_OP_CODES {
     RRCHL = 0x0E,
 
     RLB = 0x10,
+    RLC = 0x11,
 }
