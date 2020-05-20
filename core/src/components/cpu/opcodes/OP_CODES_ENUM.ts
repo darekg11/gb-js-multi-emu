@@ -306,4 +306,5 @@ export enum CB_OP_CODES {
     RRD = 0x1A,
     RRE = 0x1B,
     RRH = 0x1C,
+    RRL = 0x1D,
 }
