@@ -310,6 +310,7 @@ export enum CB_OP_CODES {
     RRL = 0x1D,
     RRHL = 0x1E,
 
+    SLAA = 0x27,
     SLAB = 0x20,
     SLAC = 0x21,
     SLAD = 0x22,
