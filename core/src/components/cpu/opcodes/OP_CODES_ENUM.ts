@@ -313,4 +313,5 @@ export enum CB_OP_CODES {
     SLAB = 0x20,
     SLAC = 0x21,
     SLAD = 0x22,
+    SLAE = 0x23,
 }
