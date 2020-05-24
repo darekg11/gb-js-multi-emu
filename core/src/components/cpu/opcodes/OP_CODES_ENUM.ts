@@ -320,4 +320,5 @@ export enum CB_OP_CODES {
     SLAHL = 0x26,
 
     SRAB = 0x28,
+    SRAC = 0x29,
 }
