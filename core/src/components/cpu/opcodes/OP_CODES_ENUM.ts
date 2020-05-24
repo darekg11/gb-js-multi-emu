@@ -321,4 +321,5 @@ export enum CB_OP_CODES {
 
     SRAB = 0x28,
     SRAC = 0x29,
+    SRAD = 0x2A,
 }
