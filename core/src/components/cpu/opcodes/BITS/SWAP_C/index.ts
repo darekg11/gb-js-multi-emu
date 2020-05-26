@@ -1,9 +1,9 @@
 import { IOpCodeHanlePayload } from "../../types";
 
 /*
-  OP Code: 0x30
-  Memonic: SWAP B
-  Description: Swap nibbles of register B.
+  OP Code: 0x31
+  Memonic: SWAP C
+  Description: Swap nibbles of register C.
   Size: 2 Byte - increments PC by 2
   Cycles: 8
   Flags affected:
@@ -14,9 +14,9 @@ import { IOpCodeHanlePayload } from "../../types";
 
 */
 const handle = (payload: IOpCodeHanlePayload) => {
-    const registerBValue = payload.CPU.getRegisterBValue();
-    const newValue = ((registerBValue & 0x0F) << 4) | ((registerBValue & 0xF0) >> 4);
-    payload.CPU.setRegisterBValue(newValue);
+    const registerCValue = payload.CPU.getRegisterCValue();
+    const newValue = ((registerCValue & 0x0F) << 4) | ((registerCValue & 0xF0) >> 4);
+    payload.CPU.setRegisterCValue(newValue);
     if (newValue === 0) {
         payload.CPU.setZeroFlag();
     } else {
