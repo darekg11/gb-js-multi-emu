@@ -333,4 +333,5 @@ export enum CB_OP_CODES {
     SWAP_D = 0x32,
     SWAP_E = 0x33,
     SWAP_H = 0x34,
+    SWAP_L = 0x35,
 }
