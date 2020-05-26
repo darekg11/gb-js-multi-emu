@@ -1,0 +1,31 @@
+import { IOpCodeHanlePayload } from "../../types";
+
+/*
+  OP Code: 0x34
+  Memonic: SWAP H
+  Description: Swap nibbles of register H.
+  Size: 2 Byte - increments PC by 2
+  Cycles: 8
+  Flags affected:
+    Sets SUBTRACTION flag to 0.
+    Sets CARRY flag to 0.
+    Sets ZERO flag to 0 if result is 0.
+    Sets HALF_CARRY flag to 0.
+
+*/
+const handle = (payload: IOpCodeHanlePayload) => {
+    const registerHValue = payload.CPU.getRegisterHValue();
+    const newValue = ((registerHValue & 0x0F) << 4) | ((registerHValue & 0xF0) >> 4);
+    payload.CPU.setRegisterHValue(newValue);
+    if (newValue === 0) {
+        payload.CPU.setZeroFlag();
+    } else {
+        payload.CPU.unsetZeroFlag();
+    }
+    payload.CPU.unsetSubtractionFlag();
+    payload.CPU.unsetHalfCarryFlag();
+    payload.CPU.unsetCarryFlag();
+    payload.CPU.increaseProgramCounter(2);
+}
+
+export default handle;
