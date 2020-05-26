@@ -16,10 +16,10 @@ import { IOpCodeHanlePayload } from "../../types";
 
 */
 const handle = (payload: IOpCodeHanlePayload) => {
-    const memoryValue = payload.Memory.read16BitsValue(payload.CPU.getRegisterHLValue());
+    const memoryValue = payload.Memory.read8BitsValue(payload.CPU.getRegisterHLValue());
     const newCarryFlag = (memoryValue & 0x01) === 1;
-    const newValue = ((payload.CPU.isCarryFlagSet() ? 0x80 : 0) | ( memoryValue >> 1)) & 65535;
-    payload.Memory.write16BitsValue(payload.CPU.getRegisterHLValue(), newValue);
+    const newValue = ((payload.CPU.isCarryFlagSet() ? 0x80 : 0) | ( memoryValue >> 1)) & 0xFF;
+    payload.Memory.write8BitsValue(payload.CPU.getRegisterHLValue(), newValue);
     if (newCarryFlag) {
         payload.CPU.setCarryFlag();
     } else {

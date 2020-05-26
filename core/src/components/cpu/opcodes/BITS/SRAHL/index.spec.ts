@@ -24,7 +24,7 @@ describe("SRAHL", () => {
         expect(cpu.getRegisterAFValue()).toBe(0);
         expect(cpu.getProgramCounter()).toBe(0);
 
-        memory.write16BitsValue(MEMORY_INDEX, MEMORY_VALUE);
+        memory.write8BitsValue(MEMORY_INDEX, MEMORY_VALUE);
         cpu.setRegisterHLValue(MEMORY_INDEX);
 
         handle({ CPU: cpu, Memory: memory });
@@ -46,7 +46,7 @@ describe("SRAHL", () => {
         expect(cpu.isSubtractionFlagSet()).toBe(false);
         expect(cpu.isHalfCarryFlagSet()).toBe(false);
         expect(cpu.isCarryFlagSet()).toBe(true);
-        expect(memory.read16BitsValue(MEMORY_INDEX)).toBe(EXPECTED_MEMORY_VALUE);
+        expect(memory.read8BitsValue(MEMORY_INDEX)).toBe(EXPECTED_MEMORY_VALUE);
     });
 
     test("Should rotate value from memory index under HL register to the right by 1 bit. Should unset carry flag if bit 0 of value from memory index under HL register is not set.", () => {
@@ -71,7 +71,7 @@ describe("SRAHL", () => {
         expect(cpu.getProgramCounter()).toBe(0);
 
         cpu.setZeroFlag();
-        memory.write16BitsValue(MEMORY_INDEX, MEMORY_VALUE);
+        memory.write8BitsValue(MEMORY_INDEX, MEMORY_VALUE);
         cpu.setRegisterHLValue(MEMORY_INDEX);
         cpu.setCarryFlag();
 
@@ -94,7 +94,7 @@ describe("SRAHL", () => {
         expect(cpu.isSubtractionFlagSet()).toBe(false);
         expect(cpu.isHalfCarryFlagSet()).toBe(false);
         expect(cpu.isCarryFlagSet()).toBe(false);
-        expect(memory.read16BitsValue(MEMORY_INDEX)).toBe(EXPETCTED_MEMORY_VALUE);
+        expect(memory.read8BitsValue(MEMORY_INDEX)).toBe(EXPETCTED_MEMORY_VALUE);
     });
 
 })

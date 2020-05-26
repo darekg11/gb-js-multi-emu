@@ -27,7 +27,7 @@ describe("XOR_A_VALUE_OF_MEMORY_CELL_FROM_HL_REGISTER", () => {
 
         cpu.setRegisterAValue(REG_A);
         cpu.setRegisterHLValue(INDEX);
-        memory.write16BitsValue(INDEX, VALUE);
+        memory.write8BitsValue(INDEX, VALUE);
 
         handle({ CPU: cpu, Memory: memory });
 
@@ -74,7 +74,7 @@ describe("XOR_A_VALUE_OF_MEMORY_CELL_FROM_HL_REGISTER", () => {
 
         cpu.setRegisterAValue(REG_A);
         cpu.setRegisterHLValue(INDEX);
-        memory.write16BitsValue(INDEX, VALUE);
+        memory.write8BitsValue(INDEX, VALUE);
 
         handle({ CPU: cpu, Memory: memory });
 

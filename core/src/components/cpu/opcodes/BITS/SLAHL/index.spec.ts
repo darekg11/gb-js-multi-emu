@@ -6,7 +6,7 @@ describe("SLAH", () => {
     test("Should rotate value from memory index under HL register to the left by 1 bit. Should set carry flag if bit 7 of value from memory index under HL register is set.", () => {
         const MEMORY_INDEX = 43098;
         const MEMORY_VALUE = 130;
-        const EXPECTED_MEMORY_VALUE = 260;
+        const EXPECTED_MEMORY_VALUE = 4;
         const cpu = new CPU();
         const memory = new Memory();
         const EXPECTED_F_REG_VALUE = 0b00010000;
@@ -24,7 +24,7 @@ describe("SLAH", () => {
         expect(cpu.getRegisterAFValue()).toBe(0);
         expect(cpu.getProgramCounter()).toBe(0);
 
-        memory.write16BitsValue(MEMORY_INDEX, MEMORY_VALUE);
+        memory.write8BitsValue(MEMORY_INDEX, MEMORY_VALUE);
         cpu.setRegisterHLValue(MEMORY_INDEX);
         cpu.setZeroFlag();
 
@@ -47,7 +47,7 @@ describe("SLAH", () => {
         expect(cpu.isSubtractionFlagSet()).toBe(false);
         expect(cpu.isHalfCarryFlagSet()).toBe(false);
         expect(cpu.isCarryFlagSet()).toBe(true);
-        expect(memory.read16BitsValue(MEMORY_INDEX)).toBe(EXPECTED_MEMORY_VALUE);
+        expect(memory.read8BitsValue(MEMORY_INDEX)).toBe(EXPECTED_MEMORY_VALUE);
     });
 
     test("Should rotate value from memory index under HL register to the left by 1 bit. Should unset carry flag if bit 7 of value from memory index under HL register is set.", () => {
@@ -71,7 +71,7 @@ describe("SLAH", () => {
         expect(cpu.getRegisterAFValue()).toBe(0);
         expect(cpu.getProgramCounter()).toBe(0);
 
-        memory.write16BitsValue(MEMORY_INDEX, MEMORY_VALUE);
+        memory.write8BitsValue(MEMORY_INDEX, MEMORY_VALUE);
         cpu.setRegisterHLValue(MEMORY_INDEX);
 
         handle({ CPU: cpu, Memory: memory });
@@ -93,7 +93,7 @@ describe("SLAH", () => {
         expect(cpu.isSubtractionFlagSet()).toBe(false);
         expect(cpu.isHalfCarryFlagSet()).toBe(false);
         expect(cpu.isCarryFlagSet()).toBe(false);
-        expect(memory.read16BitsValue(MEMORY_INDEX)).toBe(EXPECTED_MEMORY_VALUE);
+        expect(memory.read8BitsValue(MEMORY_INDEX)).toBe(EXPECTED_MEMORY_VALUE);
     });
 
 })

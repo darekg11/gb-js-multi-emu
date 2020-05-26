@@ -25,7 +25,7 @@ describe("RLCHL", () => {
         expect(cpu.getRegisterAFValue()).toBe(0);
         expect(cpu.getProgramCounter()).toBe(0);
 
-        memory.write16BitsValue(MEMORY_INDEX, MEMORY_VALUE);
+        memory.write8BitsValue(MEMORY_INDEX, MEMORY_VALUE);
         cpu.setRegisterHLValue(MEMORY_INDEX);
         cpu.setZeroFlag();
         cpu.setCarryFlag();
@@ -49,7 +49,7 @@ describe("RLCHL", () => {
         expect(cpu.isSubtractionFlagSet()).toBe(false);
         expect(cpu.isHalfCarryFlagSet()).toBe(false);
         expect(cpu.isCarryFlagSet()).toBe(true);
-        expect(memory.read16BitsValue(MEMORY_INDEX)).toBe(EXPETCTED_MEMORY_VALUE);
+        expect(memory.read8BitsValue(MEMORY_INDEX)).toBe(EXPETCTED_MEMORY_VALUE);
     });
 
     test("Should rotate value from register HL memory index to the left by 1 bit. Should unset carry flag if bit 7 of value from memory index under register HL is set. Unset carry flag set", () => {
@@ -59,7 +59,6 @@ describe("RLCHL", () => {
         const EXPECTED_MEMORY_VALUE = 64;
         const cpu = new CPU();
         const memory = new Memory();
-        const EXPECTED_F_REG_VALUE = 0b00000000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
         expect(cpu.getRegisterCValue()).toBe(0);
@@ -74,7 +73,7 @@ describe("RLCHL", () => {
         expect(cpu.getRegisterAFValue()).toBe(0);
         expect(cpu.getProgramCounter()).toBe(0);
 
-        memory.write16BitsValue(MEMORY_INDEX, MEMORY_VALUE);
+        memory.write8BitsValue(MEMORY_INDEX, MEMORY_VALUE);
         cpu.setRegisterHLValue(MEMORY_INDEX);
         cpu.unsetCarryFlag();
 
@@ -97,7 +96,7 @@ describe("RLCHL", () => {
         expect(cpu.isSubtractionFlagSet()).toBe(false);
         expect(cpu.isHalfCarryFlagSet()).toBe(false);
         expect(cpu.isCarryFlagSet()).toBe(false);
-        expect(memory.read16BitsValue(MEMORY_INDEX)).toBe(EXPECTED_MEMORY_VALUE);
+        expect(memory.read8BitsValue(MEMORY_INDEX)).toBe(EXPECTED_MEMORY_VALUE);
     });
 
     test("Should rotate value from register HL memory index to the left by 1 bit. Should unset Zero Flag is result is not 0", () => {
@@ -121,7 +120,7 @@ describe("RLCHL", () => {
         expect(cpu.getRegisterAFValue()).toBe(0);
         expect(cpu.getProgramCounter()).toBe(0);
 
-        memory.write16BitsValue(MEMORY_INDEX, MEMORY_VALUE);
+        memory.write8BitsValue(MEMORY_INDEX, MEMORY_VALUE);
         cpu.setRegisterHLValue(MEMORY_INDEX);
         cpu.setZeroFlag();
         cpu.setCarryFlag();
@@ -145,7 +144,7 @@ describe("RLCHL", () => {
         expect(cpu.isSubtractionFlagSet()).toBe(false);
         expect(cpu.isHalfCarryFlagSet()).toBe(false);
         expect(cpu.isCarryFlagSet()).toBe(false);
-        expect(memory.read16BitsValue(MEMORY_INDEX)).toBe(EXPECTED_MEMORY_VALUE);
+        expect(memory.read8BitsValue(MEMORY_INDEX)).toBe(EXPECTED_MEMORY_VALUE);
     });
 
 })

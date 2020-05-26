@@ -26,7 +26,7 @@ describe("RLHL", () => {
         expect(cpu.getProgramCounter()).toBe(0);
 
         cpu.setRegisterHLValue(MEMORY_INDEX);
-        memory.write16BitsValue(MEMORY_INDEX, MEMORY_VALUE);
+        memory.write8BitsValue(MEMORY_INDEX, MEMORY_VALUE);
         cpu.setZeroFlag();
         cpu.setCarryFlag();
 
@@ -49,7 +49,7 @@ describe("RLHL", () => {
         expect(cpu.isSubtractionFlagSet()).toBe(false);
         expect(cpu.isHalfCarryFlagSet()).toBe(false);
         expect(cpu.isCarryFlagSet()).toBe(true);
-        expect(memory.read16BitsValue(MEMORY_INDEX)).toBe(EXPECTED_MEMORY_VALUE);
+        expect(memory.read8BitsValue(MEMORY_INDEX)).toBe(EXPECTED_MEMORY_VALUE);
     });
 
     test("Should rotate value from memory under register HL index to the left by 1 bit. Should unset carry flag if bit 7 of value from memory under register HL index is not set. Unset carry flag set", () => {
@@ -75,7 +75,7 @@ describe("RLHL", () => {
         expect(cpu.getProgramCounter()).toBe(0);
 
         cpu.setRegisterHLValue(MEMORY_INDEX);
-        memory.write16BitsValue(MEMORY_INDEX, MEMORY_VALUE);
+        memory.write8BitsValue(MEMORY_INDEX, MEMORY_VALUE);
         cpu.unsetCarryFlag();
 
         handle({ CPU: cpu, Memory: memory });
@@ -97,7 +97,7 @@ describe("RLHL", () => {
         expect(cpu.isSubtractionFlagSet()).toBe(false);
         expect(cpu.isHalfCarryFlagSet()).toBe(false);
         expect(cpu.isCarryFlagSet()).toBe(false);
-        expect(memory.read16BitsValue(MEMORY_INDEX)).toBe(EXPECTED_MEMORY_VALUE);
+        expect(memory.read8BitsValue(MEMORY_INDEX)).toBe(EXPECTED_MEMORY_VALUE);
     });
 
     test("Should rotate value from memory under register HL index value to the left by 1 bit. Should unset Zero Flag is result is not 0", () => {
@@ -122,7 +122,7 @@ describe("RLHL", () => {
         expect(cpu.getProgramCounter()).toBe(0);
 
         cpu.setRegisterHLValue(MEMORY_INDEX);
-        memory.write16BitsValue(MEMORY_INDEX, MEMORY_VALUE);
+        memory.write8BitsValue(MEMORY_INDEX, MEMORY_VALUE);
         cpu.setZeroFlag();
 
         handle({ CPU: cpu, Memory: memory });
@@ -144,7 +144,7 @@ describe("RLHL", () => {
         expect(cpu.isSubtractionFlagSet()).toBe(false);
         expect(cpu.isHalfCarryFlagSet()).toBe(false);
         expect(cpu.isCarryFlagSet()).toBe(false);
-        expect(memory.read16BitsValue(MEMORY_INDEX)).toBe(EXPECTED_MEMORY_VALUE);
+        expect(memory.read8BitsValue(MEMORY_INDEX)).toBe(EXPECTED_MEMORY_VALUE);
     });
 
 })

@@ -15,7 +15,7 @@ import { IOpCodeHanlePayload } from "../../types";
 const handle = (payload: IOpCodeHanlePayload) => {
     const registerAValue = payload.CPU.getRegisterAValue();
     const index = payload.CPU.getRegisterHLValue();
-    const value = payload.Memory.read16BitsValue(index);
+    const value = payload.Memory.read8BitsValue(index);
     const diff = registerAValue - value;
     if (diff < 0) {
         payload.CPU.setCarryFlag();

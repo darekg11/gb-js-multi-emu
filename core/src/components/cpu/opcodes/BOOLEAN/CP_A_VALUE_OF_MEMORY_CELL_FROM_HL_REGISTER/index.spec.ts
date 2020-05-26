@@ -26,7 +26,7 @@ describe("CP_L", () => {
 
         cpu.setRegisterAValue(REG_A);
         cpu.setRegisterHLValue(INDEX);
-        memory.write16BitsValue(INDEX, VALUE);
+        memory.write8BitsValue(INDEX, VALUE);
 
         handle({ CPU: cpu, Memory: memory });
 
@@ -72,7 +72,7 @@ describe("CP_L", () => {
 
         cpu.setRegisterAValue(REG_A);
         cpu.setRegisterHLValue(INDEX);
-        memory.write16BitsValue(INDEX, VALUE);
+        memory.write8BitsValue(INDEX, VALUE);
 
         handle({ CPU: cpu, Memory: memory });
 
@@ -118,7 +118,7 @@ describe("CP_L", () => {
 
         cpu.setRegisterAValue(REG_A);
         cpu.setRegisterHLValue(INDEX);
-        memory.write16BitsValue(INDEX, VALUE);
+        memory.write8BitsValue(INDEX, VALUE);
 
         handle({ CPU: cpu, Memory: memory });
 
