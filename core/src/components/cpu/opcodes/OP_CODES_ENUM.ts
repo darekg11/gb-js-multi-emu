@@ -337,6 +337,7 @@ export enum CB_OP_CODES {
     SWAP_L = 0x35,
     SWAP_HL = 0x36,
 
+    SRL_A = 0x3F,
     SRL_B = 0x38,
     SRL_C = 0x39,
     SRL_D = 0x3A,
