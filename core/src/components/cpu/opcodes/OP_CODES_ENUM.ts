@@ -343,4 +343,5 @@ export enum CB_OP_CODES {
     SRL_E = 0x3B,
     SRL_H = 0x3C,
     SRL_L = 0x3D,
+    SRL_HL = 0x3E
 }
