@@ -347,4 +347,5 @@ export enum CB_OP_CODES {
     SRL_HL = 0x3E,
 
     BIT_0_B = 0x40,
+    BIT_0_C = 0x41,
 }
