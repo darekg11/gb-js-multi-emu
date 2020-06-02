@@ -3,7 +3,7 @@ import { IOpCodeHanlePayload } from "../../types";
 /*
   OP Code: 0x50
   Memonic: BIT 2 B
-  Description: Sets zero flag if bit 2 (second to the top right) of register B is set to 0.
+  Description: Sets zero flag if bit 2 (third to the top right) of register B is set to 0.
   Size: 2 Byte - increments PC by 2
   Cycles: 8
   Flags affected:
