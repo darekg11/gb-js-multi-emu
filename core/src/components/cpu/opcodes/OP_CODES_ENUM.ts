@@ -369,4 +369,5 @@ export enum CB_OP_CODES {
     BIT_2_D = 0x52,
     BIT_2_E = 0x53,
     BIT_2_H = 0x54,
+    BIT_2_L = 0x55,
 }
