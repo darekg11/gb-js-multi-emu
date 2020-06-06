@@ -394,4 +394,5 @@ export enum CB_OP_CODES {
     BIT_5_B = 0x68,
     BIT_5_C = 0x69,
     BIT_5_D = 0x6A,
+    BIT_5_E = 0x6B,
 }
