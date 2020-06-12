@@ -437,4 +437,5 @@ export enum CB_OP_CODES {
     RES_1_HL = 0x8E,
 
     RES_2_B = 0x90,
+    RES_2_C = 0x91,
 }
