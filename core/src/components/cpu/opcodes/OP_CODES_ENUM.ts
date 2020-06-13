@@ -468,4 +468,5 @@ export enum CB_OP_CODES {
     RES_5_D = 0xAA,
     RES_5_E = 0xAB,
     RES_5_H = 0xAC,
+    RES_5_L = 0xAD,
 }
