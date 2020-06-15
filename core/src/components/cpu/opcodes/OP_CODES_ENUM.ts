@@ -491,4 +491,5 @@ export enum CB_OP_CODES {
     RES_7_HL = 0xBE,
 
     SET_0_B = 0xC0,
+    SET_0_C = 0xC1,
 }
