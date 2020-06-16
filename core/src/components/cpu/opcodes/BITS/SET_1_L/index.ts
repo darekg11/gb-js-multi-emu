@@ -2,9 +2,9 @@ import { IOpCodeHanlePayload } from "../../types";
 import { numberUtils } from "../../../../../utils";
 
 /*
-  OP Code: 0xCA
-  Memonic: SET 1 D
-  Description: Sets bit 1 (second to the right) of register D to 1.
+  OP Code: 0xCD
+  Memonic: SET 1 L
+  Description: Sets bit 1 (second to the right) of register L to 1.
   Size: 2 Byte - increments PC by 2
   Cycles: 8
   Flags affected:
@@ -12,9 +12,9 @@ import { numberUtils } from "../../../../../utils";
 
 */
 const handle = (payload: IOpCodeHanlePayload) => {
-    const registerDValue = payload.CPU.getRegisterDValue();
-    const newValue = numberUtils.setBit(registerDValue, 1);
-    payload.CPU.setRegisterDValue(newValue);
+    const registerLValue = payload.CPU.getRegisterLValue();
+    const newValue = numberUtils.setBit(registerLValue, 1);
+    payload.CPU.setRegisterLValue(newValue);
     payload.CPU.increaseProgramCounter(2);
 }
 

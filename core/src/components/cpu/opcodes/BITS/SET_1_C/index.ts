@@ -4,7 +4,7 @@ import { numberUtils } from "../../../../../utils";
 /*
   OP Code: 0xC9
   Memonic: SET 1 C
-  Description: Sets bit 1 (most to the right) of register C to 1.
+  Description: Sets bit 1 (second to the right) of register C to 1.
   Size: 2 Byte - increments PC by 2
   Cycles: 8
   Flags affected:
