@@ -514,4 +514,5 @@ export enum CB_OP_CODES {
     SET_2_E = 0xD3,
     SET_2_H = 0xD4,
     SET_2_L = 0xD5,
+    SET_2_HL = 0xD6,
 }
