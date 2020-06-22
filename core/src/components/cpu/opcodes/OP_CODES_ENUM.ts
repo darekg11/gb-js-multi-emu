@@ -555,4 +555,5 @@ export enum CB_OP_CODES {
 
     SET_7_B = 0xF8,
     SET_7_C = 0xF9,
+    SET_7_D = 0xFA,
 }
