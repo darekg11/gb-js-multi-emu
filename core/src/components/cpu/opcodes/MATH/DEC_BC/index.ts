@@ -10,7 +10,7 @@ import { numberUtils } from "../../../../../utils";
   Cycles: 8
   Flags affected: None
 */
-const handle = (payload: IOpCodeHanlePayload) => {
+const handle = (payload: IOpCodeHanlePayload): number => {
     const registerBCValue = payload.CPU.getRegisterBCValue();
     const incremented = registerBCValue - 1;
     const splitted = numberUtils.split16BitsNumberIntoTwo8BitsNumbers(incremented);
@@ -19,6 +19,7 @@ const handle = (payload: IOpCodeHanlePayload) => {
     payload.CPU.setRegisterBValue(safeBValue);
     payload.CPU.setRegisterCValue(safeCValue);
     payload.CPU.increaseProgramCounter();
+    return 8;
 }
 
 export default handle;

@@ -1,15 +1,16 @@
 import { IOpCodeHanlePayload } from "../../types";
 
 /*
-  OP Code: 0x0
+  OP Code: 0x00
   Memonic: NOOP
   Description: Increases PC by 1
   Size: 1 Byte - increments PC by 1
-  Cycles: 1
+  Cycles: 4
   Flags affected: None
 */
-const handle = (payload: IOpCodeHanlePayload) => {
+const handle = (payload: IOpCodeHanlePayload): number => {
     payload.CPU.increaseProgramCounter(1);
+    return 4;
 }
 
 export default handle;
