@@ -13,7 +13,7 @@ import { IOpCodeHanlePayload } from "../../types";
     CARRY Flag: 1 if final result is above 99, else nothing
 
 */
-const handle = (payload: IOpCodeHanlePayload) => {
+const handle = (payload: IOpCodeHanlePayload): number => {
     // last operation was a addition
     // if this is above 0x09 then add 0x6
     // if this is above 0x99 then add 0x60
@@ -42,6 +42,7 @@ const handle = (payload: IOpCodeHanlePayload) => {
     }
     payload.CPU.unsetHalfCarryFlag();
     payload.CPU.increaseProgramCounter(1);
+    return 4;
 }
 
 export default handle;
