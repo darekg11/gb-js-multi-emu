@@ -5,7 +5,7 @@ import { IOpCodeHanlePayload } from "../../types";
   Memonic: CCF
   Description: Flips the carry flag, and clears the N and H flags.
   Size: 1 Byte - increments PC by 1
-  Cycles: 1
+  Cycles: 4
   Flags affected:
     ZERO Flag: Not affected
     SUB Flag: 0
@@ -13,7 +13,7 @@ import { IOpCodeHanlePayload } from "../../types";
     CARRY Flag: Flips
 
 */
-const handle = (payload: IOpCodeHanlePayload) => {
+const handle = (payload: IOpCodeHanlePayload): number => {
     if (payload.CPU.isCarryFlagSet()) {
         payload.CPU.unsetCarryFlag();
     } else {
@@ -22,6 +22,7 @@ const handle = (payload: IOpCodeHanlePayload) => {
     payload.CPU.unsetHalfCarryFlag();
     payload.CPU.unsetSubtractionFlag();
     payload.CPU.increaseProgramCounter(1);
+    return 4;
 }
 
 export default handle;

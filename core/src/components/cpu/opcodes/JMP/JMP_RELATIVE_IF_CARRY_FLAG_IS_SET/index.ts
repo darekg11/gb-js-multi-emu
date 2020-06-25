@@ -8,14 +8,16 @@ import { IOpCodeHanlePayload } from "../../types";
   Cycles: 12 if jump is taken, 8 if it is not
   Flags affected: None
 */
-const handle = (payload: IOpCodeHanlePayload) => {
+const handle = (payload: IOpCodeHanlePayload): number => {
     const isCarryFlagSet = payload.CPU.isCarryFlagSet();
     if (isCarryFlagSet) {
         const currentProgramCounter = payload.CPU.getProgramCounter();
         const memoryValue = payload.Memory.read8BitsValue(currentProgramCounter + 1);
         payload.CPU.jump(currentProgramCounter + memoryValue);
+        return 12;
     } else {
         payload.CPU.increaseProgramCounter(2);
+        return 8;
     }
 }
 
