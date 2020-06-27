@@ -13,7 +13,7 @@ import { numberUtils } from "../../../../../utils";
   Cycles: 4
   Flags affected: None
 */
-const handle = (payload: IOpCodeHanlePayload) => {
+const handle = (payload: IOpCodeHanlePayload): number => {
     const registerAValue = payload.CPU.getRegisterAValue();
     const registerCValue = payload.CPU.getRegisterCValue();
     const sum = registerAValue + registerCValue;
@@ -31,6 +31,7 @@ const handle = (payload: IOpCodeHanlePayload) => {
     payload.CPU.unsetSubtractionFlag();
     payload.CPU.setRegisterAValue(wrappedValue);
     payload.CPU.increaseProgramCounter();
+    return 4;
 }
 
 export default handle;
