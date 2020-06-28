@@ -9,10 +9,10 @@ import { IOpCodeHanlePayload } from "../../types";
     Sets ZERO flag if result is 0
     Sets HALF_CARRY flag to 1
   Size: 1 Byte - increments PC by 1
-  Cycles: 4
+  Cycles: 8
   Flags affected: None
 */
-const handle = (payload: IOpCodeHanlePayload) => {
+const handle = (payload: IOpCodeHanlePayload): number => {
     const registerAValue = payload.CPU.getRegisterAValue();
     const index = payload.CPU.getRegisterHLValue();
     const value = payload.Memory.read8BitsValue(index);
@@ -26,6 +26,7 @@ const handle = (payload: IOpCodeHanlePayload) => {
     payload.CPU.setHalfCarryFlag();
     payload.CPU.setRegisterAValue(safeValue);
     payload.CPU.increaseProgramCounter();
+    return 8;
 }
 
 export default handle;
