@@ -8,10 +8,11 @@ import { IOpCodeHanlePayload } from "../../types";
   Cycles: 16
   Flags affected: None
 */
-const handle = (payload: IOpCodeHanlePayload) => {
+const handle = (payload: IOpCodeHanlePayload): number => {
     const address = payload.Memory.read16BitsValue(payload.CPU.getRegisterSPValue());
     payload.CPU.increaseStackPointer(2);
     payload.CPU.jump(address);
+    return 16;
 }
 
 export default handle;

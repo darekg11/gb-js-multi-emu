@@ -9,12 +9,13 @@ import { numberUtils } from "../../../../../utils";
   Cycles: 16
   Flags affected: None
 */
-const handle = (payload: IOpCodeHanlePayload) => {
+const handle = (payload: IOpCodeHanlePayload): number => {
     const currentProgramCounter = payload.CPU.getProgramCounter();
     const firstHalf = payload.Memory.read8BitsValue(currentProgramCounter + 1);
     const secondHalf = payload.Memory.read8BitsValue(currentProgramCounter + 2);
     const value = numberUtils.combineTwo8BitsNumbersInto16BitsNumber(firstHalf, secondHalf);
     payload.CPU.jump(value);
+    return 16;
 }
 
 export default handle;
