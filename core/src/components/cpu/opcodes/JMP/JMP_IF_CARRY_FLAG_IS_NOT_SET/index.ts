@@ -9,7 +9,7 @@ import { numberUtils } from "../../../../../utils";
   Cycles: 16 if jump is taken, 12 if it is not
   Flags affected: None
 */
-const handle = (payload: IOpCodeHanlePayload) => {
+const handle = (payload: IOpCodeHanlePayload): number => {
     const isCarryFlagSet = payload.CPU.isCarryFlagSet();
     if (!isCarryFlagSet) {
         const currentProgramCounter = payload.CPU.getProgramCounter();
@@ -17,8 +17,10 @@ const handle = (payload: IOpCodeHanlePayload) => {
         const secondHalf = payload.Memory.read8BitsValue(currentProgramCounter + 2);
         const value = numberUtils.combineTwo8BitsNumbersInto16BitsNumber(firstHalf, secondHalf);
         payload.CPU.jump(value);
+        return 16;
     } else {
         payload.CPU.increaseProgramCounter(3);
+        return 12;
     }
 }
 

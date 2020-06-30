@@ -9,9 +9,10 @@ import { numberUtils } from "../../../../../utils";
   Cycles: 4
   Flags affected: None
 */
-const handle = (payload: IOpCodeHanlePayload) => {
+const handle = (payload: IOpCodeHanlePayload): number => {
     const registerHLValue = payload.CPU.getRegisterHLValue();
     payload.CPU.jump(registerHLValue);
+    return 4;
 }
 
 export default handle;

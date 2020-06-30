@@ -10,7 +10,7 @@ import { IOpCodeHanlePayload } from "../../types";
   Cycles: 12
   Flags affected: None
 */
-const handle = (payload: IOpCodeHanlePayload) => {
+const handle = (payload: IOpCodeHanlePayload): number => {
     const registerLValue = payload.Memory.read8BitsValue(payload.CPU.getRegisterSPValue());
     payload.CPU.increaseStackPointer();
     const registerHValue = payload.Memory.read8BitsValue(payload.CPU.getRegisterSPValue());
@@ -18,6 +18,7 @@ const handle = (payload: IOpCodeHanlePayload) => {
     payload.CPU.setRegisterHValue(registerHValue);
     payload.CPU.setRegisterLValue(registerLValue);
     payload.CPU.increaseProgramCounter(1);
+    return 12;
 }
 
 export default handle;

@@ -11,13 +11,14 @@ import { numberUtils } from "../../../../../utils";
   Cycles: 8
   Flags affected: None
 */
-const handle = (payload: IOpCodeHanlePayload) => {
+const handle = (payload: IOpCodeHanlePayload): number => {
     const firstHalfOfMemoryIndex = 0xFF;
     const secondHalfOfMemoryIndex = payload.CPU.getRegisterCValue();
     const index = numberUtils.combineTwo8BitsNumbersInto16BitsNumber(firstHalfOfMemoryIndex, secondHalfOfMemoryIndex);
     const value = payload.Memory.read8BitsValue(index);
     payload.CPU.setRegisterAValue(value);
     payload.CPU.increaseProgramCounter(1);
+    return 8;
 }
 
 export default handle;

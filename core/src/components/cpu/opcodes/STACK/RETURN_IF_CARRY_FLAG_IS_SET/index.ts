@@ -14,8 +14,10 @@ const handle = (payload: IOpCodeHanlePayload) => {
         const address = payload.Memory.read16BitsValue(payload.CPU.getRegisterSPValue());
         payload.CPU.increaseStackPointer(2);
         payload.CPU.jump(address);
+        return 20;
     } else {
         payload.CPU.increaseProgramCounter(1);
+        return 8;
     }
 }
 

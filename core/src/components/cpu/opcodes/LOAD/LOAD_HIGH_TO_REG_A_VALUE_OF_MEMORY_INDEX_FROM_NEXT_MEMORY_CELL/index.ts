@@ -8,10 +8,10 @@ import { numberUtils } from "../../../../../utils";
   The full 16-bit absolute address is obtained by setting the most significant byte to
   0xFF and the least significant byte to the value of n, so the possible range is 0xFF00-0xFFFF.
   Size: 2 Byte - increments PC by 2
-  Cycles: 3
+  Cycles: 12
   Flags affected: None
 */
-const handle = (payload: IOpCodeHanlePayload) => {
+const handle = (payload: IOpCodeHanlePayload): number => {
     const currentProgramCounter = payload.CPU.getProgramCounter();
     const memoryIndexToRead = currentProgramCounter + 1;
     const firstHalfOfMemoryIndex = 0xFF;
@@ -20,6 +20,7 @@ const handle = (payload: IOpCodeHanlePayload) => {
     const value = payload.Memory.read8BitsValue(index);
     payload.CPU.setRegisterAValue(value);
     payload.CPU.increaseProgramCounter(2);
+    return 12;
 }
 
 export default handle;
