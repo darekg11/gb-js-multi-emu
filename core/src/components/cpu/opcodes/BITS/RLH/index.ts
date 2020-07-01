@@ -7,7 +7,7 @@ import { IOpCodeHanlePayload } from "../../types";
   Carry flag is set to value of bit 7 of register H.
   Zero flag is set if result is 0
   Size: 2 Byte - increments PC by 2
-  Cycles: 4
+  Cycles: 8
   Flags affected:
     Sets SUBTRACTION flag to 0
     Sets CARRY flag is set to value of bit 7 of register H.
@@ -15,7 +15,7 @@ import { IOpCodeHanlePayload } from "../../types";
     Sets HALF_CARRY flag to 0
 
 */
-const handle = (payload: IOpCodeHanlePayload) => {
+const handle = (payload: IOpCodeHanlePayload): number => {
     const newCarryFlag = payload.CPU.getRegisterHValue() > 0x7F;
     payload.CPU.setRegisterHValue((payload.CPU.getRegisterHValue() << 1 & 0xFF) | (payload.CPU.isCarryFlagSet() ? 1 : 0));
     if (newCarryFlag) {
@@ -31,6 +31,7 @@ const handle = (payload: IOpCodeHanlePayload) => {
     payload.CPU.unsetSubtractionFlag();
     payload.CPU.unsetHalfCarryFlag();
     payload.CPU.increaseProgramCounter(2);
+    return 8;
 }
 
 export default handle;
