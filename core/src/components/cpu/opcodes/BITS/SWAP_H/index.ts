@@ -13,7 +13,7 @@ import { IOpCodeHanlePayload } from "../../types";
     Sets HALF_CARRY flag to 0.
 
 */
-const handle = (payload: IOpCodeHanlePayload) => {
+const handle = (payload: IOpCodeHanlePayload): number => {
     const registerHValue = payload.CPU.getRegisterHValue();
     const newValue = ((registerHValue & 0x0F) << 4) | ((registerHValue & 0xF0) >> 4);
     payload.CPU.setRegisterHValue(newValue);
@@ -26,6 +26,7 @@ const handle = (payload: IOpCodeHanlePayload) => {
     payload.CPU.unsetHalfCarryFlag();
     payload.CPU.unsetCarryFlag();
     payload.CPU.increaseProgramCounter(2);
+    return 8;
 }
 
 export default handle;

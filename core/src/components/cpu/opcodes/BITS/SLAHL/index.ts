@@ -6,7 +6,7 @@ import { IOpCodeHanlePayload } from "../../types";
   Description: Shifts value from memory index of register HL by 1 bit to the left.
   Carry flag is set to value of bit 7 value from memory index of register HL.
   Size: 2 Byte - increments PC by 2
-  Cycles: 8
+  Cycles: 16
   Flags affected:
     Sets SUBTRACTION flag to 0
     Sets CARRY flag is set to value of bit 7 value from memory index of register HL.
@@ -14,7 +14,7 @@ import { IOpCodeHanlePayload } from "../../types";
     Sets HALF_CARRY flag to 0
 
 */
-const handle = (payload: IOpCodeHanlePayload) => {
+const handle = (payload: IOpCodeHanlePayload): number => {
     const memoryValue = payload.Memory.read8BitsValue(payload.CPU.getRegisterHLValue());
     if (memoryValue > 0x7F) {
         payload.CPU.setCarryFlag();
@@ -31,6 +31,7 @@ const handle = (payload: IOpCodeHanlePayload) => {
     payload.CPU.unsetSubtractionFlag();
     payload.CPU.unsetHalfCarryFlag();
     payload.CPU.increaseProgramCounter(2);
+    return 16;
 }
 
 export default handle;
