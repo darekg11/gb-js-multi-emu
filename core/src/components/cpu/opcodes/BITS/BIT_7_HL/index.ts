@@ -5,7 +5,7 @@ import { IOpCodeHanlePayload } from "../../types";
   Memonic: BIT 7 (HL)
   Description: Sets zero flag if bit 7 (first to the left) of value under memory index from register HL is set to 0.
   Size: 2 Byte - increments PC by 2
-  Cycles: 8
+  Cycles: 12
   Flags affected:
     Sets SUBTRACTION flag to 0.
     Carry flag is unchanged.
@@ -13,7 +13,7 @@ import { IOpCodeHanlePayload } from "../../types";
     Sets HALF_CARRY flag to 1.
 
 */
-const handle = (payload: IOpCodeHanlePayload) => {
+const handle = (payload: IOpCodeHanlePayload): number => {
     const memoryIndex = payload.CPU.getRegisterHLValue();
     const memoryValue = payload.Memory.read8BitsValue(memoryIndex);
     if ((memoryValue & 0x80) === 0) {
@@ -24,6 +24,7 @@ const handle = (payload: IOpCodeHanlePayload) => {
     payload.CPU.unsetSubtractionFlag();
     payload.CPU.setHalfCarryFlag();
     payload.CPU.increaseProgramCounter(2);
+    return 12;
 }
 
 export default handle;

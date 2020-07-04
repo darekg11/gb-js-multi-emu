@@ -11,11 +11,12 @@ import { numberUtils } from "../../../../../utils";
     None
 
 */
-const handle = (payload: IOpCodeHanlePayload) => {
+const handle = (payload: IOpCodeHanlePayload): number => {
     const registerBValue = payload.CPU.getRegisterBValue();
     const newValue = numberUtils.unsetBit(registerBValue, 1);
     payload.CPU.setRegisterBValue(newValue);
     payload.CPU.increaseProgramCounter(2);
+    return 8;
 }
 
 export default handle;
