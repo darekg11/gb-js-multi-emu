@@ -1,5 +1,5 @@
 export enum NON_PREFIX_OP_CODES {
-    NOOP = 0x0,
+    NOOP = 0x00,
     DISABLE_INTERRUPTS = 0xF3,
     ENABLE_INTERRUPTS = 0xFB,
     SCF = 0x37,
