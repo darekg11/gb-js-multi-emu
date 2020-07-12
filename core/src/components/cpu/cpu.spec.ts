@@ -1,4 +1,5 @@
 import CPU from "./cpu";
+import Memory from "../memory/memory";
 
 describe("CPU - Registers - Sets and Gets", () => {
     test("Register A", () => {
@@ -376,4 +377,41 @@ describe("Carry Flag - Statuses", () => {
         expect(cpu.isCarryFlagSet());
         expect(cpu.getRegisterFValue()).toBe(0);
     });
+});
+
+describe("Tick - executing regular OP Code", () => {
+    const OP_CODES = [ 0x00, 0x00, 0x00, 0x00];
+    const cpu = new CPU();
+    const NOOP_OP_CODE_MACHINE_CYCLE = 4;
+
+    const memory = new Memory();
+    OP_CODES.forEach((opCode, index) => memory.write8BitsValue(index, opCode));
+
+    let machineCycles = 0;
+    machineCycles += cpu.tick(memory);
+    machineCycles += cpu.tick(memory);
+    machineCycles += cpu.tick(memory);
+    machineCycles += cpu.tick(memory);
+
+    expect(cpu.getProgramCounter()).toBe(4);
+    expect(machineCycles).toBe(4 * NOOP_OP_CODE_MACHINE_CYCLE);
+});
+
+describe("Tick - execute CB prefix OP Code", () => {
+    const OP_CODES = [ 0x00, 0xCB, 0x01, 0x00];
+    const cpu = new CPU();
+    const NOOP_OP_CODE_MACHINE_CYCLES = 4;
+    const RLCC_OP_CODE_MACHINE_CYCLES = 8;
+    const TOTAL_MACHINE_CYCLES = NOOP_OP_CODE_MACHINE_CYCLES + 0 + RLCC_OP_CODE_MACHINE_CYCLES + NOOP_OP_CODE_MACHINE_CYCLES;
+
+    const memory = new Memory();
+    OP_CODES.forEach((opCode, index) => memory.write8BitsValue(index, opCode));
+
+    let machineCycles = 0;
+    machineCycles += cpu.tick(memory);
+    machineCycles += cpu.tick(memory);
+    machineCycles += cpu.tick(memory);
+
+    expect(cpu.getProgramCounter()).toBe(4);
+    expect(machineCycles).toBe(TOTAL_MACHINE_CYCLES);
 });

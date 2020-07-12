@@ -1,5 +1,8 @@
 import { CPU_REGISTERS, ICPURegisters } from "./types";
 import { numberUtils } from "../../utils/index";
+import Memory from "../memory/memory";
+import NON_PREIFX_JUMP_TABLE from "./JumpTableNonPrefix";
+import CB_PREFIX_JUMP_TABLE from "./JumpTableCBPrefix";
 
 const ZERO_FLAG_BIT = 7;
 const SUBTRACTION_FLAG_BIT = 6;
@@ -265,6 +268,26 @@ class CPU {
 
     public unsetCarryFlag() {
         this.registers.F = numberUtils.unsetBit(this.registers.F, CARRY_FLAG_BIT);
+    }
+
+    // Executes single CPU tick
+    // Returns number of machine cycles that it took
+    public tick(memory: Memory): number {
+        let opCode = memory.read8BitsValue(this.PC);
+        const isCB = opCode === 0xCB;
+        const jumpTableToUse = isCB ? CB_PREFIX_JUMP_TABLE : NON_PREIFX_JUMP_TABLE;
+        if (isCB) {
+            // read next OP Code in case of CB
+            opCode = memory.read8BitsValue(this.PC + 1);
+        }
+        const opCodeHandler = jumpTableToUse[opCode];
+        if (opCodeHandler) {
+            return opCodeHandler({ CPU: this, Memory: memory });
+        } else {
+            // apperently some OP CODE is not defined
+            return 0;
+            // TODO: add logger.error call here once we have logger
+        }
     }
 
 }
