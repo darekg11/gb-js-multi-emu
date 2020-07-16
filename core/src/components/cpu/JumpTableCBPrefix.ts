@@ -32,6 +32,22 @@ import RRH_HANDLER from "./opcodes/BITS/RRH";
 import RRL_HANDLER from "./opcodes/BITS/RRL";
 import RRHL_HANDLER from "./opcodes/BITS/RRHL";
 import RRA_CB_PREFIX_HANDLER from "./opcodes/BITS/RRA_CB";
+import SLAB_HANDLER from "./opcodes/BITS/SLAB";
+import SLAC_HANDLER from "./opcodes/BITS/SLAC";
+import SLAD_HANDLER from "./opcodes/BITS/SLAD";
+import SLAE_HANDLER from "./opcodes/BITS/SLAE";
+import SLAH_HANDLER from "./opcodes/BITS/SLAH";
+import SLAL_HANDLER from "./opcodes/BITS/SLAL";
+import SLAHL_HANDLER from "./opcodes/BITS/SLAHL";
+import SLAA_HANDLER from "./opcodes/BITS/SLAA";
+import SRAB_HANDLER from "./opcodes/BITS/SRAB";
+import SRAC_HANDLER from "./opcodes/BITS/SRAC";
+import SRAD_HANDLER from "./opcodes/BITS/SRAD";
+import SRAE_HANDLER from "./opcodes/BITS/SRAE";
+import SRAH_HANDLER from "./opcodes/BITS/SRAH";
+import SRAL_HANDLER from "./opcodes/BITS/SRAL";
+import SRAHL_HANDLER from "./opcodes/BITS/SRAHL";
+import SRAA_HANDLER from "./opcodes/BITS/SRAA";
 import { IJumpTable } from "./types";
 
 const JUMP_TABLE: IJumpTable = {
@@ -66,7 +82,23 @@ const JUMP_TABLE: IJumpTable = {
     [CB_OP_CODES.RRH]: RRH_HANDLER,
     [CB_OP_CODES.RRL]: RRL_HANDLER,
     [CB_OP_CODES.RRHL]: RRHL_HANDLER,
-    [CB_OP_CODES.RRA]: RRA_CB_PREFIX_HANDLER
+    [CB_OP_CODES.RRA]: RRA_CB_PREFIX_HANDLER,
+    [CB_OP_CODES.SLAB]: SLAB_HANDLER,
+    [CB_OP_CODES.SLAC]: SLAC_HANDLER,
+    [CB_OP_CODES.SLAD]: SLAD_HANDLER,
+    [CB_OP_CODES.SLAE]: SLAE_HANDLER,
+    [CB_OP_CODES.SLAH]: SLAH_HANDLER,
+    [CB_OP_CODES.SLAL]: SLAL_HANDLER,
+    [CB_OP_CODES.SLAHL]: SLAHL_HANDLER,
+    [CB_OP_CODES.SLAA]: SLAA_HANDLER,
+    [CB_OP_CODES.SRAB]: SRAB_HANDLER,
+    [CB_OP_CODES.SRAC]: SRAC_HANDLER,
+    [CB_OP_CODES.SRAD]: SRAD_HANDLER,
+    [CB_OP_CODES.SRAE]: SRAE_HANDLER,
+    [CB_OP_CODES.SRAH]: SRAH_HANDLER,
+    [CB_OP_CODES.SRAL]: SRAL_HANDLER,
+    [CB_OP_CODES.SRAHL]: SRAHL_HANDLER,
+    [CB_OP_CODES.SRAA]: SRAA_HANDLER
 };
 
 export default JUMP_TABLE;
