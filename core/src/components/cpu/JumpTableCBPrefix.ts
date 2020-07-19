@@ -48,6 +48,22 @@ import SRAH_HANDLER from "./opcodes/BITS/SRAH";
 import SRAL_HANDLER from "./opcodes/BITS/SRAL";
 import SRAHL_HANDLER from "./opcodes/BITS/SRAHL";
 import SRAA_HANDLER from "./opcodes/BITS/SRAA";
+import SWAP_B_HANDLER from "./opcodes/BITS/SWAP_B";
+import SWAP_C_HANDLER from "./opcodes/BITS/SWAP_C";
+import SWAP_D_HANDLER from "./opcodes/BITS/SWAP_D";
+import SWAP_E_HANDLER from "./opcodes/BITS/SWAP_E";
+import SWAP_H_HANDLER from "./opcodes/BITS/SWAP_H";
+import SWAP_L_HANDLER from "./opcodes/BITS/SWAP_L";
+import SWAP_HL_HANDLER from "./opcodes/BITS/SWAP_HL";
+import SWAP_A_HANDLER from "./opcodes/BITS/SWAP_A";
+import SRLB_HANDLER from "./opcodes/BITS/SRL_B";
+import SRLC_HANDLER from "./opcodes/BITS/SRL_C";
+import SRLD_HANDLER from "./opcodes/BITS/SRL_D";
+import SRLE_HANDLER from "./opcodes/BITS/SRL_E";
+import SRLH_HANDLER from "./opcodes/BITS/SRL_H";
+import SRLL_HANDLER from "./opcodes/BITS/SRL_L";
+import SRLHL_HANDLER from "./opcodes/BITS/SRL_HL";
+import SRLA_HANDLER from "./opcodes/BITS/SRL_A";
 import { IJumpTable } from "./types";
 
 const JUMP_TABLE: IJumpTable = {
@@ -98,7 +114,23 @@ const JUMP_TABLE: IJumpTable = {
     [CB_OP_CODES.SRAH]: SRAH_HANDLER,
     [CB_OP_CODES.SRAL]: SRAL_HANDLER,
     [CB_OP_CODES.SRAHL]: SRAHL_HANDLER,
-    [CB_OP_CODES.SRAA]: SRAA_HANDLER
+    [CB_OP_CODES.SRAA]: SRAA_HANDLER,
+    [CB_OP_CODES.SWAP_B]: SWAP_B_HANDLER,
+    [CB_OP_CODES.SWAP_C]: SWAP_C_HANDLER,
+    [CB_OP_CODES.SWAP_D]: SWAP_D_HANDLER,
+    [CB_OP_CODES.SWAP_E]: SWAP_E_HANDLER,
+    [CB_OP_CODES.SWAP_H]: SWAP_H_HANDLER,
+    [CB_OP_CODES.SWAP_L]: SWAP_L_HANDLER,
+    [CB_OP_CODES.SWAP_HL]: SWAP_HL_HANDLER,
+    [CB_OP_CODES.SWAP_A]: SWAP_A_HANDLER,
+    [CB_OP_CODES.SRL_B]: SRLB_HANDLER,
+    [CB_OP_CODES.SRL_C]: SRLC_HANDLER,
+    [CB_OP_CODES.SRL_D]: SRLD_HANDLER,
+    [CB_OP_CODES.SRL_E]: SRLE_HANDLER,
+    [CB_OP_CODES.SRL_H]: SRLH_HANDLER,
+    [CB_OP_CODES.SRL_L]: SRLL_HANDLER,
+    [CB_OP_CODES.SRL_HL]: SRLHL_HANDLER,
+    [CB_OP_CODES.SRL_A]: SRLA_HANDLER
 };
 
 export default JUMP_TABLE;
