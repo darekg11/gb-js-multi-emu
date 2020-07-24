@@ -80,6 +80,22 @@ import BIT_1_H_HANDLER from "./opcodes/BITS/BIT_1_H";
 import BIT_1_L_HANDLER from "./opcodes/BITS/BIT_1_L";
 import BIT_1_HL_HANDLER from "./opcodes/BITS/BIT_1_HL";
 import BIT_1_A_HANDLER from "./opcodes/BITS/BIT_1_A";
+import BIT_2_B_HANDLER from "./opcodes/BITS/BIT_2_B";
+import BIT_2_C_HANDLER from "./opcodes/BITS/BIT_2_C";
+import BIT_2_D_HANDLER from "./opcodes/BITS/BIT_2_D";
+import BIT_2_E_HANDLER from "./opcodes/BITS/BIT_2_E";
+import BIT_2_H_HANDLER from "./opcodes/BITS/BIT_2_H";
+import BIT_2_L_HANDLER from "./opcodes/BITS/BIT_2_L";
+import BIT_2_HL_HANDLER from "./opcodes/BITS/BIT_2_HL";
+import BIT_2_A_HANDLER from "./opcodes/BITS/BIT_2_A";
+import BIT_3_B_HANDLER from "./opcodes/BITS/BIT_3_B";
+import BIT_3_C_HANDLER from "./opcodes/BITS/BIT_3_C";
+import BIT_3_D_HANDLER from "./opcodes/BITS/BIT_3_D";
+import BIT_3_E_HANDLER from "./opcodes/BITS/BIT_3_E";
+import BIT_3_H_HANDLER from "./opcodes/BITS/BIT_3_H";
+import BIT_3_L_HANDLER from "./opcodes/BITS/BIT_3_L";
+import BIT_3_HL_HANDLER from "./opcodes/BITS/BIT_3_HL";
+import BIT_3_A_HANDLER from "./opcodes/BITS/BIT_3_A";
 import { IJumpTable } from "./types";
 
 const JUMP_TABLE: IJumpTable = {
@@ -163,6 +179,22 @@ const JUMP_TABLE: IJumpTable = {
     [CB_OP_CODES.BIT_1_L]: BIT_1_L_HANDLER,
     [CB_OP_CODES.BIT_1_HL]: BIT_1_HL_HANDLER,
     [CB_OP_CODES.BIT_1_A]: BIT_1_A_HANDLER,
+    [CB_OP_CODES.BIT_2_B]: BIT_2_B_HANDLER,
+    [CB_OP_CODES.BIT_2_C]: BIT_2_C_HANDLER,
+    [CB_OP_CODES.BIT_2_D]: BIT_2_D_HANDLER,
+    [CB_OP_CODES.BIT_2_E]: BIT_2_E_HANDLER,
+    [CB_OP_CODES.BIT_2_H]: BIT_2_H_HANDLER,
+    [CB_OP_CODES.BIT_2_L]: BIT_2_L_HANDLER,
+    [CB_OP_CODES.BIT_2_HL]: BIT_2_HL_HANDLER,
+    [CB_OP_CODES.BIT_2_A]: BIT_2_A_HANDLER,
+    [CB_OP_CODES.BIT_3_B]: BIT_3_B_HANDLER,
+    [CB_OP_CODES.BIT_3_C]: BIT_3_C_HANDLER,
+    [CB_OP_CODES.BIT_3_D]: BIT_3_D_HANDLER,
+    [CB_OP_CODES.BIT_3_E]: BIT_3_E_HANDLER,
+    [CB_OP_CODES.BIT_3_H]: BIT_3_H_HANDLER,
+    [CB_OP_CODES.BIT_3_L]: BIT_3_L_HANDLER,
+    [CB_OP_CODES.BIT_3_HL]: BIT_3_HL_HANDLER,
+    [CB_OP_CODES.BIT_3_A]: BIT_3_A_HANDLER,
 };
 
 export default JUMP_TABLE;
