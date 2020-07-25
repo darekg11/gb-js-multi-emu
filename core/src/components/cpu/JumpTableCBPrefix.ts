@@ -96,6 +96,38 @@ import BIT_3_H_HANDLER from "./opcodes/BITS/BIT_3_H";
 import BIT_3_L_HANDLER from "./opcodes/BITS/BIT_3_L";
 import BIT_3_HL_HANDLER from "./opcodes/BITS/BIT_3_HL";
 import BIT_3_A_HANDLER from "./opcodes/BITS/BIT_3_A";
+import BIT_4_B_HANDLER from "./opcodes/BITS/BIT_4_B";
+import BIT_4_C_HANDLER from "./opcodes/BITS/BIT_4_C";
+import BIT_4_D_HANDLER from "./opcodes/BITS/BIT_4_D";
+import BIT_4_E_HANDLER from "./opcodes/BITS/BIT_4_E";
+import BIT_4_H_HANDLER from "./opcodes/BITS/BIT_4_H";
+import BIT_4_L_HANDLER from "./opcodes/BITS/BIT_4_L";
+import BIT_4_HL_HANDLER from "./opcodes/BITS/BIT_4_HL";
+import BIT_4_A_HANDLER from "./opcodes/BITS/BIT_4_A";
+import BIT_5_B_HANDLER from "./opcodes/BITS/BIT_5_B";
+import BIT_5_C_HANDLER from "./opcodes/BITS/BIT_5_C";
+import BIT_5_D_HANDLER from "./opcodes/BITS/BIT_5_D";
+import BIT_5_E_HANDLER from "./opcodes/BITS/BIT_5_E";
+import BIT_5_H_HANDLER from "./opcodes/BITS/BIT_5_H";
+import BIT_5_L_HANDLER from "./opcodes/BITS/BIT_5_L";
+import BIT_5_HL_HANDLER from "./opcodes/BITS/BIT_5_HL";
+import BIT_5_A_HANDLER from "./opcodes/BITS/BIT_5_A";
+import BIT_6_B_HANDLER from "./opcodes/BITS/BIT_6_B";
+import BIT_6_C_HANDLER from "./opcodes/BITS/BIT_6_C";
+import BIT_6_D_HANDLER from "./opcodes/BITS/BIT_6_D";
+import BIT_6_E_HANDLER from "./opcodes/BITS/BIT_6_E";
+import BIT_6_H_HANDLER from "./opcodes/BITS/BIT_6_H";
+import BIT_6_L_HANDLER from "./opcodes/BITS/BIT_6_L";
+import BIT_6_HL_HANDLER from "./opcodes/BITS/BIT_6_HL";
+import BIT_6_A_HANDLER from "./opcodes/BITS/BIT_6_A";
+import BIT_7_B_HANDLER from "./opcodes/BITS/BIT_7_B";
+import BIT_7_C_HANDLER from "./opcodes/BITS/BIT_7_C";
+import BIT_7_D_HANDLER from "./opcodes/BITS/BIT_7_D";
+import BIT_7_E_HANDLER from "./opcodes/BITS/BIT_7_E";
+import BIT_7_H_HANDLER from "./opcodes/BITS/BIT_7_H";
+import BIT_7_L_HANDLER from "./opcodes/BITS/BIT_7_L";
+import BIT_7_HL_HANDLER from "./opcodes/BITS/BIT_7_HL";
+import BIT_7_A_HANDLER from "./opcodes/BITS/BIT_7_A";
 import { IJumpTable } from "./types";
 
 const JUMP_TABLE: IJumpTable = {
@@ -195,6 +227,38 @@ const JUMP_TABLE: IJumpTable = {
     [CB_OP_CODES.BIT_3_L]: BIT_3_L_HANDLER,
     [CB_OP_CODES.BIT_3_HL]: BIT_3_HL_HANDLER,
     [CB_OP_CODES.BIT_3_A]: BIT_3_A_HANDLER,
+    [CB_OP_CODES.BIT_4_B]: BIT_4_B_HANDLER,
+    [CB_OP_CODES.BIT_4_C]: BIT_4_C_HANDLER,
+    [CB_OP_CODES.BIT_4_D]: BIT_4_D_HANDLER,
+    [CB_OP_CODES.BIT_4_E]: BIT_4_E_HANDLER,
+    [CB_OP_CODES.BIT_4_H]: BIT_4_H_HANDLER,
+    [CB_OP_CODES.BIT_4_L]: BIT_4_L_HANDLER,
+    [CB_OP_CODES.BIT_4_HL]: BIT_4_HL_HANDLER,
+    [CB_OP_CODES.BIT_4_A]: BIT_4_A_HANDLER,
+    [CB_OP_CODES.BIT_5_B]: BIT_5_B_HANDLER,
+    [CB_OP_CODES.BIT_5_C]: BIT_5_C_HANDLER,
+    [CB_OP_CODES.BIT_5_D]: BIT_5_D_HANDLER,
+    [CB_OP_CODES.BIT_5_E]: BIT_5_E_HANDLER,
+    [CB_OP_CODES.BIT_5_H]: BIT_5_H_HANDLER,
+    [CB_OP_CODES.BIT_5_L]: BIT_5_L_HANDLER,
+    [CB_OP_CODES.BIT_5_HL]: BIT_5_HL_HANDLER,
+    [CB_OP_CODES.BIT_5_A]: BIT_5_A_HANDLER,
+    [CB_OP_CODES.BIT_6_B]: BIT_6_B_HANDLER,
+    [CB_OP_CODES.BIT_6_C]: BIT_6_C_HANDLER,
+    [CB_OP_CODES.BIT_6_D]: BIT_6_D_HANDLER,
+    [CB_OP_CODES.BIT_6_E]: BIT_6_E_HANDLER,
+    [CB_OP_CODES.BIT_6_H]: BIT_6_H_HANDLER,
+    [CB_OP_CODES.BIT_6_L]: BIT_6_L_HANDLER,
+    [CB_OP_CODES.BIT_6_HL]: BIT_6_HL_HANDLER,
+    [CB_OP_CODES.BIT_6_A]: BIT_6_A_HANDLER,
+    [CB_OP_CODES.BIT_7_B]: BIT_7_B_HANDLER,
+    [CB_OP_CODES.BIT_7_C]: BIT_7_C_HANDLER,
+    [CB_OP_CODES.BIT_7_D]: BIT_7_D_HANDLER,
+    [CB_OP_CODES.BIT_7_E]: BIT_7_E_HANDLER,
+    [CB_OP_CODES.BIT_7_H]: BIT_7_H_HANDLER,
+    [CB_OP_CODES.BIT_7_L]: BIT_7_L_HANDLER,
+    [CB_OP_CODES.BIT_7_HL]: BIT_7_HL_HANDLER,
+    [CB_OP_CODES.BIT_7_A]: BIT_7_A_HANDLER,
 };
 
 export default JUMP_TABLE;
