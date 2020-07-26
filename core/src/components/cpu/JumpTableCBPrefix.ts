@@ -128,6 +128,22 @@ import BIT_7_H_HANDLER from "./opcodes/BITS/BIT_7_H";
 import BIT_7_L_HANDLER from "./opcodes/BITS/BIT_7_L";
 import BIT_7_HL_HANDLER from "./opcodes/BITS/BIT_7_HL";
 import BIT_7_A_HANDLER from "./opcodes/BITS/BIT_7_A";
+import RES_0_B_HANDLER from "./opcodes/BITS/RES_0_B";
+import RES_0_C_HANDLER from "./opcodes/BITS/RES_0_C";
+import RES_0_D_HANDLER from "./opcodes/BITS/RES_0_D";
+import RES_0_E_HANDLER from "./opcodes/BITS/RES_0_E";
+import RES_0_H_HANDLER from "./opcodes/BITS/RES_0_H";
+import RES_0_L_HANDLER from "./opcodes/BITS/RES_0_L";
+import RES_0_HL_HANDLER from "./opcodes/BITS/RES_0_HL";
+import RES_0_A_HANDLER from "./opcodes/BITS/RES_0_A";
+import RES_1_B_HANDLER from "./opcodes/BITS/RES_1_B";
+import RES_1_C_HANDLER from "./opcodes/BITS/RES_1_C";
+import RES_1_D_HANDLER from "./opcodes/BITS/RES_1_D";
+import RES_1_E_HANDLER from "./opcodes/BITS/RES_1_E";
+import RES_1_H_HANDLER from "./opcodes/BITS/RES_1_H";
+import RES_1_L_HANDLER from "./opcodes/BITS/RES_1_L";
+import RES_1_HL_HANDLER from "./opcodes/BITS/RES_1_HL";
+import RES_1_A_HANDLER from "./opcodes/BITS/RES_1_A";
 import { IJumpTable } from "./types";
 
 const JUMP_TABLE: IJumpTable = {
@@ -259,6 +275,22 @@ const JUMP_TABLE: IJumpTable = {
     [CB_OP_CODES.BIT_7_L]: BIT_7_L_HANDLER,
     [CB_OP_CODES.BIT_7_HL]: BIT_7_HL_HANDLER,
     [CB_OP_CODES.BIT_7_A]: BIT_7_A_HANDLER,
+    [CB_OP_CODES.RES_0_B]: RES_0_B_HANDLER,
+    [CB_OP_CODES.RES_0_C]: RES_0_C_HANDLER,
+    [CB_OP_CODES.RES_0_D]: RES_0_D_HANDLER,
+    [CB_OP_CODES.RES_0_E]: RES_0_E_HANDLER,
+    [CB_OP_CODES.RES_0_H]: RES_0_H_HANDLER,
+    [CB_OP_CODES.RES_0_L]: RES_0_L_HANDLER,
+    [CB_OP_CODES.RES_0_HL]: RES_0_HL_HANDLER,
+    [CB_OP_CODES.RES_0_A]: RES_0_A_HANDLER,
+    [CB_OP_CODES.RES_1_B]: RES_1_B_HANDLER,
+    [CB_OP_CODES.RES_1_C]: RES_1_C_HANDLER,
+    [CB_OP_CODES.RES_1_D]: RES_1_D_HANDLER,
+    [CB_OP_CODES.RES_1_E]: RES_1_E_HANDLER,
+    [CB_OP_CODES.RES_1_H]: RES_1_H_HANDLER,
+    [CB_OP_CODES.RES_1_L]: RES_1_L_HANDLER,
+    [CB_OP_CODES.RES_1_HL]: RES_1_HL_HANDLER,
+    [CB_OP_CODES.RES_1_A]: RES_1_A_HANDLER,
 };
 
 export default JUMP_TABLE;
