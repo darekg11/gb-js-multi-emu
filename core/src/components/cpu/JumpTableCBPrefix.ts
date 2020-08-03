@@ -240,7 +240,22 @@ import SET_5_H_HANDLER from "./opcodes/BITS/SET_5_H";
 import SET_5_L_HANDLER from "./opcodes/BITS/SET_5_L";
 import SET_5_HL_HANDLER from "./opcodes/BITS/SET_5_HL";
 import SET_5_A_HANDLER from "./opcodes/BITS/SET_5_A";
-
+import SET_6_B_HANDLER from "./opcodes/BITS/SET_6_B";
+import SET_6_C_HANDLER from "./opcodes/BITS/SET_6_C";
+import SET_6_D_HANDLER from "./opcodes/BITS/SET_6_D";
+import SET_6_E_HANDLER from "./opcodes/BITS/SET_6_E";
+import SET_6_H_HANDLER from "./opcodes/BITS/SET_6_H";
+import SET_6_L_HANDLER from "./opcodes/BITS/SET_6_L";
+import SET_6_HL_HANDLER from "./opcodes/BITS/SET_6_HL";
+import SET_6_A_HANDLER from "./opcodes/BITS/SET_6_A";
+import SET_7_B_HANDLER from "./opcodes/BITS/SET_7_B";
+import SET_7_C_HANDLER from "./opcodes/BITS/SET_7_C";
+import SET_7_D_HANDLER from "./opcodes/BITS/SET_7_D";
+import SET_7_E_HANDLER from "./opcodes/BITS/SET_7_E";
+import SET_7_H_HANDLER from "./opcodes/BITS/SET_7_H";
+import SET_7_L_HANDLER from "./opcodes/BITS/SET_7_L";
+import SET_7_HL_HANDLER from "./opcodes/BITS/SET_7_HL";
+import SET_7_A_HANDLER from "./opcodes/BITS/SET_7_A";
 
 import { IJumpTable } from "./types";
 
@@ -484,7 +499,23 @@ const JUMP_TABLE: IJumpTable = {
     [CB_OP_CODES.SET_5_H]: SET_5_H_HANDLER,
     [CB_OP_CODES.SET_5_L]: SET_5_L_HANDLER,
     [CB_OP_CODES.SET_5_HL]: SET_5_HL_HANDLER,
-    [CB_OP_CODES.SET_5_A]: SET_5_A_HANDLER
+    [CB_OP_CODES.SET_5_A]: SET_5_A_HANDLER,
+    [CB_OP_CODES.SET_6_B]: SET_6_B_HANDLER,
+    [CB_OP_CODES.SET_6_C]: SET_6_C_HANDLER,
+    [CB_OP_CODES.SET_6_D]: SET_6_D_HANDLER,
+    [CB_OP_CODES.SET_6_E]: SET_6_E_HANDLER,
+    [CB_OP_CODES.SET_6_H]: SET_6_H_HANDLER,
+    [CB_OP_CODES.SET_6_L]: SET_6_L_HANDLER,
+    [CB_OP_CODES.SET_6_HL]: SET_6_HL_HANDLER,
+    [CB_OP_CODES.SET_6_A]: SET_6_A_HANDLER,
+    [CB_OP_CODES.SET_7_B]: SET_7_B_HANDLER,
+    [CB_OP_CODES.SET_7_C]: SET_7_C_HANDLER,
+    [CB_OP_CODES.SET_7_D]: SET_7_D_HANDLER,
+    [CB_OP_CODES.SET_7_E]: SET_7_E_HANDLER,
+    [CB_OP_CODES.SET_7_H]: SET_7_H_HANDLER,
+    [CB_OP_CODES.SET_7_L]: SET_7_L_HANDLER,
+    [CB_OP_CODES.SET_7_HL]: SET_7_HL_HANDLER,
+    [CB_OP_CODES.SET_7_A]: SET_7_A_HANDLER
 };
 
 export default JUMP_TABLE;
