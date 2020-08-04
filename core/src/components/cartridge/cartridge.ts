@@ -23,16 +23,16 @@ class Cartridge {
     private licenseCode: string = "";
 
     // cartridge type - MBC1 / MBC2 / etc
-    private cartridgeType: CARTRIGDE_TYPES = CARTRIGDE_TYPES.UNKNOWN;
+    private cartridgeType: CARTRIGDE_TYPES = CARTRIGDE_TYPES.ROM_ONLY;
 
     // ROM Size of cartridge - # of banks
-    private romSize: ROM_SIZES = ROM_SIZES.UNKNOWN;
+    private romSize: ROM_SIZES = ROM_SIZES.NO_ROM_BANKING;
 
     // RAM size of external RAM on cartridge
-    private ramSize: RAM_SIZE = RAM_SIZE.UNKNOWN
+    private ramSize: RAM_SIZE = RAM_SIZE.NONE
 
     // Specifies where cartridge where suppose to be sold - Japanese / No-Japanese
-    private destinationCode: DESTINATION_CODES = DESTINATION_CODES.UNKNOWN
+    private destinationCode: DESTINATION_CODES = DESTINATION_CODES.NON_JAPANESE
 
     constructor(data = []) {
         this.programData = new Uint8Array(data);
