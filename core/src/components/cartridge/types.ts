@@ -26,8 +26,7 @@ export enum CARTRIGDE_TYPES {
     POCKET_CAMERA = 0xFC,
     BANDAI_TAMA_5 = 0xFD,
     HUC_3 = 0xFE,
-    HUC_1_RAM_BATTERY = 0xFF,
-    UNKNOWN = 0xBB
+    HUC_1_RAM_BATTERY = 0xFF
 }
 
 export enum ROM_SIZES {
@@ -42,8 +41,7 @@ export enum ROM_SIZES {
     FIVE_HUNDRED_TWELVE_BANKS = 0x08, // 8 MBytes
     SEVENTY_TWO_BANKS = 0x52, // 1.1 MBytes
     EIGHTY_BANKS = 0x53, // 1.2 MBytes
-    NINETY_SIX_BANKS = 0x54, // 1.5 MBytes
-    UNKNOWN = 0xBB
+    NINETY_SIX_BANKS = 0x54 // 1.5 MBytes
 }
 
 export enum RAM_SIZE {
@@ -52,12 +50,10 @@ export enum RAM_SIZE {
     EIGHT_KILOBYTES = 0x02,
     THIRTY_TWO_KILOBYTES = 0x03, // (4 banks of 8KBytes each)
     ONE_HUNDRED_TWENTY_EIGHT_KILOBYTES = 0x04, // (16 banks of 8KBytes each)
-    SIXTY_FOUR_KILOBYTES = 0x05, // (8 banks of 8KBytes each)
-    UNKNOWN = 0xBB
+    SIXTY_FOUR_KILOBYTES = 0x05 // (8 banks of 8KBytes each)
 }
 
 export enum DESTINATION_CODES {
     JAPANESE = 0x00,
-    NON_JAPANESE = 0x01,
-    UNKNOWN = 0xBB
+    NON_JAPANESE = 0x01
 }
