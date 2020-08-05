@@ -1,5 +1,11 @@
 import { CARTRIGDE_TYPES, ROM_SIZES, RAM_SIZE, DESTINATION_CODES } from "./types";
 
+const PROGRAM_NAME_START_INDEX = 0x134;
+const PROGRAM_NAME_END_INDEX = 0x13F;
+
+const PROGRAM_MANUFACTURER_CODE_START_INDEX = 0x13F;
+const PROGRAM_MANUFACTURER_CODE_END_INDEX = 0x143;
+
 class Cartridge {
 
     // Cartridge raw data bytes
@@ -12,10 +18,10 @@ class Cartridge {
     private programManufacturerCode: string = "";
 
     // If cartridge is suppose to be launched in Gameboy Color
-    private isCGB: boolean = false;
+    private gcb: boolean = false;
 
     // If cartidge uses Super Gamemboy features
-    private isSGB: boolean = false;
+    private sgb: boolean = false;
 
     // 1 character long on older ROMs
         // A value of 33h signalizes that the New License Code in header bytes 0x144-0x145 is used instead.
@@ -34,7 +40,77 @@ class Cartridge {
     // Specifies where cartridge where suppose to be sold - Japanese / No-Japanese
     private destinationCode: DESTINATION_CODES = DESTINATION_CODES.NON_JAPANESE
 
-    constructor(data = []) {
+    constructor(data: number[] = []) {
         this.programData = new Uint8Array(data);
+        this.initialize();
+    }
+
+    public getProgramData = (): Uint8Array => {
+        return this.programData;
+    }
+
+    public getProgramName = (): string => {
+        return this.programName;
+    }
+
+    public getProgramManufacturerCode = (): string => {
+        return this.programManufacturerCode;
+    }
+
+    public isCGB = (): boolean => {
+        return this.gcb;
+    }
+
+    public isSGB = (): boolean => {
+        return this.sgb;
+    }
+
+    public getLicenseCode = (): string => {
+        return this.licenseCode;
+    }
+
+    public getCartridgeType = (): CARTRIGDE_TYPES => {
+        return this.cartridgeType;
+    }
+
+    public getRomSize = (): ROM_SIZES => {
+        return this.romSize;
+    }
+
+    public getRamSize = (): RAM_SIZE => {
+        return this.ramSize;
+    }
+
+    public getDestinationCode = (): DESTINATION_CODES => {
+        return this.destinationCode;
+    }
+
+    private initializeProgramName = () => {
+        const charCodes = [];
+        for (let index = PROGRAM_NAME_START_INDEX; index < PROGRAM_NAME_END_INDEX; index++) {
+            if (this.programData[index] > 0) {
+                charCodes.push(this.programData[index]);
+            }
+        }
+
+        this.programName = String.fromCharCode(...charCodes);
+    }
+
+    private initializeProgramManufacturerCode = () => {
+        const charCodes = [];
+        for (let index = PROGRAM_MANUFACTURER_CODE_START_INDEX; index < PROGRAM_MANUFACTURER_CODE_END_INDEX; index++) {
+            if (this.programData[index] > 0) {
+                charCodes.push(this.programData[index]);
+            }
+        }
+
+        this.programManufacturerCode = String.fromCharCode(...charCodes);
+    }
+
+    private initialize = () => {
+        this.initializeProgramName();
+        this.initializeProgramManufacturerCode();
     }
 }
+
+export default Cartridge;
