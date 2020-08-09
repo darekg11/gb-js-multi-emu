@@ -5,6 +5,11 @@ const PROGRAM_NAME_END_INDEX = 0x13F;
 
 const PROGRAM_MANUFACTURER_CODE_START_INDEX = 0x13F;
 const PROGRAM_MANUFACTURER_CODE_END_INDEX = 0x143;
+const GBC_FLAG_INDEX = 0x143;
+const OLD_LICENSE_CODE_INDEX = 0x14B;
+const NEW_LICENSE_FLAG_VALUE = 0x33;
+const NEW_LICENSE_START_INDEX = 0x144;
+const NEW_LICENSE_END_INDEX = 0x145;
 
 class Cartridge {
 
@@ -107,9 +112,37 @@ class Cartridge {
         this.programManufacturerCode = String.fromCharCode(...charCodes);
     }
 
+    private initalizeIsGameBoyColor = () => {
+        const gameBoyColorFlag = this.programData[GBC_FLAG_INDEX];
+        if (gameBoyColorFlag === 0x00) {
+            this.gcb = false;
+            return;
+        }
+        if (gameBoyColorFlag === 0x80) {
+            this.gcb = false;
+            return;
+        }
+        if (gameBoyColorFlag === 0xC0) {
+            this.gcb = true;
+            return;
+        }
+        this.gcb = false;
+    }
+
+    private initializeLicenseCode = () => {
+        const oldLicenseValue = this.programData[OLD_LICENSE_CODE_INDEX];
+        if (oldLicenseValue === NEW_LICENSE_FLAG_VALUE) {
+            this.licenseCode = this.programData[NEW_LICENSE_START_INDEX].toString() + this.programData[NEW_LICENSE_END_INDEX].toString();
+        } else {
+            this.licenseCode = oldLicenseValue.toString(16);
+        }
+    }
+
     private initialize = () => {
         this.initializeProgramName();
         this.initializeProgramManufacturerCode();
+        this.initalizeIsGameBoyColor();
+        this.initializeLicenseCode();
     }
 }
 
