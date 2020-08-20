@@ -1,4 +1,5 @@
 import { CARTRIGDE_TYPES, ROM_SIZES, RAM_SIZE, DESTINATION_CODES } from "./types";
+import UnsupportedCartridgeTypeError from "../../errors/UnsupportedCartridgeTypeError";
 
 const PROGRAM_NAME_START_INDEX = 0x134;
 const PROGRAM_NAME_END_INDEX = 0x13F;
@@ -6,10 +7,12 @@ const PROGRAM_NAME_END_INDEX = 0x13F;
 const PROGRAM_MANUFACTURER_CODE_START_INDEX = 0x13F;
 const PROGRAM_MANUFACTURER_CODE_END_INDEX = 0x143;
 const GBC_FLAG_INDEX = 0x143;
+const SGB_FLAG_INDEX = 0x146;
 const OLD_LICENSE_CODE_INDEX = 0x14B;
 const NEW_LICENSE_FLAG_VALUE = 0x33;
 const NEW_LICENSE_START_INDEX = 0x144;
 const NEW_LICENSE_END_INDEX = 0x145;
+const CARTRIDGE_TYPE_INDEX = 0x147;
 
 class Cartridge {
 
@@ -129,6 +132,19 @@ class Cartridge {
         this.gcb = false;
     }
 
+    private initializeIsSuperGameBoy = () => {
+        const superGameBoyFlag = this.programData[SGB_FLAG_INDEX];
+        if (superGameBoyFlag === 0x00) {
+            this.sgb = false;
+            return;
+        }
+        if (superGameBoyFlag === 0x03) {
+            this.sgb = true;
+            return;
+        }
+        this.sgb = false;
+    }
+
     private initializeLicenseCode = () => {
         const oldLicenseValue = this.programData[OLD_LICENSE_CODE_INDEX];
         if (oldLicenseValue === NEW_LICENSE_FLAG_VALUE) {
@@ -138,11 +154,137 @@ class Cartridge {
         }
     }
 
+    private initializeCartrideType = () => {
+        const cartridgeType = this.programData[CARTRIDGE_TYPE_INDEX];
+
+        switch (cartridgeType) {
+            case CARTRIGDE_TYPES.ROM_ONLY: {
+                this.cartridgeType = CARTRIGDE_TYPES.ROM_ONLY;
+                break;
+            }
+            case CARTRIGDE_TYPES.MBC_1: {
+                this.cartridgeType = CARTRIGDE_TYPES.MBC_1;
+                break;
+            }
+            case CARTRIGDE_TYPES.MBC_1_RAM: {
+                this.cartridgeType = CARTRIGDE_TYPES.MBC_1_RAM;
+                break;
+            }
+            case CARTRIGDE_TYPES.MBC_1_RAM_BATTERY: {
+                this.cartridgeType = CARTRIGDE_TYPES.MBC_1_RAM_BATTERY;
+                break;
+            }
+            case CARTRIGDE_TYPES.MBC_2: {
+                this.cartridgeType = CARTRIGDE_TYPES.MBC_2;
+                break;
+            }
+            case CARTRIGDE_TYPES.MBC_2_BATTERY: {
+                this.cartridgeType = CARTRIGDE_TYPES.MBC_2_BATTERY;
+                break;
+            }
+            case CARTRIGDE_TYPES.ROM_RAM: {
+                this.cartridgeType = CARTRIGDE_TYPES.ROM_RAM;
+                break;
+            }
+            case CARTRIGDE_TYPES.ROM_RAM_BATTERY: {
+                this.cartridgeType = CARTRIGDE_TYPES.ROM_RAM_BATTERY;
+                break;
+            }
+            case CARTRIGDE_TYPES.MMM_01: {
+                this.cartridgeType = CARTRIGDE_TYPES.MMM_01;
+                break;
+            }
+            case CARTRIGDE_TYPES.MMM_01_RAM: {
+                this.cartridgeType = CARTRIGDE_TYPES.MMM_01_RAM;
+                break;
+            }
+            case CARTRIGDE_TYPES.MMM_01_RAM_BATTERY: {
+                this.cartridgeType = CARTRIGDE_TYPES.MMM_01_RAM_BATTERY;
+                break;
+            }
+            case CARTRIGDE_TYPES.MBC_3_TIMER_BATTERY: {
+                this.cartridgeType = CARTRIGDE_TYPES.MBC_3_TIMER_BATTERY;
+                break;
+            }
+            case CARTRIGDE_TYPES.MBC_3_TIMER_RAM_BATTERY: {
+                this.cartridgeType = CARTRIGDE_TYPES.MBC_3_TIMER_RAM_BATTERY;
+                break;
+            }
+            case CARTRIGDE_TYPES.MBC_3: {
+                this.cartridgeType = CARTRIGDE_TYPES.MBC_3;
+                break;
+            }
+            case CARTRIGDE_TYPES.MBC_3_RAM: {
+                this.cartridgeType = CARTRIGDE_TYPES.MBC_3_RAM;
+                break;
+            }
+            case CARTRIGDE_TYPES.MBC_3_RAM_BATTERY: {
+                this.cartridgeType = CARTRIGDE_TYPES.MBC_3_RAM_BATTERY;
+                break;
+            }
+            case CARTRIGDE_TYPES.MBC_5: {
+                this.cartridgeType = CARTRIGDE_TYPES.MBC_5;
+                break;
+            }
+            case CARTRIGDE_TYPES.MBC_5_RAM: {
+                this.cartridgeType = CARTRIGDE_TYPES.MBC_5_RAM;
+                break;
+            }
+            case CARTRIGDE_TYPES.MBC_5_RAM_BATTERY: {
+                this.cartridgeType = CARTRIGDE_TYPES.MBC_5_RAM_BATTERY;
+                break;
+            }
+            case CARTRIGDE_TYPES.MBC_5_RUMBLE: {
+                this.cartridgeType = CARTRIGDE_TYPES.MBC_5_RUMBLE;
+                break;
+            }
+            case CARTRIGDE_TYPES.MBC_5_RUMBLE_RAM: {
+                this.cartridgeType = CARTRIGDE_TYPES.MBC_5_RUMBLE_RAM;
+                break;
+            }
+            case CARTRIGDE_TYPES.MBC_5_RUMBLE_RAM_BATTERY: {
+                this.cartridgeType = CARTRIGDE_TYPES.MBC_5_RUMBLE_RAM_BATTERY;
+                break;
+            }
+            case CARTRIGDE_TYPES.MBC_6: {
+                this.cartridgeType = CARTRIGDE_TYPES.MBC_6;
+                break;
+            }
+            case CARTRIGDE_TYPES.MBC_7_SENSOR_RUMBLE_RAM_BATTERY: {
+                this.cartridgeType = CARTRIGDE_TYPES.MBC_7_SENSOR_RUMBLE_RAM_BATTERY;
+                break;
+            }
+            case CARTRIGDE_TYPES.POCKET_CAMERA: {
+                this.cartridgeType = CARTRIGDE_TYPES.POCKET_CAMERA;
+                break;
+            }
+            case CARTRIGDE_TYPES.BANDAI_TAMA_5: {
+                this.cartridgeType = CARTRIGDE_TYPES.BANDAI_TAMA_5;
+                break;
+            }
+            case CARTRIGDE_TYPES.HUC_3: {
+                this.cartridgeType = CARTRIGDE_TYPES.HUC_3;
+                break;
+            }
+            case CARTRIGDE_TYPES.HUC_1_RAM_BATTERY: {
+                this.cartridgeType = CARTRIGDE_TYPES.HUC_1_RAM_BATTERY;
+                break;
+            }
+            default: {
+                throw new UnsupportedCartridgeTypeError(cartridgeType);
+                break;
+            }
+        }
+
+    }
+
     private initialize = () => {
         this.initializeProgramName();
         this.initializeProgramManufacturerCode();
         this.initalizeIsGameBoyColor();
         this.initializeLicenseCode();
+        this.initializeIsSuperGameBoy();
+        this.initializeCartrideType();
     }
 }
 
