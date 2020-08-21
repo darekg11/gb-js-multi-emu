@@ -272,7 +272,6 @@ class Cartridge {
             }
             default: {
                 throw new UnsupportedCartridgeTypeError(cartridgeType);
-                break;
             }
         }
     }
