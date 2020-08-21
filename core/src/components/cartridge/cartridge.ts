@@ -275,7 +275,6 @@ class Cartridge {
                 break;
             }
         }
-
     }
 
     private initialize = () => {
