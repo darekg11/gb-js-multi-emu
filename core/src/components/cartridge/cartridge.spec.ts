@@ -1,6 +1,6 @@
 import _ from "lodash";
 import Cartridge from "./cartridge";
-import { CARTRIGDE_TYPES, ROM_SIZES, RAM_SIZE } from "./types";
+import { CARTRIGDE_TYPES, ROM_SIZES, RAM_SIZE, DESTINATION_CODES } from "./types";
 import UnsupportedCartridgeTypeError from "../../errors/UnsupportedCartridgeTypeError";
 import UnsupportedCartridgeROMSizeError from "../../errors/UnsupportedCartridgeROMSizeError";
 import UnsupportedCartridgeRAMSizeError from "../../errors/UnsupportedCartridgeRAMSizeError";
@@ -598,7 +598,7 @@ describe("initializeRAMSize", () => {
         expect(program.getRamSize()).toBe(RAM_SIZE.SIXTY_FOUR_KILOBYTES);
     });
 
-    test("Not suported value should throw error", () => {
+    test("Not supported value should throw error", () => {
         const EXAMPLE_PROGRAM = _.range(0x147);
         EXAMPLE_PROGRAM.push(...[
             0x00, 0x00, 0xDD
@@ -606,5 +606,40 @@ describe("initializeRAMSize", () => {
         EXAMPLE_PROGRAM.push(..._.range(0x400));
 
         expect(() => new Cartridge(EXAMPLE_PROGRAM)).toThrowError(UnsupportedCartridgeRAMSizeError);
+    });
+});
+
+describe("initializeDestinationCode", () => {
+    test("Value of 0x00 should set JAPANESE code", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x00, 0x00, 0x00
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+        const program = new Cartridge(EXAMPLE_PROGRAM);
+
+        expect(program.getDestinationCode()).toBe(DESTINATION_CODES.JAPANESE);
+    });
+
+    test("Value of 0x01 should set NON_JAPANESE code", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x00, 0x00, 0x01
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+        const program = new Cartridge(EXAMPLE_PROGRAM);
+
+        expect(program.getDestinationCode()).toBe(DESTINATION_CODES.NON_JAPANESE);
+    });
+
+    test("Not supported value should set NON_JAPANESE code", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x00, 0x00, 0xDD
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+        const program = new Cartridge(EXAMPLE_PROGRAM);
+
+        expect(program.getDestinationCode()).toBe(DESTINATION_CODES.NON_JAPANESE);
     });
 });

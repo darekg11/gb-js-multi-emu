@@ -17,6 +17,7 @@ const NEW_LICENSE_END_INDEX = 0x145;
 const CARTRIDGE_TYPE_INDEX = 0x147;
 const ROM_SIZE_INDEX = 0x148;
 const RAM_SIZE_INDEX = 0x149;
+const DESTINATION_CODE_INDEX = 0x14A;
 
 class Cartridge {
 
@@ -372,6 +373,21 @@ class Cartridge {
         }
     }
 
+    private initializeDestinationCode = () => {
+        const destinationCode = this.programData[DESTINATION_CODE_INDEX];
+
+        switch (destinationCode) {
+            case DESTINATION_CODES.JAPANESE: {
+                this.destinationCode = DESTINATION_CODES.JAPANESE;
+                break;
+            }
+            default: {
+                this.destinationCode = DESTINATION_CODES.NON_JAPANESE;
+                break;
+            }
+        }
+    }
+
     private initialize = () => {
         this.initializeProgramName();
         this.initializeProgramManufacturerCode();
@@ -381,6 +397,8 @@ class Cartridge {
         this.initializeCartrideType();
         this.initializeROMSize();
         this.initializeRAMSize();
+        this.initializeDestinationCode();
+        this.initializeDestinationCode();
     }
 }
 
