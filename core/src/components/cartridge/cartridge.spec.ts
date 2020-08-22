@@ -1,14 +1,16 @@
 import _ from "lodash";
 import Cartridge from "./cartridge";
-import { CARTRIGDE_TYPES, ROM_SIZES } from "./types";
+import { CARTRIGDE_TYPES, ROM_SIZES, RAM_SIZE } from "./types";
 import UnsupportedCartridgeTypeError from "../../errors/UnsupportedCartridgeTypeError";
 import UnsupportedCartridgeROMSizeError from "../../errors/UnsupportedCartridgeROMSizeError";
+import UnsupportedCartridgeRAMSizeError from "../../errors/UnsupportedCartridgeRAMSizeError";
 
 describe("initializeProgramName", () => {
     test("Should read program name and store it in class variable", () => {
         const EXAMPLE_PROGRAM = _.range(0x134);
         EXAMPLE_PROGRAM.push(...[
-            0x54, 0x45, 0x54, 0x52, 0x49, 0x53, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+            0x54, 0x45, 0x54, 0x52, 0x49, 0x53, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
         ]);
         EXAMPLE_PROGRAM.push(..._.range(0x400));
 
@@ -526,5 +528,83 @@ describe("initializeROMSize", () => {
         EXAMPLE_PROGRAM.push(..._.range(0x400));
 
         expect(() => new Cartridge(EXAMPLE_PROGRAM)).toThrowError(UnsupportedCartridgeROMSizeError);
+    });
+});
+
+describe("initializeRAMSize", () => {
+    test("Value of 0x00 should set NONE type", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x00, 0x00
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+        const program = new Cartridge(EXAMPLE_PROGRAM);
+
+        expect(program.getRamSize()).toBe(RAM_SIZE.NONE);
+    });
+
+    test("Value of 0x01 should set TWO_KILOBYTES type", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x00, 0x01
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+        const program = new Cartridge(EXAMPLE_PROGRAM);
+
+        expect(program.getRamSize()).toBe(RAM_SIZE.TWO_KILOBYTES);
+    });
+
+    test("Value of 0x02 should set EIGHT_BANKS type", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x00, 0x02
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+        const program = new Cartridge(EXAMPLE_PROGRAM);
+
+        expect(program.getRamSize()).toBe(RAM_SIZE.EIGHT_KILOBYTES);
+    });
+
+    test("Value of 0x03 should set THIRTY_TWO_KILOBYTES type", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x00, 0x03
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+        const program = new Cartridge(EXAMPLE_PROGRAM);
+
+        expect(program.getRamSize()).toBe(RAM_SIZE.THIRTY_TWO_KILOBYTES);
+    });
+
+    test("Value of 0x04 should set ONE_HUNDRED_TWENTY_EIGHT_KILOBYTES type", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x00, 0x04
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+        const program = new Cartridge(EXAMPLE_PROGRAM);
+
+        expect(program.getRamSize()).toBe(RAM_SIZE.ONE_HUNDRED_TWENTY_EIGHT_KILOBYTES);
+    });
+
+    test("Value of 0x05 should set SIXTY_FOUR_BANKS type", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x00, 0x05
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+        const program = new Cartridge(EXAMPLE_PROGRAM);
+
+        expect(program.getRamSize()).toBe(RAM_SIZE.SIXTY_FOUR_KILOBYTES);
+    });
+
+    test("Not suported value should throw error", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x00, 0xDD
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+
+        expect(() => new Cartridge(EXAMPLE_PROGRAM)).toThrowError(UnsupportedCartridgeRAMSizeError);
     });
 });

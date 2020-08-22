@@ -1,6 +1,7 @@
 import { CARTRIGDE_TYPES, ROM_SIZES, RAM_SIZE, DESTINATION_CODES } from "./types";
 import UnsupportedCartridgeTypeError from "../../errors/UnsupportedCartridgeTypeError";
 import UnsupportedCartridgeROMSizeError from "../../errors/UnsupportedCartridgeROMSizeError";
+import UnsupportedCartridgeRAMSizeError from "../../errors/UnsupportedCartridgeRAMSizeError";
 
 const PROGRAM_NAME_START_INDEX = 0x134;
 const PROGRAM_NAME_END_INDEX = 0x13F;
@@ -15,6 +16,7 @@ const NEW_LICENSE_START_INDEX = 0x144;
 const NEW_LICENSE_END_INDEX = 0x145;
 const CARTRIDGE_TYPE_INDEX = 0x147;
 const ROM_SIZE_INDEX = 0x148;
+const RAM_SIZE_INDEX = 0x149;
 
 class Cartridge {
 
@@ -336,6 +338,40 @@ class Cartridge {
         }
     }
 
+    private initializeRAMSize = () => {
+        const ramSize = this.programData[RAM_SIZE_INDEX];
+
+        switch (ramSize) {
+            case RAM_SIZE.NONE: {
+                this.ramSize = RAM_SIZE.NONE;
+                break;
+            }
+            case RAM_SIZE.TWO_KILOBYTES: {
+                this.ramSize = RAM_SIZE.TWO_KILOBYTES;
+                break;
+            }
+            case RAM_SIZE.EIGHT_KILOBYTES: {
+                this.ramSize = RAM_SIZE.EIGHT_KILOBYTES;
+                break;
+            }
+            case RAM_SIZE.THIRTY_TWO_KILOBYTES: {
+                this.ramSize = RAM_SIZE.THIRTY_TWO_KILOBYTES;
+                break;
+            }
+            case RAM_SIZE.ONE_HUNDRED_TWENTY_EIGHT_KILOBYTES: {
+                this.ramSize = RAM_SIZE.ONE_HUNDRED_TWENTY_EIGHT_KILOBYTES;
+                break;
+            }
+            case RAM_SIZE.SIXTY_FOUR_KILOBYTES: {
+                this.ramSize = RAM_SIZE.SIXTY_FOUR_KILOBYTES;
+                break;
+            }
+            default: {
+                throw new UnsupportedCartridgeRAMSizeError(ramSize);
+            }
+        }
+    }
+
     private initialize = () => {
         this.initializeProgramName();
         this.initializeProgramManufacturerCode();
@@ -344,6 +380,7 @@ class Cartridge {
         this.initializeIsSuperGameBoy();
         this.initializeCartrideType();
         this.initializeROMSize();
+        this.initializeRAMSize();
     }
 }
 
