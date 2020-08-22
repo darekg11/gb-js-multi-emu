@@ -1,5 +1,6 @@
 import { CARTRIGDE_TYPES, ROM_SIZES, RAM_SIZE, DESTINATION_CODES } from "./types";
 import UnsupportedCartridgeTypeError from "../../errors/UnsupportedCartridgeTypeError";
+import UnsupportedCartridgeROMSizeError from "../../errors/UnsupportedCartridgeROMSizeError";
 
 const PROGRAM_NAME_START_INDEX = 0x134;
 const PROGRAM_NAME_END_INDEX = 0x13F;
@@ -13,6 +14,7 @@ const NEW_LICENSE_FLAG_VALUE = 0x33;
 const NEW_LICENSE_START_INDEX = 0x144;
 const NEW_LICENSE_END_INDEX = 0x145;
 const CARTRIDGE_TYPE_INDEX = 0x147;
+const ROM_SIZE_INDEX = 0x148;
 
 class Cartridge {
 
@@ -276,6 +278,64 @@ class Cartridge {
         }
     }
 
+    private initializeROMSize = () => {
+        const romSize = this.programData[ROM_SIZE_INDEX];
+
+        switch (romSize) {
+            case ROM_SIZES.NO_ROM_BANKING: {
+                this.romSize = ROM_SIZES.NO_ROM_BANKING;
+                break;
+            }
+            case ROM_SIZES.FOUR_BANKS: {
+                this.romSize = ROM_SIZES.FOUR_BANKS;
+                break;
+            }
+            case ROM_SIZES.EIGHT_BANKS: {
+                this.romSize = ROM_SIZES.EIGHT_BANKS;
+                break;
+            }
+            case ROM_SIZES.SIXTEEN_BANKS: {
+                this.romSize = ROM_SIZES.SIXTEEN_BANKS;
+                break;
+            }
+            case ROM_SIZES.THIRTY_TWO_BANKS: {
+                this.romSize = ROM_SIZES.THIRTY_TWO_BANKS;
+                break;
+            }
+            case ROM_SIZES.SIXTY_FOUR_BANKS: {
+                this.romSize = ROM_SIZES.SIXTY_FOUR_BANKS;
+                break;
+            }
+            case ROM_SIZES.ONE_HUNDRED_TWENTY_EIGHT_BANKS: {
+                this.romSize = ROM_SIZES.ONE_HUNDRED_TWENTY_EIGHT_BANKS;
+                break;
+            }
+            case ROM_SIZES.TWO_HUNDRED_FIFTY_SIX_BANKS: {
+                this.romSize = ROM_SIZES.TWO_HUNDRED_FIFTY_SIX_BANKS;
+                break;
+            }
+            case ROM_SIZES.FIVE_HUNDRED_TWELVE_BANKS: {
+                this.romSize = ROM_SIZES.FIVE_HUNDRED_TWELVE_BANKS;
+                break;
+            }
+            case ROM_SIZES.SEVENTY_TWO_BANKS: {
+                this.romSize = ROM_SIZES.SEVENTY_TWO_BANKS;
+                break;
+            }
+            case ROM_SIZES.EIGHTY_BANKS: {
+                this.romSize = ROM_SIZES.EIGHTY_BANKS;
+                break;
+            }
+            case ROM_SIZES.NINETY_SIX_BANKS: {
+                this.romSize = ROM_SIZES.NINETY_SIX_BANKS;
+                break;
+            }
+            default: {
+                throw new UnsupportedCartridgeROMSizeError(romSize);
+            }
+        }
+    }
+
     private initialize = () => {
         this.initializeProgramName();
         this.initializeProgramManufacturerCode();
@@ -283,6 +343,7 @@ class Cartridge {
         this.initializeLicenseCode();
         this.initializeIsSuperGameBoy();
         this.initializeCartrideType();
+        this.initializeROMSize();
     }
 }
 

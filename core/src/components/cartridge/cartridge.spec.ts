@@ -1,7 +1,8 @@
 import _ from "lodash";
 import Cartridge from "./cartridge";
-import { CARTRIGDE_TYPES } from "./types";
+import { CARTRIGDE_TYPES, ROM_SIZES } from "./types";
 import UnsupportedCartridgeTypeError from "../../errors/UnsupportedCartridgeTypeError";
+import UnsupportedCartridgeROMSizeError from "../../errors/UnsupportedCartridgeROMSizeError";
 
 describe("initializeProgramName", () => {
     test("Should read program name and store it in class variable", () => {
@@ -382,4 +383,148 @@ describe("initializeCartrideType", () => {
 
         expect(() => new Cartridge(EXAMPLE_PROGRAM)).toThrowError(UnsupportedCartridgeTypeError);
     });
-})
+});
+
+describe("initializeROMSize", () => {
+    test("Value of 0x00 should set NO_ROM_BANKING type", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x00
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+        const program = new Cartridge(EXAMPLE_PROGRAM);
+
+        expect(program.getRomSize()).toBe(ROM_SIZES.NO_ROM_BANKING);
+    });
+
+    test("Value of 0x01 should set FOUR_BANKS type", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x01
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+        const program = new Cartridge(EXAMPLE_PROGRAM);
+
+        expect(program.getRomSize()).toBe(ROM_SIZES.FOUR_BANKS);
+    });
+
+    test("Value of 0x02 should set EIGHT_BANKS type", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x02
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+        const program = new Cartridge(EXAMPLE_PROGRAM);
+
+        expect(program.getRomSize()).toBe(ROM_SIZES.EIGHT_BANKS);
+    });
+
+    test("Value of 0x03 should set SIXTEEN_BANKS type", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x03
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+        const program = new Cartridge(EXAMPLE_PROGRAM);
+
+        expect(program.getRomSize()).toBe(ROM_SIZES.SIXTEEN_BANKS);
+    });
+
+    test("Value of 0x04 should set THIRTY_TWO_BANKS type", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x04
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+        const program = new Cartridge(EXAMPLE_PROGRAM);
+
+        expect(program.getRomSize()).toBe(ROM_SIZES.THIRTY_TWO_BANKS);
+    });
+
+    test("Value of 0x05 should set SIXTY_FOUR_BANKS type", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x05
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+        const program = new Cartridge(EXAMPLE_PROGRAM);
+
+        expect(program.getRomSize()).toBe(ROM_SIZES.SIXTY_FOUR_BANKS);
+    });
+
+    test("Value of 0x06 should set ONE_HUNDRED_TWENTY_EIGHT_BANKS type", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x06
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+        const program = new Cartridge(EXAMPLE_PROGRAM);
+
+        expect(program.getRomSize()).toBe(ROM_SIZES.ONE_HUNDRED_TWENTY_EIGHT_BANKS);
+    });
+
+    test("Value of 0x07 should set TWO_HUNDRED_FIFTY_SIX_BANKS type", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x07
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+        const program = new Cartridge(EXAMPLE_PROGRAM);
+
+        expect(program.getRomSize()).toBe(ROM_SIZES.TWO_HUNDRED_FIFTY_SIX_BANKS);
+    });
+
+    test("Value of 0x08 should set FIVE_HUNDRED_TWELVE_BANKS type", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x08
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+        const program = new Cartridge(EXAMPLE_PROGRAM);
+
+        expect(program.getRomSize()).toBe(ROM_SIZES.FIVE_HUNDRED_TWELVE_BANKS);
+    });
+
+    test("Value of 0x52 should set SEVENTY_TWO_BANKS type", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x52
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+        const program = new Cartridge(EXAMPLE_PROGRAM);
+
+        expect(program.getRomSize()).toBe(ROM_SIZES.SEVENTY_TWO_BANKS);
+    });
+
+    test("Value of 0x53 should set EIGHTY_BANKS type", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x53
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+        const program = new Cartridge(EXAMPLE_PROGRAM);
+
+        expect(program.getRomSize()).toBe(ROM_SIZES.EIGHTY_BANKS);
+    });
+
+    test("Value of 0x54 should set NINETY_SIX_BANKS type", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0x54
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+        const program = new Cartridge(EXAMPLE_PROGRAM);
+
+        expect(program.getRomSize()).toBe(ROM_SIZES.NINETY_SIX_BANKS);
+    });
+
+    test("Not suported value should throw error", () => {
+        const EXAMPLE_PROGRAM = _.range(0x147);
+        EXAMPLE_PROGRAM.push(...[
+            0x00, 0xDD
+        ]);
+        EXAMPLE_PROGRAM.push(..._.range(0x400));
+
+        expect(() => new Cartridge(EXAMPLE_PROGRAM)).toThrowError(UnsupportedCartridgeROMSizeError);
+    });
+});
