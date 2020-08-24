@@ -1,0 +1,14 @@
+{
+  "name": "gb-js-multi-emu-website",
+  "version": "1.0.0",
+  "description": "Website UI for GB JS Multi Emu",
+  "main": "index.js",
+  "scripts": {
+      "dev": "serve ./"
+  },
+  "author": "Dariusz Górak",
+  "license": "MIT",
+  "devDependencies": {
+      "serve": "11.3.2"
+  }
+}
