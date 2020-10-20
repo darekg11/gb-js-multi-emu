@@ -2,7 +2,8 @@
   "name": "gb-js-multi-emu-core",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/GameboyEmulator.js",
+  "types": "./dist/GameboyEmulator.d.ts",
   "scripts": {
     "build": "tsc -p ./",
     "start": "npm run build -- -w",
