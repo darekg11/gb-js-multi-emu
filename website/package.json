@@ -1,14 +1,15 @@
 {
-  "name": "gb-js-multi-emu-website",
-  "version": "1.0.0",
-  "description": "Website UI for GB JS Multi Emu",
-  "main": "index.js",
-  "scripts": {
-      "dev": "serve ./"
-  },
-  "author": "Dariusz Górak",
-  "license": "MIT",
-  "devDependencies": {
-      "serve": "11.3.2"
-  }
+    "name": "gb-js-multi-emu-website",
+    "version": "1.0.0",
+    "description": "Website UI for GB JS Multi Emu",
+    "main": "index.js",
+    "scripts": {
+        "dev": "parcel index.html"
+    },
+    "author": "Dariusz Górak",
+    "license": "MIT",
+    "devDependencies": {
+        "parcel": "^1.12.4",
+        "typescript": "^4.0.3"
+    }
 }
