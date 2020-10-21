@@ -55,7 +55,9 @@ class Cartridge {
 
     constructor(data: number[] = []) {
         this.programData = new Uint8Array(data);
-        this.initialize();
+        if (this.programData.length > 0) {
+            this.initialize();
+        }
     }
 
     public getProgramData = (): Uint8Array => {
