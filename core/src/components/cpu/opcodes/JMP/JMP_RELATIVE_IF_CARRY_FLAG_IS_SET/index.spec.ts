@@ -8,7 +8,7 @@ describe("JMP_RELATIVE_IF_CARRY_FLAG_IS_SET", () => {
         const memory = new Memory();
         const PC = 10;
         const RELATIVE_JMP_VALUE = 120;
-        const EXPECTED_PC = PC + RELATIVE_JMP_VALUE;
+        const EXPECTED_PC = PC + RELATIVE_JMP_VALUE + 2;
         const EXPECTED_F_REG_VALUE = 0b0010000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
