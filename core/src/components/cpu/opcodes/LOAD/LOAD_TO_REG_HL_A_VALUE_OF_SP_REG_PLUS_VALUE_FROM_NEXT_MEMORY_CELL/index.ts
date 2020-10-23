@@ -23,7 +23,7 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     if (sum > 0xFF) {
       payload.CPU.setCarryFlag();
     }
-    const shouldSetHalfCarryFlag = (spRegisterValue & 0xF) + (memoryValue & 0xF) > 0xF;
+    const shouldSetHalfCarryFlag = (spRegisterValue & 0xF) + (signedMemoryValue & 0xF) > 0xF;
     if (shouldSetHalfCarryFlag) {
         payload.CPU.setHalfCarryFlag();
     }

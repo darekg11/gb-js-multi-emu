@@ -16,12 +16,13 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     const registerSPValue = payload.CPU.getRegisterSPValue();
     const programCounter = payload.CPU.getProgramCounter();
     const nextMemoryValue = payload.Memory.read8BitsValue(programCounter + 1);
-    const sum = registerSPValue + nextMemoryValue;
+    const signedMemoryValue = nextMemoryValue > 127 ? ((~nextMemoryValue + 1) & 255) : nextMemoryValue;
+    const sum = registerSPValue + signedMemoryValue;
     const wrappedValue = sum & 0xFFFF;
     if (sum > 255) {
         payload.CPU.setCarryFlag();
     }
-    const shouldSetHalfCarryFlag = (registerSPValue & 0xF) + (nextMemoryValue & 0xF) > 0xF;
+    const shouldSetHalfCarryFlag = (registerSPValue & 0xF) + (signedMemoryValue & 0xF) > 0xF;
     if (shouldSetHalfCarryFlag) {
         payload.CPU.setHalfCarryFlag();
     }
