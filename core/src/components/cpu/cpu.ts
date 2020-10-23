@@ -11,7 +11,7 @@ const CARRY_FLAG_BIT = 4;
 
 class CPU {
     // is CPU running?
-    private running: boolean = false;
+    private running: boolean = true;
     // program counter
     private PC: number = 0;
 
@@ -273,6 +273,9 @@ class CPU {
     // Executes single CPU tick
     // Returns number of machine cycles that it took
     public tick(memory: Memory): number {
+        if (!this.running) {
+            return 0;
+        }
         let opCode = memory.read8BitsValue(this.PC);
         const isCB = opCode === 0xCB;
         const jumpTableToUse = isCB ? CB_PREFIX_JUMP_TABLE : NON_PREIFX_JUMP_TABLE;
@@ -282,7 +285,8 @@ class CPU {
         }
         const opCodeHandler = jumpTableToUse[opCode];
         if (opCodeHandler) {
-            return opCodeHandler({ CPU: this, Memory: memory });
+            const instructionTicks = opCodeHandler( { CPU: this, Memory: memory });
+            return instructionTicks;
         } else {
             // apperently some OP CODE is not defined
             return 0;

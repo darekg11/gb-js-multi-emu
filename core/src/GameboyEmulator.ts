@@ -3,7 +3,23 @@ import Memory from "./components/memory";
 import Cartridge from "./components/cartridge";
 
 const DMG_BIOS = [
-    0x31, 0xFE, 0xFF, 0xAF, 0x21, 0xFF, 0x9F, 0x32, 0xCB, 0x7C, 0x20, 0xFB, 0x21, 0x26, 0xFF, 0x0E,
+    0x31, // LD SP, nn - initializing STACK -> LD SP, 0xFFFE
+    0xFE, // n
+    0xFF, // n + 1
+    0xAF, // XOR A A - setting A Register to 0
+    0x21, // LD HL, nn - LD HL, 0x9FFF
+    0xFF, // LD
+    0x9F, // LD
+    0x32, // LD (HL -), A -> Load to [HL] a value of reg A which is 0 and decrease HL
+    0xCB, // CB SWITCH
+    0x7C, // BIT 7H, sets zero flag is true
+    0x20, // JR NZ, n
+    0xFB, // address to jump -> this affectively should jump back to 0x0007 aka  LD (HL -) A looping it back up until all of VRAM is cleared
+    0x21, // LD HL, nn -> LD HL, 0xFF26
+    0x26, 
+    0xFF, 
+    
+    0x0E,
     0x11, 0x3E, 0x80, 0x32, 0xE2, 0x0C, 0x3E, 0xF3, 0xE2, 0x32, 0x3E, 0x77, 0x77, 0x3E, 0xFC, 0xE0,
     0x47, 0x11, 0x04, 0x01, 0x21, 0x10, 0x80, 0x1A, 0xCD, 0x95, 0x00, 0xCD, 0x96, 0x00, 0x13, 0x7B,
     0xFE, 0x34, 0x20, 0xF3, 0x11, 0xD8, 0x00, 0x06, 0x08, 0x1A, 0x13, 0x22, 0x23, 0x05, 0x20, 0xF9,
@@ -31,8 +47,8 @@ class GameboyEmulator {
     // Cartridge instance
     private cartridge = new Cartridge();
 
-    // Cycles passed
-    private cycles: number = 0;
+    // Ticks passed
+    private ticks: number = 0;
 
     private biosSize: number = 0;
 
@@ -55,8 +71,8 @@ class GameboyEmulator {
     }
 
     private tick = () => {
-        const cycles = this.cpu.tick(this.memory);
-        this.cycles += cycles;
+        const tickCount = this.cpu.tick(this.memory);
+        this.ticks += tickCount;
     }
 }
 
