@@ -17,7 +17,8 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     const spRegisterValue = payload.CPU.getRegisterSPValue();
     const currentProgramCounter = payload.CPU.getProgramCounter();
     const memoryValue = payload.Memory.read8BitsValue(currentProgramCounter + 1);
-    const sum = spRegisterValue + memoryValue;
+    const signedMemoryValue = memoryValue > 127 ? ((~memoryValue + 1) & 255) : memoryValue;
+    const sum = spRegisterValue + signedMemoryValue;
     const wrappedValue = sum & 0xFFFF;
     if (sum > 0xFF) {
       payload.CPU.setCarryFlag();
