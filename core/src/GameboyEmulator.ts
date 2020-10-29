@@ -85,6 +85,24 @@ class GameboyEmulator {
         this.tick();
     }
 
+    public getDebugInfo = () => ({
+        PC: this.cpu.getProgramCounter(),
+        A: this.cpu.getRegisterAValue(),
+        B: this.cpu.getRegisterBValue(),
+        C: this.cpu.getRegisterCValue(),
+        D: this.cpu.getRegisterDValue(),
+        E: this.cpu.getRegisterEValue(),
+        F: this.cpu.getRegisterFValue(),
+        H: this.cpu.getRegisterHValue(),
+        L: this.cpu.getRegisterLValue(),
+        HL: this.cpu.getRegisterHLValue(),
+        SP: this.cpu.getRegisterSPValue(),
+    })
+
+    public getMemoryValue = (address: number) => {
+        return this.memory.read8BitsValue(address);
+    }
+
     private tick = () => {
         const tickCount = this.cpu.tick(this.memory);
         this.ticks += tickCount;

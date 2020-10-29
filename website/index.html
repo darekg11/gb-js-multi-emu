@@ -21,5 +21,65 @@
                   </div>
             </div>
         </section>
+        <section class="section">
+            <div class="container">
+                <button onclick="window.singleStep()">STEP</button>
+            </div>
+        </section>
+        <section class="section">
+            <div class="container">
+                <div>
+                    <h4>DEBUG INFO:</h4>
+                    <h3 id="debug_pc">PC: </h3>
+                    <h3 id="debug_reg_a">A: </h3>
+                    <h3 id="debug_reg_b">B: </h3>
+                    <h3 id="debug_reg_c">C: </h3>
+                    <h3 id="debug_reg_d">D: </h3>
+                    <h3 id="debug_reg_e">E: </h3>
+                    <h3 id="debug_reg_f">F: </h3>
+                    <h3 id="debug_reg_h">H: </h3>
+                    <h3 id="debug_reg_l">L: </h3>
+                    <h3 id="debug_reg_hl">HL: </h3>
+                    <h3 id="debug_reg_sp">SP: </h3>
+                    <h3 id="debug_memory_value_index">MEMORY: </h3>
+                </div>
+            </div>
+        </section>
     </body>
+    <script>
+        const runner = window.globalThis.runner;
+        const pc_reg_info_element = document.getElementById("debug_pc");
+        const reg_a_info_element = document.getElementById("debug_reg_a");
+        const reg_b_info_element = document.getElementById("debug_reg_b");
+        const reg_c_info_element = document.getElementById("debug_reg_c");
+        const reg_d_info_element = document.getElementById("debug_reg_d");
+        const reg_e_info_element = document.getElementById("debug_reg_e");
+        const reg_f_info_element = document.getElementById("debug_reg_f");
+        const reg_h_info_element = document.getElementById("debug_reg_h");
+        const reg_l_info_element = document.getElementById("debug_reg_l");
+        const reg_hl_info_element = document.getElementById("debug_reg_hl");
+        const reg_sp_info_element = document.getElementById("debug_reg_sp");
+        const reg_memory_info_element = document.getElementById("debug_memory_value_index");
+
+        const singleStep = () => {
+            runner.tick();
+            getDebugInfo();
+        }
+
+        const getDebugInfo = (memoryIndex = 0) => {
+            const debugInfo = runner.getDebugInfo();
+            pc_reg_info_element.innerHTML = `PC: ${debugInfo.PC}`;
+            reg_a_info_element.innerHTML = `A: ${debugInfo.A}`;
+            reg_b_info_element.innerHTML = `B: ${debugInfo.B}`;
+            reg_c_info_element.innerHTML = `C: ${debugInfo.C}`;
+            reg_d_info_element.innerHTML = `D: ${debugInfo.D}`;
+            reg_e_info_element.innerHTML = `E: ${debugInfo.E}`;
+            reg_f_info_element.innerHTML = `F: ${debugInfo.F}`;
+            reg_h_info_element.innerHTML = `H: ${debugInfo.H}`;
+            reg_l_info_element.innerHTML = `L: ${debugInfo.L}`;
+            reg_hl_info_element.innerHTML = `HL: ${debugInfo.HL}`;
+            reg_sp_info_element.innerHTML = `SP: ${debugInfo.SP}`;
+            reg_memory_info_element.innerHTML = `Memory Index: ${memoryIndex}, value: ${runner.getMemoryValue(memoryIndex)}`
+        }
+    </script>
 </html>
