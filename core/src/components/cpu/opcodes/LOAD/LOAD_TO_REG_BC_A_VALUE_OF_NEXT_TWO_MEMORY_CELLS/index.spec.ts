@@ -6,7 +6,7 @@ describe("LOAD_TO_REG_BC_A_VALUE_OF_NEXT_TWO_MEMORY_CELLS", () => {
     test("Should set value correctly and increase PC by 3", () => {
         const TEST_VALUE_FIRST_HALF = 0xEA;
         const TEST_VALUE_SECOND_HALF = 0xDD;
-        const TEST_VALUE_COMBINED = 0xEADD;
+        const TEST_VALUE_COMBINED = 0xDDEA;
         const cpu = new CPU();
         const memory = new Memory();
         expect(cpu.getRegisterAValue()).toBe(0);
@@ -29,8 +29,8 @@ describe("LOAD_TO_REG_BC_A_VALUE_OF_NEXT_TWO_MEMORY_CELLS", () => {
         handle({ CPU: cpu, Memory: memory });
 
         expect(cpu.getRegisterAValue()).toBe(0);
-        expect(cpu.getRegisterBValue()).toBe(TEST_VALUE_FIRST_HALF);
-        expect(cpu.getRegisterCValue()).toBe(TEST_VALUE_SECOND_HALF);
+        expect(cpu.getRegisterBValue()).toBe(TEST_VALUE_SECOND_HALF);
+        expect(cpu.getRegisterCValue()).toBe(TEST_VALUE_FIRST_HALF);
         expect(cpu.getRegisterDValue()).toBe(0);
         expect(cpu.getRegisterEValue()).toBe(0);
         expect(cpu.getRegisterFValue()).toBe(0);

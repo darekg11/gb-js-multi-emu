@@ -25,8 +25,8 @@ class Memory {
         if (index < 0 || index > this.memory.length - 2) {
             throw new MemoryOutOfBoundError(index);
         }
-        const firstPart = this.memory[index];
-        const secondPart = this.memory[index + 1];
+        const firstPart = this.memory[index + 1];
+        const secondPart = this.memory[index];
         return numberUtils.combineTwo8BitsNumbersInto16BitsNumber(firstPart, secondPart);
     }
 
@@ -36,8 +36,8 @@ class Memory {
             throw new MemoryOutOfBoundError(index);
         }
         const [ firstPart, secondPart ] = numberUtils.split16BitsNumberIntoTwo8BitsNumbers(value);
-        this.memory[index] = firstPart;
-        this.memory[index + 1] = secondPart;
+        this.memory[index] = secondPart;
+        this.memory[index + 1] = firstPart;
     }
 }
 

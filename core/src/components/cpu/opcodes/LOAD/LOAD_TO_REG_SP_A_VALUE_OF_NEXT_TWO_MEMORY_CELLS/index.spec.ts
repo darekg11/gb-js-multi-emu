@@ -6,7 +6,7 @@ describe("LOAD_TO_REG_SP_A_VALUE_OF_NEXT_TWO_MEMORY_CELLS", () => {
     test("Should set value correctly and increase PC by 3", () => {
         const TEST_VALUE_FIRST_HALF = 0xEA;
         const TEST_VALUE_SECOND_HALF = 0xDD;
-        const TEST_VALUE_COMBINED = 0xEADD;
+        const TEST_VALUE_COMBINED = 0xDDEA;
         const cpu = new CPU();
         const memory = new Memory();
         expect(cpu.getRegisterAValue()).toBe(0);

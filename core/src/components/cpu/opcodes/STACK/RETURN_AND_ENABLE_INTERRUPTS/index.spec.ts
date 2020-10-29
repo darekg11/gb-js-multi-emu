@@ -50,8 +50,8 @@ describe("RETURN_AND_ENABLE_INTERRUPTS", () => {
         expect(cpu.isCarryFlagSet()).toBe(false);
         expect(cpu.isHalfCarryFlagSet()).toBe(false);
         expect(cpu.areInterruptsEnabled()).toBe(true);
-        expect(memory.read8BitsValue(SP)).toBe(RETURN_VALUE >> 8);
-        expect(memory.read8BitsValue(SP + 1)).toBe(RETURN_VALUE & 0xFF);
+        expect(memory.read8BitsValue(SP)).toBe(RETURN_VALUE & 0xFF);
+        expect(memory.read8BitsValue(SP + 1)).toBe(RETURN_VALUE >> 8);
         expect(memory.read16BitsValue(SP)).toBe(RETURN_VALUE);
     });
 })

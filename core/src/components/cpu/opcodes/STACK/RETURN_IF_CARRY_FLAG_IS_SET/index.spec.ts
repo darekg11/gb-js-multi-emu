@@ -50,8 +50,8 @@ describe("RETURN_IF_CARRY_FLAG_IS_SET", () => {
         expect(cpu.isSubtractionFlagSet()).toBe(false);
         expect(cpu.isCarryFlagSet()).toBe(true);
         expect(cpu.isHalfCarryFlagSet()).toBe(false);
-        expect(memory.read8BitsValue(SP)).toBe(RETURN_VALUE >> 8);
-        expect(memory.read8BitsValue(SP + 1)).toBe(RETURN_VALUE & 0xFF);
+        expect(memory.read8BitsValue(SP)).toBe(RETURN_VALUE & 0xFF);
+        expect(memory.read8BitsValue(SP + 1)).toBe(RETURN_VALUE >> 8);
         expect(memory.read16BitsValue(SP)).toBe(RETURN_VALUE);
     });
 

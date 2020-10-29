@@ -51,8 +51,8 @@ describe("CALL_IF_ZERO_FLAG_IS_SET", () => {
         expect(cpu.isSubtractionFlagSet()).toBe(false);
         expect(cpu.isCarryFlagSet()).toBe(false);
         expect(cpu.isHalfCarryFlagSet()).toBe(false);
-        expect(memory.read8BitsValue(cpu.getRegisterSPValue())).toBe(PC >> 8);
-        expect(memory.read8BitsValue(cpu.getRegisterSPValue() + 1)).toBe(PC & 0xFF);
+        expect(memory.read8BitsValue(cpu.getRegisterSPValue())).toBe(PC & 0xFF);
+        expect(memory.read8BitsValue(cpu.getRegisterSPValue() + 1)).toBe(PC >> 8);
         expect(memory.read16BitsValue(cpu.getRegisterSPValue())).toBe(PC);
     });
 
