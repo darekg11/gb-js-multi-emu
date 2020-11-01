@@ -31,6 +31,7 @@
                 <div>
                     <h4>DEBUG INFO:</h4>
                     <h3 id="debug_pc">PC: </h3>
+                    <h3 id="debug_current_instruction">Current Instruction (HEX): </h3>
                     <h3 id="debug_reg_a">A: </h3>
                     <h3 id="debug_reg_b">B: </h3>
                     <h3 id="debug_reg_c">C: </h3>
@@ -41,6 +42,10 @@
                     <h3 id="debug_reg_l">L: </h3>
                     <h3 id="debug_reg_hl">HL: </h3>
                     <h3 id="debug_reg_sp">SP: </h3>
+                    <h3 id="debug_zero_flag">Zero Flag state: </h3>
+                    <h3 id="debug_subtraction_flag">Subtraction flag state: </h3>
+                    <h3 id="debug_half_carry_flag">Half carry flag state: </h3>
+                    <h3 id="debug_carry_flag">Carry flag state: </h3>
                     <h3 id="debug_memory_value_index">MEMORY: </h3>
                 </div>
             </div>
@@ -49,6 +54,7 @@
     <script>
         const runner = window.globalThis.runner;
         const pc_reg_info_element = document.getElementById("debug_pc");
+        const current_instruction_info_element = document.getElementById("debug_current_instruction");
         const reg_a_info_element = document.getElementById("debug_reg_a");
         const reg_b_info_element = document.getElementById("debug_reg_b");
         const reg_c_info_element = document.getElementById("debug_reg_c");
@@ -60,6 +66,10 @@
         const reg_hl_info_element = document.getElementById("debug_reg_hl");
         const reg_sp_info_element = document.getElementById("debug_reg_sp");
         const reg_memory_info_element = document.getElementById("debug_memory_value_index");
+        const zero_flag_info_element = document.getElementById("debug_zero_flag");
+        const subtraction_flag_info_element = document.getElementById("debug_subtraction_flag");
+        const half_carry_flag_info_element = document.getElementById("debug_half_carry_flag");
+        const carry_flag_info_element = document.getElementById("debug_carry_flag");
 
         const singleStep = () => {
             runner.tick();
@@ -69,6 +79,7 @@
         const getDebugInfo = (memoryIndex = 0) => {
             const debugInfo = runner.getDebugInfo();
             pc_reg_info_element.innerHTML = `PC: ${debugInfo.PC}`;
+            current_instruction_info_element.innerHTML = `Current Instruction (HEX): 0x${runner.getMemoryValue(debugInfo.PC).toString(16).toUpperCase()}`;
             reg_a_info_element.innerHTML = `A: ${debugInfo.A}`;
             reg_b_info_element.innerHTML = `B: ${debugInfo.B}`;
             reg_c_info_element.innerHTML = `C: ${debugInfo.C}`;
@@ -79,7 +90,13 @@
             reg_l_info_element.innerHTML = `L: ${debugInfo.L}`;
             reg_hl_info_element.innerHTML = `HL: ${debugInfo.HL}`;
             reg_sp_info_element.innerHTML = `SP: ${debugInfo.SP}`;
-            reg_memory_info_element.innerHTML = `Memory Index: ${memoryIndex}, value: ${runner.getMemoryValue(memoryIndex)}`
+            reg_memory_info_element.innerHTML = `Memory Index: ${memoryIndex}, value: ${runner.getMemoryValue(memoryIndex)}`;
+            zero_flag_info_element.innerHTML = `Zero Flag state: ${Number(debugInfo.ZERO_FLAG)}`;
+            subtraction_flag_info_element.innerHTML = `Subtraction Flag state: ${Number(debugInfo.SUBTRACTION_FLAG)}`;
+            half_carry_flag_info_element.innerHTML = `Half Carry Flag state: ${Number(debugInfo.HALF_CARRY_FLAG)}`;
+            carry_flag_info_element.innerHTML = `Carry Flag state: ${Number(debugInfo.CARRY_FLAG)}`;
         }
+
+        getDebugInfo();
     </script>
 </html>

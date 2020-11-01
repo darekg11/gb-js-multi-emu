@@ -97,6 +97,10 @@ class GameboyEmulator {
         L: this.cpu.getRegisterLValue(),
         HL: this.cpu.getRegisterHLValue(),
         SP: this.cpu.getRegisterSPValue(),
+        ZERO_FLAG: this.cpu.isZeroFlagSet(),
+        SUBTRACTION_FLAG: this.cpu.isSubtractionFlagSet(),
+        HALF_CARRY_FLAG: this.cpu.isHalfCarryFlagSet(),
+        CARRY_FLAG: this.cpu.isCarryFlagSet()
     })
 
     public getMemoryValue = (address: number) => {
