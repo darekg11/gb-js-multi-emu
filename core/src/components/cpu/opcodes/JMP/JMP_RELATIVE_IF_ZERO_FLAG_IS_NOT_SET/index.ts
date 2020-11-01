@@ -13,8 +13,11 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     const isZeroFlagSet = payload.CPU.isZeroFlagSet();
     if (!isZeroFlagSet) {
         const currentProgramCounter = payload.CPU.getProgramCounter();
+        console.log(currentProgramCounter);
         const memoryValue = payload.Memory.read8BitsValue(currentProgramCounter + 1);
-        const signedMemoryValue = memoryValue > 127 ? ((~memoryValue + 1) & 255) : memoryValue;
+        console.log(memoryValue);
+        const signedMemoryValue = memoryValue > 127 ? -((~memoryValue + 1) & 255) : memoryValue;
+        console.log(signedMemoryValue);
         payload.CPU.jump(currentProgramCounter + 2 + signedMemoryValue);
         return 12;
     } else {

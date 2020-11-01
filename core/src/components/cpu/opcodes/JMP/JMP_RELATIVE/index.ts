@@ -12,7 +12,7 @@ import { IOpCodeHanlePayload } from "../../types";
 const handle = (payload: IOpCodeHanlePayload): number => {
     const currentProgramCounter = payload.CPU.getProgramCounter();
     const memoryValue = payload.Memory.read8BitsValue(currentProgramCounter + 1);
-    const signedMemoryValue = memoryValue > 127 ? ((~memoryValue + 1) & 255) : memoryValue;
+    const signedMemoryValue = memoryValue > 127 ? -((~memoryValue + 1) & 255) : memoryValue;
     payload.CPU.jump(currentProgramCounter + 2 + signedMemoryValue);
     return 12;
 }
