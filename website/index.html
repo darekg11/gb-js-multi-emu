@@ -24,6 +24,12 @@
         <section class="section">
             <div class="container">
                 <button onclick="window.singleStep()">STEP</button>
+                <button onclick="window.endLoop()">RUN UNTIL BIOS LOOP END</button>
+            </div>
+            <div class="container">
+                <input id="debug_memory_index_input" class="input" type="number" placeholder="Enter memory index">
+                <button class="button" onclick="window.getMemoryValue()">SEARCH</button>
+                <h3 id="debug_memory_value_index">MEMORY: </h3>
             </div>
         </section>
         <section class="section">
@@ -46,7 +52,6 @@
                     <h3 id="debug_subtraction_flag">Subtraction flag state: </h3>
                     <h3 id="debug_half_carry_flag">Half carry flag state: </h3>
                     <h3 id="debug_carry_flag">Carry flag state: </h3>
-                    <h3 id="debug_memory_value_index">MEMORY: </h3>
                 </div>
             </div>
         </section>
@@ -70,16 +75,32 @@
         const subtraction_flag_info_element = document.getElementById("debug_subtraction_flag");
         const half_carry_flag_info_element = document.getElementById("debug_half_carry_flag");
         const carry_flag_info_element = document.getElementById("debug_carry_flag");
+        const memory_index_input = document.getElementById("debug_memory_index_input");
+
+        const endLoop = () => {
+            while (true) {
+                runner.tick();
+                const debugInfo = runner.getDebugInfo();
+                if (debugInfo.PC === 12) {
+                    break;
+                }
+            }
+            getDebugInfo();
+        };
 
         const singleStep = () => {
             runner.tick();
             getDebugInfo();
         }
 
+        const getMemoryValue = () => {
+            const memoryIndex = Number(memory_index_input.value);
+            reg_memory_info_element.innerHTML = `Memory Index: ${memoryIndex}, value: ${runner.getMemoryValue(memoryIndex)}`;
+        }
+
         const getDebugInfo = (memoryIndex = 0) => {
             const debugInfo = runner.getDebugInfo();
             pc_reg_info_element.innerHTML = `PC: ${debugInfo.PC}`;
-            current_instruction_info_element.innerHTML = `Current Instruction (HEX): 0x${runner.getMemoryValue(debugInfo.PC).toString(16).toUpperCase()}`;
             reg_a_info_element.innerHTML = `A: ${debugInfo.A}`;
             reg_b_info_element.innerHTML = `B: ${debugInfo.B}`;
             reg_c_info_element.innerHTML = `C: ${debugInfo.C}`;
@@ -90,11 +111,11 @@
             reg_l_info_element.innerHTML = `L: ${debugInfo.L}`;
             reg_hl_info_element.innerHTML = `HL: ${debugInfo.HL}`;
             reg_sp_info_element.innerHTML = `SP: ${debugInfo.SP}`;
-            reg_memory_info_element.innerHTML = `Memory Index: ${memoryIndex}, value: ${runner.getMemoryValue(memoryIndex)}`;
             zero_flag_info_element.innerHTML = `Zero Flag state: ${Number(debugInfo.ZERO_FLAG)}`;
             subtraction_flag_info_element.innerHTML = `Subtraction Flag state: ${Number(debugInfo.SUBTRACTION_FLAG)}`;
             half_carry_flag_info_element.innerHTML = `Half Carry Flag state: ${Number(debugInfo.HALF_CARRY_FLAG)}`;
             carry_flag_info_element.innerHTML = `Carry Flag state: ${Number(debugInfo.CARRY_FLAG)}`;
+            current_instruction_info_element.innerHTML = `Current Instruction (HEX): 0x${runner.getMemoryValue(debugInfo.PC).toString(16).toUpperCase()}`;
         }
 
         getDebugInfo();
