@@ -27,7 +27,7 @@
                 <button onclick="window.endLoop()">RUN UNTIL BIOS LOOP END</button>
             </div>
             <div class="container">
-                <input id="debug_memory_index_input" class="input" type="number" placeholder="Enter memory index (HEX)">
+                <input id="debug_memory_index_input" class="input" placeholder="Enter memory index (HEX)">
                 <button class="button" onclick="window.getMemoryValue()">SEARCH</button>
                 <h3 id="debug_memory_value_index">MEMORY: </h3>
             </div>
@@ -87,7 +87,7 @@
             while (true) {
                 runner.tick();
                 const debugInfo = runner.getDebugInfo();
-                if (debugInfo.PC === 12) {
+                if (debugInfo.PC === 31) {
                     break;
                 }
             }
@@ -101,6 +101,7 @@
 
         const getMemoryValue = () => {
             const memoryIndex = Number.parseInt(memory_index_input.value, 16);
+            console.log(memoryIndex);
             reg_memory_info_element.innerHTML = `Memory Index: 0x${memoryIndex.toString(16).toUpperCase()}, value: 0x${runner.getMemoryValue(memoryIndex).toString(16).toUpperCase()}`;
         }
 
