@@ -47,6 +47,7 @@
                     <h3 id="debug_reg_h">H: </h3>
                     <h3 id="debug_reg_l">L: </h3>
                     <h3 id="debug_reg_hl">HL: </h3>
+                    <h3 id="debug_reg_de">DE: </h3>
                     <h3 id="debug_reg_sp">SP: </h3>
                     <h3 id="debug_zero_flag">Zero Flag state: </h3>
                     <h3 id="debug_subtraction_flag">Subtraction flag state: </h3>
@@ -69,6 +70,7 @@
         const reg_h_info_element = document.getElementById("debug_reg_h");
         const reg_l_info_element = document.getElementById("debug_reg_l");
         const reg_hl_info_element = document.getElementById("debug_reg_hl");
+        const debug_reg_de_element = document.getElementById("debug_reg_de");
         const reg_sp_info_element = document.getElementById("debug_reg_sp");
         const reg_memory_info_element = document.getElementById("debug_memory_value_index");
         const zero_flag_info_element = document.getElementById("debug_zero_flag");
@@ -87,7 +89,7 @@
             while (true) {
                 runner.tick();
                 const debugInfo = runner.getDebugInfo();
-                if (debugInfo.PC === 31) {
+                if (debugInfo.PC === 33) {
                     break;
                 }
             }
@@ -108,16 +110,17 @@
         const getDebugInfo = (memoryIndex = 0) => {
             const debugInfo = runner.getDebugInfo();
             pc_reg_info_element.innerHTML = `PC: ${debugInfo.PC}`;
-            reg_a_info_element.innerHTML = `A: ${debugInfo.A}`;
-            reg_b_info_element.innerHTML = `B: ${debugInfo.B}`;
-            reg_c_info_element.innerHTML = `C: ${debugInfo.C}`;
-            reg_d_info_element.innerHTML = `D: ${debugInfo.D}`;
-            reg_e_info_element.innerHTML = `E: ${debugInfo.E}`;
-            reg_f_info_element.innerHTML = `F: ${debugInfo.F}`;
-            reg_h_info_element.innerHTML = `H: ${debugInfo.H}`;
-            reg_l_info_element.innerHTML = `L: ${debugInfo.L}`;
-            reg_hl_info_element.innerHTML = `HL: ${debugInfo.HL}`;
-            reg_sp_info_element.innerHTML = `SP: ${debugInfo.SP}`;
+            reg_a_info_element.innerHTML = `A: 0x${debugInfo.A.toString(16).toUpperCase()}`;
+            reg_b_info_element.innerHTML = `B: 0x${debugInfo.B.toString(16).toUpperCase()}`;
+            reg_c_info_element.innerHTML = `C: 0x${debugInfo.C.toString(16).toUpperCase()}`;
+            reg_d_info_element.innerHTML = `D: 0x${debugInfo.D.toString(16).toUpperCase()}`;
+            reg_e_info_element.innerHTML = `E: 0x${debugInfo.E.toString(16).toUpperCase()}`;
+            reg_f_info_element.innerHTML = `F: 0x${debugInfo.F.toString(16).toUpperCase()}`;
+            reg_h_info_element.innerHTML = `H: 0x${debugInfo.H.toString(16).toUpperCase()}`;
+            reg_l_info_element.innerHTML = `L: 0x${debugInfo.L.toString(16).toUpperCase()}`;
+            reg_hl_info_element.innerHTML = `HL: 0x${debugInfo.HL.toString(16).toUpperCase()}`;
+            debug_reg_de_element.innerHTML = `DE: 0x${debugInfo.DE.toString(16).toUpperCase()}`;
+            reg_sp_info_element.innerHTML = `SP: 0x${debugInfo.SP.toString(16).toUpperCase()}`;
             zero_flag_info_element.innerHTML = `Zero Flag state: ${Number(debugInfo.ZERO_FLAG)}`;
             subtraction_flag_info_element.innerHTML = `Subtraction Flag state: ${Number(debugInfo.SUBTRACTION_FLAG)}`;
             half_carry_flag_info_element.innerHTML = `Half Carry Flag state: ${Number(debugInfo.HALF_CARRY_FLAG)}`;
