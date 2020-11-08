@@ -23,6 +23,12 @@
         </section>
         <section class="section">
             <div class="container">
+                <button onclick="window.openROMSelectionDialog()">LOAD ROM</button>
+                <input id="rom_file_picker" accept=".gb,.bin" type="file" style="position: fixed; top: -100em;" />
+            </div>
+        </section>
+        <section class="section">
+            <div class="container">
                 <button onclick="window.singleStep()">STEP</button>
                 <button onclick="window.endLoop()">RUN UNTIL BIOS LOOP END</button>
             </div>
@@ -34,31 +40,42 @@
         </section>
         <section class="section">
             <div class="container">
-                <div>
-                    <h4>DEBUG INFO:</h4>
-                    <h3 id="debug_pc">PC: </h3>
-                    <h3 id="debug_current_instruction">Current Instruction (HEX): </h3>
-                    <h3 id="debug_reg_a">A: </h3>
-                    <h3 id="debug_reg_b">B: </h3>
-                    <h3 id="debug_reg_c">C: </h3>
-                    <h3 id="debug_reg_d">D: </h3>
-                    <h3 id="debug_reg_e">E: </h3>
-                    <h3 id="debug_reg_f">F: </h3>
-                    <h3 id="debug_reg_h">H: </h3>
-                    <h3 id="debug_reg_l">L: </h3>
-                    <h3 id="debug_reg_hl">HL: </h3>
-                    <h3 id="debug_reg_de">DE: </h3>
-                    <h3 id="debug_reg_sp">SP: </h3>
-                    <h3 id="debug_zero_flag">Zero Flag state: </h3>
-                    <h3 id="debug_subtraction_flag">Subtraction flag state: </h3>
-                    <h3 id="debug_half_carry_flag">Half carry flag state: </h3>
-                    <h3 id="debug_carry_flag">Carry flag state: </h3>
+                <div class="columns">
+                    <div class="column">
+                        <h4>CPU DEBUG INFO:</h4>
+                        <h3 id="debug_pc">PC: </h3>
+                        <h3 id="debug_current_instruction">Current Instruction (HEX): </h3>
+                        <h3 id="debug_reg_a">A: </h3>
+                        <h3 id="debug_reg_b">B: </h3>
+                        <h3 id="debug_reg_c">C: </h3>
+                        <h3 id="debug_reg_d">D: </h3>
+                        <h3 id="debug_reg_e">E: </h3>
+                        <h3 id="debug_reg_f">F: </h3>
+                        <h3 id="debug_reg_h">H: </h3>
+                        <h3 id="debug_reg_l">L: </h3>
+                        <h3 id="debug_reg_hl">HL: </h3>
+                        <h3 id="debug_reg_de">DE: </h3>
+                        <h3 id="debug_reg_sp">SP: </h3>
+                        <h3 id="debug_zero_flag">Zero Flag state: </h3>
+                        <h3 id="debug_subtraction_flag">Subtraction flag state: </h3>
+                        <h3 id="debug_half_carry_flag">Half carry flag state: </h3>
+                        <h3 id="debug_carry_flag">Carry flag state: </h3>
+                    </div>
+                    <div class="column">
+                        <h4>ROM DEBUG INFO:</h4>
+                        <h3 id="debug_rom_name">Name: </h3>
+                        <h3 id="debug_rom_manufacturer">Manufacturer: </h3>
+                        <h3 id="debug_rom_is_color">Color Gameboy support: </h3>
+                        <h3 id="debug_rom_is_super">Super Gameboy support: </h3>
+                        <h3 id="debug_rom_type">Type: </h3>
+                    </div>
                 </div>
             </div>
         </section>
     </body>
     <script>
         const runner = window.globalThis.runner;
+
         const pc_reg_info_element = document.getElementById("debug_pc");
         const current_instruction_info_element = document.getElementById("debug_current_instruction");
         const reg_a_info_element = document.getElementById("debug_reg_a");
@@ -78,27 +95,55 @@
         const half_carry_flag_info_element = document.getElementById("debug_half_carry_flag");
         const carry_flag_info_element = document.getElementById("debug_carry_flag");
         const memory_index_input = document.getElementById("debug_memory_index_input");
+        const debug_rom_name_element = document.getElementById("debug_rom_name");
+        const debug_rom_manufacturer_element = document.getElementById("debug_rom_manufacturer");
+        const debug_rom_is_color_element = document.getElementById("debug_rom_is_color");
+        const debug_rom_is_super_element = document.getElementById("debug_rom_is_super");
+        const debug_rom_type_element = document.getElementById("debug_rom_type");
+        const rom_file_input = document.getElementById("rom_file_picker");
         memory_index_input.addEventListener("keyup", ({ key }) => {
             if (key === "Enter") {
                 getMemoryValue();
                 return false;
             }
-        })
+        });
+
+        rom_file_input.addEventListener("change", event => {
+            const romFile = event && event.target && event.target.files && event.target.files[0] || null;
+            if (!romFile) {
+                return;
+            };
+
+            const reader = new FileReader();
+            reader.addEventListener("load", (event) => {
+                if (event.target.result) {
+                    const romData = new Uint8Array(event.target.result);
+                    runner.loadRom(romData);
+                    getCPUDebugInfo();
+                    getROMDebugInfo();
+                }
+            });
+            reader.readAsArrayBuffer(romFile);
+        });
+
+        const openROMSelectionDialog = () => {
+            rom_file_input.click();
+        };
 
         const endLoop = () => {
             while (true) {
                 runner.tick();
-                const debugInfo = runner.getDebugInfo();
+                const debugInfo = runner.getCPUDebugInfo();
                 if (debugInfo.PC === 33) {
                     break;
                 }
             }
-            getDebugInfo();
+            getCPUDebugInfo();
         };
 
         const singleStep = () => {
             runner.tick();
-            getDebugInfo();
+            getCPUDebugInfo();
         }
 
         const getMemoryValue = () => {
@@ -107,8 +152,8 @@
             reg_memory_info_element.innerHTML = `Memory Index: 0x${memoryIndex.toString(16).toUpperCase()}, value: 0x${runner.getMemoryValue(memoryIndex).toString(16).toUpperCase()}`;
         }
 
-        const getDebugInfo = (memoryIndex = 0) => {
-            const debugInfo = runner.getDebugInfo();
+        const getCPUDebugInfo = (memoryIndex = 0) => {
+            const debugInfo = runner.getCPUDebugInfo();
             pc_reg_info_element.innerHTML = `PC: ${debugInfo.PC}`;
             reg_a_info_element.innerHTML = `A: 0x${debugInfo.A.toString(16).toUpperCase()}`;
             reg_b_info_element.innerHTML = `B: 0x${debugInfo.B.toString(16).toUpperCase()}`;
@@ -128,6 +173,15 @@
             current_instruction_info_element.innerHTML = `Current Instruction (HEX): 0x${runner.getMemoryValue(debugInfo.PC).toString(16).toUpperCase()}`;
         }
 
-        getDebugInfo();
+        const getROMDebugInfo = () => {
+            const debugInfo = runner.getROMDebugInfo();
+            debug_rom_name_element.innerHTML = `Name: ${debugInfo.NAME}`;
+            debug_rom_manufacturer_element.innerHTML = `Manufacturer: ${debugInfo.MANUFACTURER}`;
+            debug_rom_is_color_element.innerHTML = `Color Gameboy support: ${debugInfo.IS_COLOR && "YES" || "NO"}`;
+            debug_rom_is_super_element.innerHTML = `Super Gameboy support: ${debugInfo.IS_SUPER && "YES" || "NO"}`;
+            debug_rom_type_element.innerHTML = `Type: ${debugInfo.TYPE}`;
+        }
+
+        getCPUDebugInfo();
     </script>
 </html>

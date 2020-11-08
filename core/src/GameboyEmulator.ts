@@ -47,8 +47,8 @@ const DMG_BIOS = [
           // 2 -> dark fray
           // 3 -> black
     
-    0x11, // LOAD TO REG DE NEXT TWO MEMORY CELLS LD DE, 0x0104
-    0x04, 
+    0x11, // LOAD TO REG DE NEXT TWO MEMORY CELLS LD DE, 0x0104 | 0x104 is destination in ROM where Nintendo log starts
+    0x04, // hence this will copy Nintendo logo to VRAM at 0x8010 after decompression and scaling
     0x01, 
     0x21, // LOAD TO REG HL A NEXT TWO MEMORY CELLS LD HL, 0x8010
     0x10,
@@ -97,13 +97,14 @@ class GameboyEmulator {
         this.cartridge.getProgramData().forEach((value, index) => {
             this.memory.write8BitsValue(index + this.biosSize, value);
         });
+        this.cpu = new CPU();
     }
 
     public run = () => {
         this.tick();
     }
 
-    public getDebugInfo = () => ({
+    public getCPUDebugInfo = () => ({
         PC: this.cpu.getProgramCounter(),
         A: this.cpu.getRegisterAValue(),
         B: this.cpu.getRegisterBValue(),
@@ -120,6 +121,14 @@ class GameboyEmulator {
         SUBTRACTION_FLAG: this.cpu.isSubtractionFlagSet(),
         HALF_CARRY_FLAG: this.cpu.isHalfCarryFlagSet(),
         CARRY_FLAG: this.cpu.isCarryFlagSet()
+    })
+
+    public getROMDebugInfo = () => ({
+        NAME: this.cartridge.getProgramName(),
+        MANUFACTURER: this.cartridge.getProgramManufacturerCode(),
+        IS_COLOR: this.cartridge.isCGB(),
+        IS_SUPER: this.cartridge.isSGB(),
+        TYPE: this.cartridge.getCartridgeType()
     })
 
     public getMemoryValue = (address: number) => {

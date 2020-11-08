@@ -53,7 +53,7 @@ class Cartridge {
     // Specifies where cartridge where suppose to be sold - Japanese / No-Japanese
     private destinationCode: DESTINATION_CODES = DESTINATION_CODES.NON_JAPANESE
 
-    constructor(data: number[] = []) {
+    constructor(data: (number[] | Uint8Array) = []) {
         this.programData = new Uint8Array(data);
         if (this.programData.length > 0) {
             this.initialize();
