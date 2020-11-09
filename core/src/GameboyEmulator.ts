@@ -150,7 +150,9 @@ class GameboyEmulator {
 
     public loadCartridge = (cartridge: Cartridge) => {
         this.cartridge = cartridge;
-        this.cartridge.getProgramData().forEach((value, index) => {
+        // do not copy first 0x100 bytes since at the beggining it's BIOS
+        // which get unammped at the end of BOOT sequence
+        this.cartridge.getProgramData().slice(0x100).forEach((value, index) => {
             this.memory.write8BitsValue(index + this.biosSize, value);
         });
         this.cpu = new CPU();
