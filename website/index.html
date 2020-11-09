@@ -54,6 +54,7 @@
                         <h3 id="debug_reg_h">H: </h3>
                         <h3 id="debug_reg_l">L: </h3>
                         <h3 id="debug_reg_hl">HL: </h3>
+                        <h3 id="debug_reg_bc">BC: </h3>
                         <h3 id="debug_reg_de">DE: </h3>
                         <h3 id="debug_reg_sp">SP: </h3>
                         <h3 id="debug_zero_flag">Zero Flag state: </h3>
@@ -86,6 +87,7 @@
         const reg_f_info_element = document.getElementById("debug_reg_f");
         const reg_h_info_element = document.getElementById("debug_reg_h");
         const reg_l_info_element = document.getElementById("debug_reg_l");
+        const reg_bc_info_element = document.getElementById("debug_reg_bc");
         const reg_hl_info_element = document.getElementById("debug_reg_hl");
         const debug_reg_de_element = document.getElementById("debug_reg_de");
         const reg_sp_info_element = document.getElementById("debug_reg_sp");
@@ -164,6 +166,7 @@
             reg_h_info_element.innerHTML = `H: 0x${debugInfo.H.toString(16).toUpperCase()}`;
             reg_l_info_element.innerHTML = `L: 0x${debugInfo.L.toString(16).toUpperCase()}`;
             reg_hl_info_element.innerHTML = `HL: 0x${debugInfo.HL.toString(16).toUpperCase()}`;
+            reg_bc_info_element.innerHTML = `BC: 0x${debugInfo.BC.toString(16).toUpperCase()}`;
             debug_reg_de_element.innerHTML = `DE: 0x${debugInfo.DE.toString(16).toUpperCase()}`;
             reg_sp_info_element.innerHTML = `SP: 0x${debugInfo.SP.toString(16).toUpperCase()}`;
             zero_flag_info_element.innerHTML = `Zero Flag state: ${Number(debugInfo.ZERO_FLAG)}`;
