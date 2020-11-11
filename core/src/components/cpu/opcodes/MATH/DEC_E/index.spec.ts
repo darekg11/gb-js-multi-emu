@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("DEC_E", () => {
     test("Should decrease E register value, increase PC by 1 and Subtraction flag to 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_E = 2;
         const RESULT = REG_E - 1;
         const EXPECTED_F_REGISTER_VALUE = 0b01000000;
@@ -48,7 +49,7 @@ describe("DEC_E", () => {
 
     test("Result of -1 should set carry flag and zero flag, increase PC by 1 and Subtraction flag to 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_E = 0;
         const RESULT = 255;
         const EXPECTED_F_REG_VALUE = 0b01010000;
@@ -91,7 +92,7 @@ describe("DEC_E", () => {
 
     test("Result of 0 should set zero flag, increase PC by 1 and Subtraction flag to 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_E = 1;
         const EXPECTED_RESULT = REG_E - 1;
         const EXPECTED_F_REG_VALUE = 0b11000000;

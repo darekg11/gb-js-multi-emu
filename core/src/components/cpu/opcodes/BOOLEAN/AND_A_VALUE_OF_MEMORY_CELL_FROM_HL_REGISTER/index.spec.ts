@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("AND_A_VALUE_OF_MEMORY_CELL_FROM_HL_REGISTER", () => {
     test("Should bitwise AND register A and memory value from memory index under HL register, store result in register A. Do not set ZERO flag.", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 5;
         const INDEX = 40401;
         const VALUE = 1;
@@ -52,7 +53,7 @@ describe("AND_A_VALUE_OF_MEMORY_CELL_FROM_HL_REGISTER", () => {
 
     test("Should bitwise AND register A and memory value from memory index under HL register, store result in register A. Do set ZERO flag.", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 4;
         const INDEX = 40401;
         const VALUE = 1;

@@ -1,13 +1,14 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("SWAP_H", () => {
     test("Should swap upper nibble with lower nibble of register H. Should unset Zero Flag if result is not zero.", () => {
         const REG_H_VALUE = 100;
         const EXPETCTED_REG_H_VALUE = 0b01000110; // 70
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b00000000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
@@ -51,7 +52,7 @@ describe("SWAP_H", () => {
         const REG_H_VALUE = 0;
         const EXPETCTED_REG_H_VALUE = 0;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b10000000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);

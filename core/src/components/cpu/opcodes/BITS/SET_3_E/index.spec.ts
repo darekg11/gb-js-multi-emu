@@ -1,13 +1,14 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("SET_3_E", () => {
     test("Should set bit 3 of register E to 1.", () => {
         const REG_E_VALUE = 0;
         const EXPECTED_REG_E_VALUE = 8;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b11110000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);

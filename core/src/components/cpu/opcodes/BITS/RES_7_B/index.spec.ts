@@ -1,13 +1,14 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("RES_7_B", () => {
     test("Should se bit 7 of register B to 0.", () => {
         const REG_B_VALUE = 255;
         const EXPECTED_REG_B_VALUE = 127;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b11110000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);

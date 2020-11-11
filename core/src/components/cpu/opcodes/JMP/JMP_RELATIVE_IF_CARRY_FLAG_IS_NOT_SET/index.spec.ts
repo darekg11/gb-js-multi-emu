@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("JMP_RELATIVE_IF_CARRY_FLAG_IS_NOT_SET", () => {
     test("Should JMP if carry flag is not set", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const PC = 10;
         const RELATIVE_JMP_VALUE = 120;
         const EXPECTED_PC = PC + RELATIVE_JMP_VALUE + 2;
@@ -50,7 +51,7 @@ describe("JMP_RELATIVE_IF_CARRY_FLAG_IS_NOT_SET", () => {
 
     test("Should not JMP if Carry Flag is set", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const PC = 10;
         const RELATIVE_JMP_VALUE = 120;
         const EXPECTED_PC = PC + 2;

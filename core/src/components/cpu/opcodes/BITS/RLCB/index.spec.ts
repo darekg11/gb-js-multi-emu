@@ -1,6 +1,7 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("RLCB", () => {
     test("Should rotate register B value to the left by 1 bit. Should set carry flag if bit 7 of register B is set. Carry flag set", () => {
@@ -8,7 +9,7 @@ describe("RLCB", () => {
         // << 1 + 1 from carry flag in bit 0 & 255
         const EXPETCTED_REG_B_VALUE = 5;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b00010000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
@@ -54,7 +55,7 @@ describe("RLCB", () => {
         // << 1 + 0 from carry flag in bit 0 & 255
         const EXPETCTED_REG_B_VALUE = 64;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b00000000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
@@ -98,7 +99,7 @@ describe("RLCB", () => {
         const REG_B_VALUE = 32;
         const EXPETCTED_REG_B_VALUE = 64;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b00000000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);

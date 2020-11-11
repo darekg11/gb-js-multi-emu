@@ -1,12 +1,13 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("BIT_7_B", () => {
     test("Should unset zero flag if bit 7 of register B is not 0. Subtraction flag should be unset, Half carry flag should be set, Carry flag unchaged.", () => {
         const REG_B_VALUE = 255;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b00110000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);

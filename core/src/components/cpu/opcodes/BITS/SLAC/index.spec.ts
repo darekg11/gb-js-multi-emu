@@ -1,13 +1,14 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("SLAC", () => {
     test("Should rotate register C value to the left by 1 bit. Should set carry flag if bit 7 of register C is set.", () => {
         const REG_C_VALUE = 130;
         const EXPETCTED_REG_C_VALUE = 4;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b00010000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
@@ -51,7 +52,7 @@ describe("SLAC", () => {
         const REG_C_VALUE = 32;
         const EXPETCTED_REG_C_VALUE = 64;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b00000000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);

@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("CPL", () => {
     test("Should flip A Register, set subtraction flag, set half carry flag, substraction flag and do not affect zero flag and carry flag and increase PC by 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 10;
         const EXPECTED_RESULT = 245;
         const EXPECTED_F_REG_VALUE = 0b11110000;

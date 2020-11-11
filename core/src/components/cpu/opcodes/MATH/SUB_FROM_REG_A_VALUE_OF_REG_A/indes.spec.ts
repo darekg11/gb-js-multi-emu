@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("SUB_FROM_REG_A_VALUE_OF_REG_A", () => {
     test("Should subtract value of reg A from reg A, set half carry and carry flag, increase PC by 1 and Subtraction flag to 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 255
         const RESULT = REG_A - REG_A;
         const EXPECTED_F_REG_VALUE = 0b11100000

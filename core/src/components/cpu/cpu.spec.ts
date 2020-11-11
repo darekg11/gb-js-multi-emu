@@ -1,5 +1,6 @@
 import CPU from "./cpu";
 import Memory from "../memory/memory";
+import EventBus from "../event-bus";
 
 describe("CPU - Registers - Sets and Gets", () => {
     test("Register A", () => {
@@ -384,7 +385,7 @@ describe("Tick - executing regular OP Code", () => {
     const cpu = new CPU();
     const NOOP_OP_CODE_MACHINE_CYCLE = 4;
 
-    const memory = new Memory();
+    const memory = new Memory(new EventBus);
     OP_CODES.forEach((opCode, index) => memory.write8BitsValue(index, opCode));
 
     let machineCycles = 0;
@@ -404,7 +405,7 @@ describe("Tick - execute CB prefix OP Code", () => {
     const RLCC_OP_CODE_MACHINE_CYCLES = 8;
     const TOTAL_MACHINE_CYCLES = NOOP_OP_CODE_MACHINE_CYCLES + 0 + RLCC_OP_CODE_MACHINE_CYCLES + NOOP_OP_CODE_MACHINE_CYCLES;
 
-    const memory = new Memory();
+    const memory = new Memory(new EventBus);
     OP_CODES.forEach((opCode, index) => memory.write8BitsValue(index, opCode));
 
     let machineCycles = 0;

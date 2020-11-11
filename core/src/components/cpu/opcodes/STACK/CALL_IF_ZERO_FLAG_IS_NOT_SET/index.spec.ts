@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("CALL_IF_ZERO_FLAG_IS_NOT_SET", () => {
     test("Should CALL if zero flag is not set", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const PC = 56789;
         const SP = 100;
         const CALL_VALUE = 120;
@@ -57,7 +58,7 @@ describe("CALL_IF_ZERO_FLAG_IS_NOT_SET", () => {
 
     test("Should NOT CALL if zero flag is set", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const PC = 56789;
         const SP = 100;
         const CALL_VALUE = 120;

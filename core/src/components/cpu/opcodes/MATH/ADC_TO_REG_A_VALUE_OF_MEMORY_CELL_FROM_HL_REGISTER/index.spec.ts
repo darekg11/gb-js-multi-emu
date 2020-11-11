@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("ADC_TO_REG_A_VALUE_OF_MEMORY_CELL_FROM_HL_REGISTER", () => {
     test("Should add value from memory index under reg HL to reg A, increase PC by 1 and Subtraction flag to 0", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 2;
         const MEMORY_INDEX = 40101;
         const MEMORY_VALUE = 10;
@@ -51,7 +52,7 @@ describe("ADC_TO_REG_A_VALUE_OF_MEMORY_CELL_FROM_HL_REGISTER", () => {
 
     test("Result of 256 should set carry flag and zero flag, increase PC by 1 and Subtraction flag to 0", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 255;
         const MEMORY_INDEX = 40101;
         const MEMORY_VALUE = 1;
@@ -97,7 +98,7 @@ describe("ADC_TO_REG_A_VALUE_OF_MEMORY_CELL_FROM_HL_REGISTER", () => {
 
     test("Result of 16 should set half carry flag, increase PC by 1 and Subtraction flag to 0", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 15;
         const MEMORY_INDEX = 40101;
         const MEMORY_VALUE = 1;
@@ -144,7 +145,7 @@ describe("ADC_TO_REG_A_VALUE_OF_MEMORY_CELL_FROM_HL_REGISTER", () => {
 
     test("Should add value from memory index under reg HL to reg A, increase PC by 1 and Subtraction flag to 0. Should respect Carry Flag", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 2;
         const MEMORY_INDEX = 40101;
         const MEMORY_VALUE = 10;

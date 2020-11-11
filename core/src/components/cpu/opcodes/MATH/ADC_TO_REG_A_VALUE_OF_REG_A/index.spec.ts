@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("ADC_TO_REG_A_VALUE_OF_REG_A", () => {
     test("Should add value of reg A to reg A, increase PC by 1 and Subtraction flag to 0", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 2;
         const RESULT = REG_A + REG_A;
         expect(cpu.getRegisterAValue()).toBe(0);
@@ -47,7 +48,7 @@ describe("ADC_TO_REG_A_VALUE_OF_REG_A", () => {
 
     test("Result of overflowing 255 should set carry flag, increase PC by 1 and Subtraction flag to 0", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 255;
         const RESULT = 254;
         const EXPECTED_F_REG_VALUE = 0b00110000;
@@ -90,7 +91,7 @@ describe("ADC_TO_REG_A_VALUE_OF_REG_A", () => {
 
     test("Should add value of reg B to reg A, increase PC by 1 and Subtraction flag to 0. Should respect Carry Flag", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 2;
         const RESULT = REG_A + REG_A + 1;
         const EXPECTED_F_REG_VALUE = 0b00010000;

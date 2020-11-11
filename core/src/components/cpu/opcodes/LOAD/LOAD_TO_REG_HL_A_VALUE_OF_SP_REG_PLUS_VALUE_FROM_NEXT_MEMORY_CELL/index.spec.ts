@@ -1,6 +1,7 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("LOAD_TO_REG_HL_A_VALUE_OF_SP_REG_PLUS_VALUE_FROM_NEXT_MEMORY_CELL", () => {
     test("Should set value correctly and increase PC by 2", () => {
@@ -9,7 +10,7 @@ describe("LOAD_TO_REG_HL_A_VALUE_OF_SP_REG_PLUS_VALUE_FROM_NEXT_MEMORY_CELL", ()
         const VALUE = 3;
         const EXPECTED_VALUE = REG_SP + VALUE;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
         expect(cpu.getRegisterCValue()).toBe(0);

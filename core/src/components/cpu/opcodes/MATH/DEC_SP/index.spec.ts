@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("DEC SP", () => {
     test("Should decrease SP register value and do not change flag state", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const VALUE = 50001;
         const EXPECTED_VALUE = VALUE - 1;
         const EXPECTED_F_REG_VALUE = 0b11110000

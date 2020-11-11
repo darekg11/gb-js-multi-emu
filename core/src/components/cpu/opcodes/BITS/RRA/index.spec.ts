@@ -1,6 +1,7 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("RRA", () => {
     test("Should rotate register A value to the right by 1 bit. Should set carry flag if zero bit of register A is 1. Carry flag set", () => {
@@ -8,7 +9,7 @@ describe("RRA", () => {
         // >> 1 + 128 from carry flag in bit 7
         const EXPETCTED_REG_A_VALUE = 129;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b00010000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
@@ -54,7 +55,7 @@ describe("RRA", () => {
         // >> 1 + 0 from carry flag in bit 7
         const EXPETCTED_REG_A_VALUE = 1;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b00010000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
@@ -100,7 +101,7 @@ describe("RRA", () => {
         // >> 1 + 128 from carry flag
         const EXPETCTED_REG_A_VALUE = 2 + 128;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b00000000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);

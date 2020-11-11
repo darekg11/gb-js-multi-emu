@@ -1,12 +1,13 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("LOAD_TO_MEMORY_CELL_FROM_HL_REGISTER_VALUE_OF_H_REGISTER", () => {
     test("Should set value correctly and increase PC by 1", () => {
         const TEST_INDEX = 51980;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
         expect(cpu.getRegisterCValue()).toBe(0);

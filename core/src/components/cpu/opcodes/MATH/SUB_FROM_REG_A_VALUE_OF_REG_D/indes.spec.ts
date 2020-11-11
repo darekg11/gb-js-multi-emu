@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("SUB_FROM_REG_A_VALUE_OF_REG_D", () => {
     test("Should subtract value of reg B from reg D, increase PC by 1 and Subtraction flag to 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 10;
         const REG_D = 2;
         const RESULT = REG_A - REG_D;
@@ -50,7 +51,7 @@ describe("SUB_FROM_REG_A_VALUE_OF_REG_D", () => {
 
     test("Result of -1 should set carry flag, increase PC by 1 and Subtraction flag to 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 0;
         const REG_D = 1;
         const RESULT = REG_A - REG_D;
@@ -95,7 +96,7 @@ describe("SUB_FROM_REG_A_VALUE_OF_REG_D", () => {
 
     test("Result of 0 should set zero flag, half-carry flag and increase PC by 1 and Subtraction flag to 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 255;
         const REG_D = 255;
         const RESULT = REG_A - REG_D;

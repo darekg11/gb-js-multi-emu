@@ -1,9 +1,17 @@
 import { numberUtils } from "../../utils/index";
 import MemoryOutOfBoundError from "../../errors/MemoryOutOfBoundError";
+import EventBus from "../event-bus";
+import REGISTERS from "./constants";
+import { UnmapBiosEvent } from "../event-bus/events/UNMAP_BIOS";
 
 const MEMORY_SIZE = 65535;
 
 class Memory {
+    constructor (eventBus: EventBus) {
+        this.eventBus = eventBus;
+    }
+
+    private eventBus = new EventBus();
     private memory = new Uint8Array(MEMORY_SIZE);
 
     public read8BitsValue = (index: number) => {
@@ -17,6 +25,7 @@ class Memory {
         if (index < 0 || index > this.memory.length - 1) {
             throw new MemoryOutOfBoundError(index);
         }
+        this.checkEvents(index, value);
         this.memory[index] = value;
     }
 
@@ -35,9 +44,16 @@ class Memory {
         if (index < 0 || index > this.memory.length - 2) {
             throw new MemoryOutOfBoundError(index);
         }
+        this.checkEvents(index, value);
         const [ firstPart, secondPart ] = numberUtils.split16BitsNumberIntoTwo8BitsNumbers(value);
         this.memory[index] = secondPart;
         this.memory[index + 1] = firstPart;
+    }
+
+    private checkEvents = (index: number, value: number) => {
+        if (index === REGISTERS.MISC.UNMAP_ROM_REGISTER && value === 1) {
+            this.eventBus.emit(new UnmapBiosEvent());
+        }
     }
 }
 

@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("ADD_HL_HL", () => {
     test("Should add value of reg HL to reg HL, increase PC by 1 and Subtraction flag to 0", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_HL = 2;
         const RESULT = REG_HL + REG_HL;
         expect(cpu.getRegisterAValue()).toBe(0);
@@ -47,7 +48,7 @@ describe("ADD_HL_HL", () => {
 
     test("Result of over 65536 should set carry flag, increase PC by 1 and Subtraction flag to 0", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_HL = 34000;
         const EXPECTED_RESULT = (REG_HL + REG_HL) & 65535;
         const EXPECTED_F_REG_VALUE = 0b00010000;

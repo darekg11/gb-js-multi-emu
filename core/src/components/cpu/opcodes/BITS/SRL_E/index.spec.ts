@@ -1,6 +1,7 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("SRL_E", () => {
     test("Should rotate register E value to the right by 1 bit. Should set carry flag if bit 0 of register E is set. Should unset zero flag if result is not zero.", () => {
@@ -9,7 +10,7 @@ describe("SRL_E", () => {
         // 16 & 255 === 16
         const EXPETCTED_REG_E_VALUE = 16;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b00010000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
@@ -53,7 +54,7 @@ describe("SRL_E", () => {
         const REG_E_VALUE = 32;
         const EXPETCTED_REG_E_VALUE = 16;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b00000000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
@@ -98,7 +99,7 @@ describe("SRL_E", () => {
         const REG_E_VALUE = 0;
         const EXPETCTED_REG_E_VALUE = 0;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b10000000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);

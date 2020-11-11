@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("ADD_HL_BC", () => {
     test("Should add value of reg BC to reg HL, increase PC by 1 and Subtraction flag to 0", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_HL = 2;
         const REG_BC = 10;
         const RESULT = REG_HL + REG_BC;
@@ -49,7 +50,7 @@ describe("ADD_HL_BC", () => {
 
     test("Result of 65536 should set carry flag, increase PC by 1 and Subtraction flag to 0", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_HL = 65535;
         const REG_BC = 1;
         const EXPECTED_F_REG_VALUE = 0b00110000;

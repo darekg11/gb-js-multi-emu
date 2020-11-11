@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("XOR A", () => {
     test("Should bitwise XOR register A and register A, store result in register A. Do set ZERO flag.", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 4;
         const EXPECTED_RESULT = REG_A ^ REG_A;
         const EXPECTED_F_REG_VALUE = 0b10000000;

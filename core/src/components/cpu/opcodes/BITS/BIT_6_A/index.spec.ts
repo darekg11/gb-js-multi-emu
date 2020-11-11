@@ -1,12 +1,13 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("BIT_6_A", () => {
     test("Shoud set zero flag if bit 6 of register A is 0. Subtraction flag should be unset, Half carry flag should be set, Carry flag unchaged.", () => {
         const REG_A_VALUE = 128;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b10110000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
@@ -51,7 +52,7 @@ describe("BIT_6_A", () => {
     test("Should unset zero flag if bit 6 of register A is not 0. Subtraction flag should be unset, Half carry flag should be set, Carry flag unchaged.", () => {
         const REG_A_VALUE = 65;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b00110000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);

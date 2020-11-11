@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("JMP", () => {
     test("Should JMP", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const PC = 10;
         const JMP_VALUE_FIRST_HALF = 0xAA;
         const JMP_VALUE_SECOND_HALF = 0xBB;

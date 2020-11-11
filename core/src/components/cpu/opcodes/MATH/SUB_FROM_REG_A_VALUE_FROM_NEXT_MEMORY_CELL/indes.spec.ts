@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("SUB_FROM_REG_A_VALUE_FROM_NEXT_MEMORY_CELL", () => {
     test("Should subtract value of next memory cell from reg A, increase PC by 2 and Subtraction flag to 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 10;
         const VALUE = 2;
         const RESULT = REG_A - VALUE;
@@ -50,7 +51,7 @@ describe("SUB_FROM_REG_A_VALUE_FROM_NEXT_MEMORY_CELL", () => {
 
     test("Result of -1 should set carry flag, increase PC by 1 and Subtraction flag to 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 0;
         const VALUE = 1;
         const RESULT = REG_A - VALUE;
@@ -95,7 +96,7 @@ describe("SUB_FROM_REG_A_VALUE_FROM_NEXT_MEMORY_CELL", () => {
 
     test("Result of 0 should set zero flag, half-carry flag and increase PC by 1 and Subtraction flag to 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 255;
         const VALUE = 255;
         const RESULT = REG_A - VALUE;

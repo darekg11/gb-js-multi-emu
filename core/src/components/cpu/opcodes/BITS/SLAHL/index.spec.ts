@@ -1,6 +1,7 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("SLAH", () => {
     test("Should rotate value from memory index under HL register to the left by 1 bit. Should set carry flag if bit 7 of value from memory index under HL register is set.", () => {
@@ -8,7 +9,7 @@ describe("SLAH", () => {
         const MEMORY_VALUE = 130;
         const EXPECTED_MEMORY_VALUE = 4;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b00010000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
@@ -55,7 +56,7 @@ describe("SLAH", () => {
         const MEMORY_VALUE = 32;
         const EXPECTED_MEMORY_VALUE = 64;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b00000000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);

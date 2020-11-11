@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("INC_D", () => {
     test("Should increase D register value, increase PC by 1 and Subtraction flag to 0", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_D = 2;
         const RESULT = REG_D + 1;
         const EXPECTED_F_REGISTER_VALUE = 0b0000000;
@@ -48,7 +49,7 @@ describe("INC_D", () => {
 
     test("Result of 256 should set carry flag and zero flag, increase PC by 1 and Subtraction flag to 0", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_D = 255;
         const RESULT = 0;
         const EXPECTED_F_REG_VALUE = 0b10110000;
@@ -91,7 +92,7 @@ describe("INC_D", () => {
 
     test("Result of 16 should set half carry flag, increase PC by 1 and Subtraction flag to 0", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_D = 15;
         const EXPECTED_RESULT = REG_D + 1;
         const EXPECTED_F_REG_VALUE = 0b00100000;

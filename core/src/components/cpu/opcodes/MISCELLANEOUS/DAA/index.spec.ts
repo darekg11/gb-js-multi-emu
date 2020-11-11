@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("DAA", () => {
     test("Should add 0x06 to register A if value is above 9 but not above 0x99 and last operation was addition. Increase PC by 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 10;
         const EXPECTED_RESULT = REG_A + 0x06;
         const EXPECTED_F_REG_VALUE = 0b00000000;
@@ -50,7 +51,7 @@ describe("DAA", () => {
 
     test("Should add 0x06 to register A if half carry flag is set and last operation was addition. Increase PC by 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 8;
         const EXPECTED_RESULT = REG_A + 0x06;
         const EXPECTED_F_REG_VALUE = 0b00000000;
@@ -96,7 +97,7 @@ describe("DAA", () => {
 
     test("Should add 0x60 to register A if carry flag is set and last operation was addition. Increase PC by 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 8;
         const EXPECTED_RESULT = REG_A + 0x60;
         const EXPECTED_F_REG_VALUE = 0b00010000;
@@ -142,7 +143,7 @@ describe("DAA", () => {
 
     test("Should add 0x60 to register A if value is above 0x99 and last operation was addition. Increase PC by 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 0x9A
         const EXPECTED_F_REG_VALUE = 0b10010000;
 
@@ -186,7 +187,7 @@ describe("DAA", () => {
 
     test("Should sub 0x06 from register A if half carry flag is set and last operation was sub. Increase PC by 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 8;
         const EXPECTED_RESULT = REG_A - 0x06;
         const EXPECTED_F_REG_VALUE = 0b01000000;
@@ -232,7 +233,7 @@ describe("DAA", () => {
 
     test("Should sub 0x60 to register A if carry flag is set and last operation was sub. Increase PC by 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 0x9A;
         const EXPECTED_RESULT = REG_A - 0x60;
         const EXPECTED_F_REG_VALUE = 0b01010000;

@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("CCF", () => {
     test("Should flip carry flag to 1, unset half carry flag, substraction flag and do not affect zero flag and increase PC by 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b10010000;
 
         expect(cpu.getRegisterAValue()).toBe(0);
@@ -49,7 +50,7 @@ describe("CCF", () => {
 
     test("Should flip carry flag to 0, unset half carry flag, substraction flag and do not affect zero flag and increase PC by 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b10000000;
 
         expect(cpu.getRegisterAValue()).toBe(0);

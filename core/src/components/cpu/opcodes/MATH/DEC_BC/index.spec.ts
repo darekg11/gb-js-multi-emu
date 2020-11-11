@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("DEC BC", () => {
     test("Should decrease BC register value and do not change flag state", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_B = 10;
         const REG_C = 20;
         const EXPECTED_BC_VALUE =  REG_B << 8 | REG_C;

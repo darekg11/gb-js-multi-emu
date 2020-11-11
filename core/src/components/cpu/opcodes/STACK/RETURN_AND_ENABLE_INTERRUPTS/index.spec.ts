@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("RETURN_AND_ENABLE_INTERRUPTS", () => {
     test("Should RETURN and enable interrupts", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const PC = 56789;
         const SP = 100;
         const RETURN_VALUE = 56789;

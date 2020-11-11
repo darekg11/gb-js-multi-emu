@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("RETURN_IF_CARRY_FLAG_IS_SET", () => {
     test("Should RETURN if carry flag is set", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus());
         const PC = 56789;
         const SP = 100;
         const RETURN_VALUE = 56789;
@@ -57,7 +58,7 @@ describe("RETURN_IF_CARRY_FLAG_IS_SET", () => {
 
     test("Should NOT RETURN if carry flag is NOT set", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const PC = 56789;
         const SP = 100;
         const RETURN_VALUE = 56789;

@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("ADD_TO_REG_A_VALUE_OF_REG_D", () => {
     test("Should add value of reg D to reg A, increase PC by 1 and Subtraction flag to 0", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 2;
         const REG_D = 10;
         const RESULT = REG_A + REG_D;
@@ -49,7 +50,7 @@ describe("ADD_TO_REG_A_VALUE_OF_REG_D", () => {
 
     test("Result of 256 should set carry flag and zero flag, increase PC by 1 and Subtraction flag to 0", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 255;
         const REG_D = 1;
         const EXPECTED_F_REG_VALUE = 0b10110000;
@@ -93,7 +94,7 @@ describe("ADD_TO_REG_A_VALUE_OF_REG_D", () => {
 
     test("Result of 16 should set half carry flag, increase PC by 1 and Subtraction flag to 0", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 15;
         const REG_D = 1;
         const EXPECTED_RESULT = REG_A + REG_D;
@@ -138,7 +139,7 @@ describe("ADD_TO_REG_A_VALUE_OF_REG_D", () => {
 
     test("Should add value of reg D to reg A, increase PC by 1 and Subtraction flag to 0. Should respect Carry Flag", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 2;
         const REG_D = 10;
         const RESULT = REG_A + REG_D + 1;

@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("XOR_A_VALUE_FROM_NEXT_MEMORY_CELL", () => {
     test("Should bitwise XOR register A and value of next memory cell (PC++), store result in register A. Do not set ZERO flag.", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 5;
         const VALUE = 1;
         const EXPECTED_RESULT = REG_A ^ VALUE;
@@ -50,7 +51,7 @@ describe("XOR_A_VALUE_FROM_NEXT_MEMORY_CELL", () => {
 
     test("Should bitwise XOR register A and value from next memory cell, store result in register A. Do set ZERO flag.", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 4;
         const VALUE = 4;
         const EXPECTED_RESULT = REG_A ^ VALUE;

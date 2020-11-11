@@ -1,6 +1,8 @@
 import CPU from "./components/cpu";
 import Memory from "./components/memory";
 import Cartridge from "./components/cartridge";
+import EventBus from "./components/event-bus";
+import { EVENT_TYPES } from "./components/event-bus/types";
 
 const DMG_BIOS = [
     0x31, // LD SP, nn - initializing STACK -> LD SP, 0xFFFE
@@ -156,8 +158,11 @@ class GameboyEmulator {
     // CPU instance
     private cpu = new CPU();
 
+    // Event Bus instance
+    private eventBus = new EventBus();
+
     // Memory instance
-    private memory = new Memory();
+    private memory = new Memory(this.eventBus);
 
     // Cartridge instance
     private cartridge = new Cartridge();
@@ -172,6 +177,20 @@ class GameboyEmulator {
             this.memory.write8BitsValue(index, value);
         });
         this.biosSize = DMG_BIOS.length;
+        this.initializeEventBus();
+    }
+
+    private initializeEventBus = () => {
+        this.eventBus.addHandler({
+            type: EVENT_TYPES.UNAMP_BIOS,
+            callback: this.unmapBios
+        })
+    }
+
+    private unmapBios = () => {
+        this.cartridge.getProgramData().forEach((value, index) => {
+            this.memory.write8BitsValue(index, value);
+        });
     }
 
     public loadCartridge = (cartridge: Cartridge) => {

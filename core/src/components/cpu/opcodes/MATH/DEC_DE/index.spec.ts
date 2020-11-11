@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("DEC DE", () => {
     test("Should decrease DE register value and do not change flag state", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_D = 10;
         const REG_E = 20;
         const EXPECTED_DE_VALUE =  REG_D << 8 | REG_E;

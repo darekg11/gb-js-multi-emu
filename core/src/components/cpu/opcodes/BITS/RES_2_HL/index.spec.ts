@@ -1,6 +1,7 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("RES_2_HL", () => {
     test("Should se bit 2 of value under memory index from register HL to 0.", () => {
@@ -8,7 +9,7 @@ describe("RES_2_HL", () => {
         const MEMORY_VALUE = 255;
         const EXPECTED_MEMORY_VALUE = 251;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b11110000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);

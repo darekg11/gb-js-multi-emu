@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("ADD_TO_REG_A_VALUE_FROM_NEXT_MEMORY_CELL", () => {
     test("Should add value of next memory cell to reg A, increase PC by 2 and Subtraction flag to 0", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 2;
         const VALUE = 2;
         const RESULT = REG_A + VALUE;
@@ -49,7 +50,7 @@ describe("ADD_TO_REG_A_VALUE_FROM_NEXT_MEMORY_CELL", () => {
 
     test("Result of 256 should set carry flag, increase PC by 2 and Subtraction flag to 0", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 255;
         const VALUE = 1;
         const RESULT = 0;

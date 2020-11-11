@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("AND H", () => {
     test("Should bitwise AND register A and register H, store result in register A. Do not set ZERO flag.", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 5;
         const REG_H = 1;
         const EXPECTED_RESULT = REG_A & REG_H;
@@ -50,7 +51,7 @@ describe("AND H", () => {
 
     test("Should bitwise AND register A and register H, store result in register A. Do set ZERO flag.", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 4;
         const REG_H = 1;
         const EXPECTED_RESULT = REG_A & REG_H;

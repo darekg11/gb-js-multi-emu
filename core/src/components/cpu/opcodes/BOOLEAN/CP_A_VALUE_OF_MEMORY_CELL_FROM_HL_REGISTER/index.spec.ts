@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("CP_L", () => {
     test("Should not set zero flag, increase PC by 1 and Subtraction flag to 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 10;
         const INDEX = 40401;
         const VALUE = 2;
@@ -51,7 +52,7 @@ describe("CP_L", () => {
 
     test("Result of -1 should set carry flag, increase PC by 1 and Subtraction flag to 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 0;
         const INDEX = 40401;
         const VALUE = 1;
@@ -97,7 +98,7 @@ describe("CP_L", () => {
 
     test("Result of 0 should set zero flag, half-carry flag and increase PC by 1 and Subtraction flag to 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const REG_A = 255;
         const INDEX = 40401;
         const VALUE = 255;

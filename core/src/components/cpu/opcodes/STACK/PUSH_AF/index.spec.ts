@@ -1,11 +1,12 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("PUSH_AF", () => {
     test("Should store A and F registers on stack, decreases SP Register by 2, increase PC by 1", () => {
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const SP_INDEX = 20981;
         const EXPECTED_SP_INDEX = SP_INDEX - 2;
         const REG_A_VALUE = 10;

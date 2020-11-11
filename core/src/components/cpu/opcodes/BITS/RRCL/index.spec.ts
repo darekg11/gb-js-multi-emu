@@ -1,6 +1,7 @@
 import handle from "./index";
 import CPU from "../../../cpu";
 import Memory from "../../../../memory/memory";
+import EventBus from "../../../../event-bus";
 
 describe("RRCL", () => {
     test("Should rotate register L value to the right by 1 bit. Should set carry flag if bit 0 of register L is set.", () => {
@@ -11,7 +12,7 @@ describe("RRCL", () => {
         // 16 + 128 == 144
         const EXPETCTED_REG_L_VALUE = 144;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b00010000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
@@ -54,7 +55,7 @@ describe("RRCL", () => {
         const REG_L_VALUE = 32;
         const EXPETCTED_REG_L_VALUE = 16;
         const cpu = new CPU();
-        const memory = new Memory();
+        const memory = new Memory(new EventBus);
         const EXPECTED_F_REG_VALUE = 0b00000000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
