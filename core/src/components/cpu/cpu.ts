@@ -276,17 +276,20 @@ class CPU {
         if (!this.running) {
             return 0;
         }
+
+        let ticks = 0;
         let opCode = memory.read8BitsValue(this.PC);
         const isCB = opCode === 0xCB;
         const jumpTableToUse = isCB ? CB_PREFIX_JUMP_TABLE : NON_PREIFX_JUMP_TABLE;
         if (isCB) {
             // read next OP Code in case of CB
             opCode = memory.read8BitsValue(this.PC + 1);
+            ticks += 4;
         }
         const opCodeHandler = jumpTableToUse[opCode];
         if (opCodeHandler) {
             const instructionTicks = opCodeHandler( { CPU: this, Memory: memory });
-            return instructionTicks;
+            return ticks + instructionTicks;
         } else {
             // apperently some OP CODE is not defined
             return 0;

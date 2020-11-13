@@ -181,6 +181,9 @@ class GameboyEmulator {
             DMG_BIOS.forEach((value, index) => {
                 this.memory.write8BitsValue(index, value);
             });
+        } else {
+            // Make sure to setup SP if BIOS is not loaded
+            this.cpu.setRegisterSPValue(0xFFFE);
         }
         this.biosSize = DMG_BIOS.length;
         this.initializeEventBus();
