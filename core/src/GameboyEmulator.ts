@@ -3,6 +3,7 @@ import Memory from "./components/memory";
 import Cartridge from "./components/cartridge";
 import EventBus from "./components/event-bus";
 import { EVENT_TYPES } from "./components/event-bus/types";
+import { DefaultEmulatorSettings } from "./types";
 
 const DMG_BIOS = [
     0x31, // LD SP, nn - initializing STACK -> LD SP, 0xFFFE
@@ -167,15 +168,20 @@ class GameboyEmulator {
     // Cartridge instance
     private cartridge = new Cartridge();
 
+    private settings = new DefaultEmulatorSettings();
+
     // Ticks passed
     private ticks: number = 0;
 
     private biosSize: number = 0;
 
-    constructor() {
-        DMG_BIOS.forEach((value, index) => {
-            this.memory.write8BitsValue(index, value);
-        });
+    constructor(settings = new DefaultEmulatorSettings()) {
+        this.settings = settings;
+        if (this.settings.load_bios) {
+            DMG_BIOS.forEach((value, index) => {
+                this.memory.write8BitsValue(index, value);
+            });
+        }
         this.biosSize = DMG_BIOS.length;
         this.initializeEventBus();
     }
@@ -194,11 +200,12 @@ class GameboyEmulator {
     }
 
     public loadCartridge = (cartridge: Cartridge) => {
+        const shouldLoadBIOS = this.settings.load_bios;
         this.cartridge = cartridge;
         // do not copy first 0x100 bytes since at the beggining it's BIOS
         // which get unammped at the end of BOOT sequence
-        this.cartridge.getProgramData().slice(0x100).forEach((value, index) => {
-            this.memory.write8BitsValue(index + this.biosSize, value);
+        this.cartridge.getProgramData().slice(shouldLoadBIOS ? 0x100 : 0x00).forEach((value, index) => {
+            this.memory.write8BitsValue(index + (shouldLoadBIOS ? this.biosSize : 0), value);
         });
         this.cpu = new CPU();
     }

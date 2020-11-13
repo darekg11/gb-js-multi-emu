@@ -51,7 +51,7 @@ class Memory {
     }
 
     private checkEvents = (index: number, value: number) => {
-        if (index === REGISTERS.MISC.UNMAP_ROM_REGISTER && value === 1) {
+        if (index === REGISTERS.MISC.UNMAP_ROM_REGISTER && value !== 0) {
             this.eventBus.emit(new UnmapBiosEvent());
         }
     }
