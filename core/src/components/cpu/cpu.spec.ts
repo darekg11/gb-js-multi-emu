@@ -403,7 +403,8 @@ describe("Tick - execute CB prefix OP Code", () => {
     const cpu = new CPU();
     const NOOP_OP_CODE_MACHINE_CYCLES = 4;
     const RLCC_OP_CODE_MACHINE_CYCLES = 8;
-    const TOTAL_MACHINE_CYCLES = NOOP_OP_CODE_MACHINE_CYCLES + 0 + RLCC_OP_CODE_MACHINE_CYCLES + NOOP_OP_CODE_MACHINE_CYCLES;
+    const CB_PREFIX_MAHCINE_CYCLES = 4;
+    const TOTAL_MACHINE_CYCLES = NOOP_OP_CODE_MACHINE_CYCLES + 0 + RLCC_OP_CODE_MACHINE_CYCLES + NOOP_OP_CODE_MACHINE_CYCLES + CB_PREFIX_MAHCINE_CYCLES
 
     const memory = new Memory(new EventBus);
     OP_CODES.forEach((opCode, index) => memory.write8BitsValue(index, opCode));

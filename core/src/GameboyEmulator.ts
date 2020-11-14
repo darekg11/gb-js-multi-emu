@@ -77,11 +77,83 @@ const DMG_BIOS = [
     0x06, // LD B, 0x08
     0x08,
     
-    0x1A, 0x13, 0x22, 0x23, 0x05, 0x20, 0xF9,
-    0x3E, 0x19, 0xEA, 0x10, 0x99, 0x21, 0x2F, 0x99, 0x0E, 0x0C, 0x3D, 0x28, 0x08, 0x32, 0x0D, 0x20,
-    0xF9, 0x2E, 0x0F, 0x18, 0xF3, 0x67, 0x3E, 0x64, 0x57, 0xE0, 0x42, 0x3E, 0x91, 0xE0, 0x40, 0x04,
-    0x1E, 0x02, 0x0E, 0x0C, 0xF0, 0x44, 0xFE, 0x90, 0x20, 0xFA, 0x0D, 0x20, 0xF7, 0x1D, 0x20, 0xF2,
-    0x0E, 0x13, 0x24, 0x7C, 0x1E, 0x83, 0xFE, 0x62, 0x28, 0x06, 0x1E, 0xC1, 0xFE, 0x64, 0x20, 0x06,
+    0x1A, // LD A, [DE] LD A, 0x00D8
+    0x13, // INC DE
+    0x22, // LD [HL+], A
+    0x23, // INC HL
+    0x05, // DEC B
+    0x20, // JR NZ n
+    0xF9,
+    0x3E, // LD A, d8 - LD A, 0x19 -- Setup background tilemap
+    0x19,
+    0xEA, // LD [d16] A -> LD [0x9910] 0x19
+    0x10,
+    0x99,
+    0x21, // LD HL, d16 -> LD HL, 0x992F
+    0x2F,
+    0x99, 
+    0x0E, // LD C, d8 -> LD C, 0x0C
+    0x0C,
+    0x3D, // DEC A
+    0x28, // JR NZ n
+    0x08,
+    0x32, // LD [HL-] A
+    0x0D, // DEC C
+    0x20, // JR NZ n
+    0xF9,
+    0x2E, // LD L, n -> LD L, 0x0F
+    0x0F,
+    0x18, // JMP RELATIVE d8
+    0xF3,
+
+    // scrolling routing + playing sound
+    0x67, // LD H, A - LD H, 0 -> H is scroll count
+    0x3E, // LD A, d8 -> LD A, 0x64
+    0x64, 
+    0x57, // LD D, A -> LD D, 0x64 Loop count = 0x64
+    0xE0, // LDH (n) A, LD 0xFF42 A -> LD 0xFF42 0x64 -> 0xFF42 is SCROLL Y Register
+    0x42,
+    0x3E, // LD A, d8 -> LD A, 0x91
+    0x91,
+    0xE0, // LDH (n) A, LD 0xFF40 A -> LD 0xFF40 0x91 -> 0xFF40 is LCD Control Register
+          //  Bit 7 - LCD Display Enable             (0=Off, 1=On)
+          //  Bit 6 - Window Tile Map Display Select (0=9800-9BFF, 1=9C00-9FFF)
+          //  Bit 5 - Window Display Enable          (0=Off, 1=On)
+          //  Bit 4 - BG & Window Tile Data Select   (0=8800-97FF, 1=8000-8FFF)
+          //  Bit 3 - BG Tile Map Display Select     (0=9800-9BFF, 1=9C00-9FFF)
+          //  Bit 2 - OBJ (Sprite) Size              (0=8x8, 1=8x16)
+          //  Bit 1 - OBJ (Sprite) Display Enable    (0=Off, 1=On)
+          //  Bit 0 - BG/Window Display/Priority     (0=Off, 1=On)
+          //  0x91 === 1001 0001
+          //  Bit 0 === 1
+          //  Bit 4 === 1
+          //  Bit 7 === 1
+    0x40,
+    0x04, // INC B
+    0x1E, // LD E, d8 -> LD E, 0x02
+    0x02,
+    0x0E, // LD C, d8 -> LD C, 0x0C
+    0x0C,
+    0xF0, // LD A, [0xFF + d8] -> LD A, [0xFF44] 0xFF44 - LY Register
+    0x44,
+    0xFE, // CP A, d8 -> CP A, 0x90 -> CP A, 144 - value of 144 in LY Register indicates V-Blank period
+    0x90,
+    0x20, // JR NZ d8 -> this is a loop that will wait until V-Blank
+    0xFA, 
+    0x0D, // DEC C
+    0x20, // JR NZ d8
+    0xF7,
+    0x1D, // DEC E
+    0x20, // JR NZ d8
+    0xF2,
+    0x0E, // LD C, d -> LD C, 0x13
+    0x13, 
+    0x24, // INC H -> increment scroll count
+    0x7C, // LD A, H
+
+    
+    0x1E,
+    0x83, 0xFE, 0x62, 0x28, 0x06, 0x1E, 0xC1, 0xFE, 0x64, 0x20, 0x06,
     0x7B, 0xE2, 0x0C, 0x3E, 0x87, 0xE2, 0xF0, 0x42, 0x90, 0xE0, 0x42, 0x15, 0x20, 0xD2, 0x05, 0x20,
     0x4F, 0x16, 0x20, 0x18, 0xCB, 
     
@@ -181,9 +253,6 @@ class GameboyEmulator {
             DMG_BIOS.forEach((value, index) => {
                 this.memory.write8BitsValue(index, value);
             });
-        } else {
-            // Make sure to setup SP if BIOS is not loaded
-            this.cpu.setRegisterSPValue(0xFFFE);
         }
         this.biosSize = DMG_BIOS.length;
         this.initializeEventBus();
@@ -211,6 +280,10 @@ class GameboyEmulator {
             this.memory.write8BitsValue(index + (shouldLoadBIOS ? this.biosSize : 0), value);
         });
         this.cpu = new CPU();
+        if (!shouldLoadBIOS) {
+            // Make sure to setup SP if BIOS is not loaded
+            this.cpu.setRegisterSPValue(0xFFFE);
+        }
     }
 
     public run = () => {
