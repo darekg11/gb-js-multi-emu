@@ -30,8 +30,28 @@ const VRAM_AREA_END_INDEX = 0x9FFF;
 
 const UNMAP_ROM_REGISTER = 0xFF50; // Set to non-zero to disable boot ROM unmapping it and moving ROM to the begginig of memory -> done at the end of BIOS sequence.
 
+const TIMA_REGISTER = 0xFF05; // READ / WRITE
+                              // The timer is located in memoy address 0xFF05 and will count up at a set frequency.
+                              // Whenever the timer overflows it requests a timer interupt and then resets itself to the value of the timer modulator in memory address 0xFF06
+const TAC_REGISTER = 0xFF07;  // Frequency determining speed of timer incrementation.
+                              // Possible values and meaning:
+                              // https://gbdev.io/pandocs/#timer-and-divider-registers
+                              // 
+                              // Bit  2   - Timer Enable
+                              // Bits 1-0 - Input Clock Select
+                              // 00: CPU Clock / 1024 (DMG, SGB2, CGB Single Speed Mode:   4096 Hz, SGB1:   ~4194 Hz, CGB Double Speed Mode:   8192 Hz)
+                              // 01: CPU Clock / 16   (DMG, SGB2, CGB Single Speed Mode: 262144 Hz, SGB1: ~268400 Hz, CGB Double Speed Mode: 524288 Hz)
+                              // 10: CPU Clock / 64   (DMG, SGB2, CGB Single Speed Mode:  65536 Hz, SGB1:  ~67110 Hz, CGB Double Speed Mode: 131072 Hz)
+                              // 11: CPU Clock / 256  (DMG, SGB2, CGB Single Speed Mode:  16384 Hz, SGB1:  ~16780 Hz, CGB Double Speed Mode:  32768 Hz)
+const TMA_REGISTER = 0xFF06;  // READ / WRITE
+                              // When the TIMA overflows, this data will be loaded.
+const DIV_REGISTER = 0xFF04;  // This register is incremented at rate of 16384Hz (~16779Hz on SGB).
+                              // Writing any value to this register resets it to 00h.
+                              // Note: The divider is affected by CGB double speed mode, and will increment at 32768Hz in double speed.
+
 const REGISTERS_MAP = {
     GPU: {
+        LCD_CONTROL_REGISTER,
         BACKGROUND_PALLETE_REGISTER,
         OBJECT_PALLETE_ZERO_REGISTER,
         OBJECT_PALLETE_ONE_REGISTER,
@@ -48,6 +68,12 @@ const REGISTERS_MAP = {
     },
     MISC: {
         UNMAP_ROM_REGISTER
+    },
+    TIMERS: {
+        TIMA_REGISTER,
+        TAC_REGISTER,
+        TMA_REGISTER,
+        DIV_REGISTER
     }
 }
 

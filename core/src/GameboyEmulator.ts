@@ -2,6 +2,7 @@ import CPU from "./components/cpu";
 import Memory from "./components/memory";
 import Cartridge from "./components/cartridge";
 import EventBus from "./components/event-bus";
+import { TimaTimer, DivTimer } from "./components/timers";
 import { EVENT_TYPES } from "./components/event-bus/types";
 import { DefaultEmulatorSettings } from "./types";
 
@@ -267,6 +268,12 @@ class GameboyEmulator {
 
     // Cartridge instance
     private cartridge = new Cartridge();
+
+    // TIMA Timer instance
+    private timaTimer = new TimaTimer(this.eventBus, this.memory);
+
+    // DIV Timer instance
+    private divTimer = new DivTimer(this.eventBus, this.memory);
 
     private settings = new DefaultEmulatorSettings();
 

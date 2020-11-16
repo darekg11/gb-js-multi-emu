@@ -26,6 +26,17 @@ class Memory {
             throw new MemoryOutOfBoundError(index);
         }
         this.checkEvents(index, value);
+        if (index === REGISTERS.TIMERS.DIV_REGISTER) {
+            this.memory[REGISTERS.TIMERS.DIV_REGISTER] = 0;
+            return;
+        }
+        this.memory[index] = value;
+    }
+
+    public directWrite8BitsValue = (index: number, value: number) => {
+        if (index < 0 || index > this.memory.length - 1) {
+            throw new MemoryOutOfBoundError(index);
+        }
         this.memory[index] = value;
     }
 
@@ -45,6 +56,10 @@ class Memory {
             throw new MemoryOutOfBoundError(index);
         }
         this.checkEvents(index, value);
+        if (index === REGISTERS.TIMERS.DIV_REGISTER) {
+            this.memory[REGISTERS.TIMERS.DIV_REGISTER] = 0;
+            return;
+        }
         const [ firstPart, secondPart ] = numberUtils.split16BitsNumberIntoTwo8BitsNumbers(value);
         this.memory[index] = secondPart;
         this.memory[index + 1] = firstPart;

@@ -1,6 +1,7 @@
 enum EVENT_TYPES {
     "UNAMP_BIOS",
-    "REDRAW_SPRITE"
+    "REDRAW_SPRITE",
+    "REQUEST_TIMA_INTERRUPT"
 }
 
 export default EVENT_TYPES;
