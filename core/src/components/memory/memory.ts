@@ -56,10 +56,6 @@ class Memory {
             throw new MemoryOutOfBoundError(index);
         }
         this.checkEvents(index, value);
-        if (index === REGISTERS.TIMERS.DIV_REGISTER) {
-            this.memory[REGISTERS.TIMERS.DIV_REGISTER] = 0;
-            return;
-        }
         const [ firstPart, secondPart ] = numberUtils.split16BitsNumberIntoTwo8BitsNumbers(value);
         this.memory[index] = secondPart;
         this.memory[index + 1] = firstPart;

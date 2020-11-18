@@ -31,14 +31,16 @@ class TimaTimer {
 
         while (this.ticks >= threshold) {
             this.ticks -= threshold;
+            const newTimerValue = this.memory.read8BitsValue(REGISTERS.TIMERS.TIMA_REGISTER) + 1;
 
-            this.memory.write8BitsValue(REGISTERS.TIMERS.TIMA_REGISTER, this.memory.read8BitsValue(REGISTERS.TIMERS.TIMA_REGISTER) + 1);
             // Overflowing so generate interrupt request
-            if (this.memory.read8BitsValue(REGISTERS.TIMERS.TIMA_REGISTER) > 0xFF) {
+            if (newTimerValue > 0xFF) {
                 // Write TMA Register back to TIMA
                 this.memory.write8BitsValue(REGISTERS.TIMERS.TIMA_REGISTER, this.memory.read8BitsValue(REGISTERS.TIMERS.TMA_REGISTER));
                 // Request interrupt via EventBus
                 this.eventBus.emit(new RequestTimaInterruptEvent());
+            } else {
+                this.memory.write8BitsValue(REGISTERS.TIMERS.TIMA_REGISTER, newTimerValue);
             }
         }
     }
