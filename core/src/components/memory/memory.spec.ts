@@ -1,6 +1,7 @@
 import Memory from "./memory";
 import MemoryOutOfBoundError from "../../errors/MemoryOutOfBoundError";
 import EventBus from "../event-bus";
+import REGISTERS from "./constants";
 
 const MEMORY_SIZE = 65535;
 
@@ -53,5 +54,17 @@ describe("read16BitsValue + write16BitsValue", () => {
         const memory = new Memory(new EventBus);
         memory.write16BitsValue(TEST_INDEX, TEST_VALUE);
         expect(memory.read16BitsValue(TEST_INDEX)).toBe(TEST_VALUE);
+    })
+})
+
+describe("DIV Register Write", () => {
+    test("write anything to DIV Timer Register should reset it to 0", () => {
+        const memory = new Memory(new EventBus);
+        memory.directWrite8BitsValue(REGISTERS.TIMERS.DIV_REGISTER, 20);
+
+        expect(memory.read8BitsValue(REGISTERS.TIMERS.DIV_REGISTER)).toBe(20);
+
+        memory.write8BitsValue(REGISTERS.TIMERS.DIV_REGISTER, 100);
+        expect(memory.read8BitsValue(REGISTERS.TIMERS.DIV_REGISTER)).toBe(0);
     })
 })
