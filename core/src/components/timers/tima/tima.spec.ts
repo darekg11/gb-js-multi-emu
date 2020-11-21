@@ -315,7 +315,7 @@ describe("update", () => {
             callback: requestTimaTimerInterruptCallback
         });
 
-        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 64;
+        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 16;
 
         timer.update(requiredTicksToTriggerInterrupt - 1);
         expect(requestTimaTimerInterruptCallback.mock.calls.length).toBe(0);
