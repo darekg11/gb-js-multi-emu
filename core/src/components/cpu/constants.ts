@@ -1,0 +1,20 @@
+enum INTERRUPTS {
+    V_BLANK = 0,
+    LCD_STAT = 1,
+    TIMA_TIMER = 2,
+    SERIAL_PORT = 3,
+    JOYPAD = 4
+};
+
+enum INTERRUPTS_SERVICE_ADDRESSES {
+    V_BLANK = 0x40,
+    LCD_STAT = 0x48,
+    TIMA_TIMER = 0x50,
+    SERIAL_PORT = 0x58,
+    JOYPAD = 0x60
+}
+
+export  {
+    INTERRUPTS,
+    INTERRUPTS_SERVICE_ADDRESSES
+}

@@ -4,7 +4,7 @@ import EventBus from "../event-bus";
 import REGISTERS from "./constants";
 import { UnmapBiosEvent } from "../event-bus/events/UNMAP_BIOS";
 
-const MEMORY_SIZE = 65535;
+const MEMORY_SIZE = 65536;
 
 class Memory {
     constructor (eventBus: EventBus) {

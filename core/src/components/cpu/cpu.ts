@@ -1,5 +1,5 @@
 import { CPU_REGISTERS, ICPURegisters } from "./types";
-import { numberUtils } from "../../utils/index";
+import { numberUtils } from "../../utils";
 import Memory from "../memory/memory";
 import NON_PREIFX_JUMP_TABLE from "./JumpTableNonPrefix";
 import CB_PREFIX_JUMP_TABLE from "./JumpTableCBPrefix";

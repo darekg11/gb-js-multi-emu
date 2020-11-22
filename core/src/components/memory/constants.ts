@@ -49,6 +49,19 @@ const DIV_REGISTER = 0xFF04;  // This register is incremented at rate of 16384Hz
                               // Writing any value to this register resets it to 00h.
                               // Note: The divider is affected by CGB double speed mode, and will increment at 32768Hz in double speed.
 
+const INTERRUPT_ENABLE_REGISTER = 0xFFFF; // READ / WRITE
+                                          // Bit 0 -> VBLANK, JMP ADDRESS: 0x40
+                                          // Bit 1 -> LCD_STAT, JMP ADDRESS: 0x48
+                                          // Bit 2 -> TIMA TIMER, JMP ADDRESS: 0x50
+                                          // Bit 3 -> SERIAL PORT, JMP ADDRESS: 0x58
+                                          // Bit 4 -> JOYPAD, JMP ADDRESS: 0x60
+const INTERRUPT_REQUEST_REGISTER = 0xFF0F; // READ / WRITE
+                                           // Bit 0 -> VBLANK, HIGHEST PRIORITY
+                                           // Bit 1 -> LCD STAT
+                                           // Bit 2 -> TIMA TIMER
+                                           // Bit 3 -> SERIAL
+                                           // Bit 4 -> JOYPAD, LOWEST PRIORITY
+
 const REGISTERS_MAP = {
     GPU: {
         LCD_CONTROL_REGISTER,
@@ -74,6 +87,10 @@ const REGISTERS_MAP = {
         TAC_REGISTER,
         TMA_REGISTER,
         DIV_REGISTER
+    },
+    INTERRUPTS: {
+        INTERRUPT_ENABLE_REGISTER,
+        INTERRUPT_REQUEST_REGISTER
     }
 }
 

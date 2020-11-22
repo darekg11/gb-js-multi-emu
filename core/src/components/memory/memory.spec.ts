@@ -3,7 +3,7 @@ import MemoryOutOfBoundError from "../../errors/MemoryOutOfBoundError";
 import EventBus from "../event-bus";
 import REGISTERS from "./constants";
 
-const MEMORY_SIZE = 65535;
+const MEMORY_SIZE = 65536;
 
 describe("read8BitsValue + write8BitsValue", () => {
     test("should throw MemoryOutOfBoundError when accessing memory below 0 index", () => {

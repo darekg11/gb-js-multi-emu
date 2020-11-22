@@ -5,6 +5,9 @@ import EventBus from "./components/event-bus";
 import { TimaTimer, DivTimer } from "./components/timers";
 import { EVENT_TYPES } from "./components/event-bus/types";
 import { DefaultEmulatorSettings } from "./types";
+import { INTERRUPTS, INTERRUPTS_SERVICE_ADDRESSES } from "./components/cpu/constants";
+import REGISTERS from "./components/memory/constants";
+import { numberUtils } from "./utils";
 
 const DMG_BIOS = [
     0x31, // LD SP, nn - initializing STACK -> LD SP, 0xFFFE
@@ -298,12 +301,88 @@ class GameboyEmulator {
             type: EVENT_TYPES.UNAMP_BIOS,
             callback: this.unmapBios
         })
+        this.eventBus.addHandler({
+            type: EVENT_TYPES.REQUEST_TIMA_INTERRUPT,
+            callback: () => this.requestInterrupt(INTERRUPTS.TIMA_TIMER)
+        })
     }
 
     private unmapBios = () => {
         this.cartridge.getProgramData().forEach((value, index) => {
             this.memory.write8BitsValue(index, value);
         });
+    }
+
+    private requestInterrupt = (interrupt: INTERRUPTS) => {
+        const interruptRequestState = this.memory.read8BitsValue(REGISTERS.INTERRUPTS.INTERRUPT_REQUEST_REGISTER);
+        const inerruptsStateAfterEnabling =  numberUtils.setBit(interruptRequestState, interrupt);
+        this.memory.write8BitsValue(REGISTERS.INTERRUPTS.INTERRUPT_REQUEST_REGISTER, inerruptsStateAfterEnabling);
+    }
+
+    private checkInterrupts = () => {
+        // if master IME switch is disabled just return
+        if (!this.cpu.areInterruptsEnabled()) {
+            return;
+        }
+
+        const interruptRequestState = this.memory.read8BitsValue(REGISTERS.INTERRUPTS.INTERRUPT_REQUEST_REGISTER);
+        const interruptEnableState = this.memory.read8BitsValue(REGISTERS.INTERRUPTS.INTERRUPT_ENABLE_REGISTER);
+
+        // no interrupts to process, just return
+        if (interruptRequestState === 0) {
+            return;
+        }
+
+        // go by interrupts priority
+        // V-BLANK (0) has the HIGHEST while JOYPAD (4) has the LOWEST
+        for (let interrupt = INTERRUPTS.V_BLANK; interrupt < INTERRUPTS.JOYPAD; interrupt++) {
+            if (numberUtils.isBitSet(interruptRequestState, interrupt) && numberUtils.isBitSet(interruptEnableState, interrupt)) {
+                this.handleInterrupt(interrupt);
+            }
+        }
+    }
+
+    private handleInterrupt = (interrupt: INTERRUPTS) => {
+        // first turn off IME switch
+        this.cpu.disableInterrupts();
+
+        // do not request handled interrupt anymore
+        const interruptRequestState = this.memory.read8BitsValue(REGISTERS.INTERRUPTS.INTERRUPT_REQUEST_REGISTER);
+        const inerruptsStateAfterDisabling =  numberUtils.unsetBit(interruptRequestState, interrupt);
+        this.memory.write8BitsValue(REGISTERS.INTERRUPTS.INTERRUPT_REQUEST_REGISTER, inerruptsStateAfterDisabling);
+
+        // push PC to stach
+        const currentProgramCounter = this.cpu.getProgramCounter();
+        this.cpu.decreaseStackPointer(2);
+        this.memory.write16BitsValue(this.cpu.getRegisterSPValue(), currentProgramCounter);
+
+        // this interrupt service handler methods takes 20 cycles according to:
+        // https://gbdev.gg8.se/wiki/articles/Interrupts
+        this.ticks += 20;
+
+        // jump to interrupt handler method
+        switch (interrupt) {
+            case INTERRUPTS.V_BLANK: {
+                this.cpu.jump(INTERRUPTS_SERVICE_ADDRESSES.V_BLANK);
+                break;
+            }
+            case INTERRUPTS.LCD_STAT: {
+                this.cpu.jump(INTERRUPTS_SERVICE_ADDRESSES.LCD_STAT);
+                break;
+            }
+            case INTERRUPTS.TIMA_TIMER: {
+                this.cpu.jump(INTERRUPTS_SERVICE_ADDRESSES.TIMA_TIMER);
+                break;
+            }
+            case INTERRUPTS.SERIAL_PORT: {
+                this.cpu.jump(INTERRUPTS_SERVICE_ADDRESSES.SERIAL_PORT);
+                break;
+            }
+            case INTERRUPTS.JOYPAD: {
+                this.cpu.jump(INTERRUPTS_SERVICE_ADDRESSES.JOYPAD);
+                break;
+            }
+        }
     }
 
     public loadCartridge = (cartridge: Cartridge) => {
@@ -360,6 +439,9 @@ class GameboyEmulator {
     private tick = () => {
         const tickCount = this.cpu.tick(this.memory);
         this.ticks += tickCount;
+        this.timaTimer.update(tickCount);
+        this.divTimer.update(tickCount);
+        this.checkInterrupts();
     }
 }
 
