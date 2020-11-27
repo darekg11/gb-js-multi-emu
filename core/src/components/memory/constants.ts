@@ -10,6 +10,18 @@ const LCD_CONTROL_REGISTER = 0xFF40; // READ / WRITE
 //  Bit 1 - OBJ (Sprite) Display Enable    (0=Off, 1=On)
 //  Bit 0 - BG/Window Display/Priority     (0=Off, 1=On)
 
+const LCD_STAT_REGISTER = 0xFF41; // READ / WRITE
+//  Bit 6 - LYC=LY Coincidence Interrupt (1=Enable) (Read/Write)
+//  Bit 5 - Mode 2 OAM Interrupt         (1=Enable) (Read/Write)
+//  Bit 4 - Mode 1 V-Blank Interrupt     (1=Enable) (Read/Write)
+//  Bit 3 - Mode 0 H-Blank Interrupt     (1=Enable) (Read/Write)
+//  Bit 2 - Coincidence Flag             (0:LYC<>LY, 1:LYC=LY) (Read Only)
+//  Bit 0 & Bit 1 - Mode flag:
+//      0: During H-Blank
+//      1: During V-Blank
+//      2: During Searching OAM
+//      3: During Transferring Data to LCD Driver
+
 const BACKGROUND_PALLETE_REGISTER = 0xFF47; // READ / WRITE
 const OBJECT_PALLETE_ZERO_REGISTER = 0xFF48; // READ / WRITE
 const OBJECT_PALLETE_ONE_REGISTER = 0xFF49; // READ / WRITE
@@ -65,6 +77,7 @@ const INTERRUPT_REQUEST_REGISTER = 0xFF0F; // READ / WRITE
 const REGISTERS_MAP = {
     GPU: {
         LCD_CONTROL_REGISTER,
+        LCD_STAT_REGISTER,
         BACKGROUND_PALLETE_REGISTER,
         OBJECT_PALLETE_ZERO_REGISTER,
         OBJECT_PALLETE_ONE_REGISTER,

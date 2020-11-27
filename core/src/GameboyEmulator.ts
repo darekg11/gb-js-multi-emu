@@ -1,5 +1,6 @@
 import CPU from "./components/cpu";
 import Memory from "./components/memory";
+import GPU from "./components/gpu";
 import Cartridge from "./components/cartridge";
 import EventBus from "./components/event-bus";
 import { TimaTimer, DivTimer } from "./components/timers";
@@ -277,6 +278,9 @@ class GameboyEmulator {
 
     // DIV Timer instance
     private divTimer = new DivTimer(this.eventBus, this.memory);
+
+    // GPU
+    private gpu = new GPU(this.eventBus, this.memory);
 
     private settings = new DefaultEmulatorSettings();
 
