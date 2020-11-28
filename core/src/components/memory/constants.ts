@@ -29,7 +29,8 @@ const SCROLL_Y_REGISTER = 0xFF42; // READ / WRITE
 const SCROLL_X_REGISTER = 0xFF43; // READ / WRITE
 const LY_REGISTER = 0xFF44; // READ -> The LY indicates the vertical line to which the present data is transferred to the LCD Driver.
                             // The LY can take on any value between 0 through 153.
-                            // The values between 144 and 153 indicate the V-Blank period and should generate interrupt. Writing will reset the counter.
+                            // The values between 144 and 153 indicate the V-Blank period and should generate interrupt.
+                            // Writing will reset the counter.
 const LYC_REGISTER = 0xFF45; // READ / WRITE -> The gameboy permanently compares the value of the LYC and LY registers.
                              // When both values are identical, the coincident bit in the STAT register becomes set, and (if enabled) a STAT interrupt is requested.
 const WINDOW_Y_REGISTER = 0xFF4A; // READ / WRITE

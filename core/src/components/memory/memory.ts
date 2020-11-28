@@ -30,6 +30,10 @@ class Memory {
             this.memory[REGISTERS.TIMERS.DIV_REGISTER] = 0;
             return;
         }
+        if (index === REGISTERS.GPU.LY_REGISTER) {
+            this.memory[REGISTERS.GPU.LY_REGISTER] = 0;
+            return;
+        }
         this.memory[index] = value;
     }
 
