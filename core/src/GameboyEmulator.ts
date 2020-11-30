@@ -309,6 +309,17 @@ class GameboyEmulator {
             type: EVENT_TYPES.REQUEST_TIMA_INTERRUPT,
             callback: () => this.requestInterrupt(INTERRUPTS.TIMA_TIMER)
         })
+        this.eventBus.addHandler({
+            type: EVENT_TYPES.REQUEST_LCD_INTERRUPT,
+            callback: () => this.requestInterrupt(INTERRUPTS.LCD_STAT)
+        })
+        this.eventBus.addHandler({
+            type: EVENT_TYPES.REQUEST_VBLANK_INTERRUPT,
+            callback: ({ data }) => {
+                // TODO: Add passing pixelBuffer to external display
+                this.requestInterrupt(INTERRUPTS.V_BLANK)
+            }
+        })
     }
 
     private unmapBios = () => {
