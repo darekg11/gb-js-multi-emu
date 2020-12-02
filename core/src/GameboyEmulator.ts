@@ -315,7 +315,7 @@ class GameboyEmulator {
         })
         this.eventBus.addHandler({
             type: EVENT_TYPES.REQUEST_VBLANK_INTERRUPT,
-            callback: ({ data }) => {
+            callback: ({ buffer }) => {
                 // TODO: Add passing pixelBuffer to external display
                 this.requestInterrupt(INTERRUPTS.V_BLANK)
             }
