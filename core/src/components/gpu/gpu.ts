@@ -16,7 +16,10 @@ import {
     VBLANK_START_SCANLINE,
     MAX_SCANLINES,
     LCD_WIDTH,
-    LCD_HEIGHT
+    LCD_HEIGHT,
+    OAM_MODE_CPU_CYCLES,
+    SCANLINE_CPU_CYCLES,
+    DMA_MODE_CPU_CYCLES
 } from "./constants";
 
 class GPU {
@@ -57,12 +60,29 @@ class GPU {
                 break;
             }
             case LCD_MODES.VLABNK: {
+                if (this.ticks >= SCANLINE_CPU_CYCLES) {
+                    this.ticks -= SCANLINE_CPU_CYCLES;
+                    const currentLine = this.memory.read8BitsValue(REGISTERS.GPU.LY_REGISTER);
+                    if (currentLine + 1 > MAX_SCANLINES) {
+                        this.changeMode(LCD_MODES.OAM);
+                    }
+                    this.updateLYRegister();
+                }
                 break;
             }
             case LCD_MODES.OAM: {
+                if (this.ticks >= OAM_MODE_CPU_CYCLES) {
+                    this.ticks -= OAM_MODE_CPU_CYCLES;
+                    this.changeMode(LCD_MODES.DMA);
+                }
                 break;
             }
             case LCD_MODES.DMA: {
+                if (this.ticks >= DMA_MODE_CPU_CYCLES) {
+                    this.ticks -= DMA_MODE_CPU_CYCLES;
+                    this.drawScanLine();
+                    this.changeMode(LCD_MODES.HBLANK);
+                }
                 break;
             }
         }
@@ -122,6 +142,10 @@ class GPU {
             (mode === LCD_MODES.OAM && numberUtils.isBitSet(status, STATE_OAM_INTERRUPT_BIT))) {
                 this.eventBus.emit(new RequestLCDInterruptEvent());
             }
+    }
+
+    private drawScanLine() {
+        // TODO: implement :D
     }
 }
 
