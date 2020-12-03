@@ -34,6 +34,10 @@ class Memory {
             this.memory[REGISTERS.GPU.LY_REGISTER] = 0;
             return;
         }
+        if (index === REGISTERS.MEMORY.DMA_TRANSFER_START_REGISTER) {
+            this.DMA(value);
+            return;
+        }
         this.memory[index] = value;
     }
 
@@ -68,6 +72,14 @@ class Memory {
     private checkEvents = (index: number, value: number) => {
         if (index === REGISTERS.MISC.UNMAP_ROM_REGISTER && value !== 0) {
             this.eventBus.emit(new UnmapBiosEvent());
+        }
+    }
+
+    private DMA = (index: number) => {
+        // source is index * 100
+        const source = index << 8;
+        for (let writeOffset = 0; writeOffset < 0xA0; writeOffset++) {
+            this.memory[REGISTERS.MEMORY.OAM_AREA_START_INDEX + writeOffset] = this.memory[source + writeOffset];
         }
     }
 }
