@@ -63,7 +63,7 @@ class GPU {
                 if (this.ticks >= SCANLINE_CPU_CYCLES) {
                     this.ticks -= SCANLINE_CPU_CYCLES;
                     const currentLine = this.memory.read8BitsValue(REGISTERS.GPU.LY_REGISTER);
-                    if (currentLine + 1 > MAX_SCANLINES) {
+                    if (currentLine >= MAX_SCANLINES) {
                         this.changeMode(LCD_MODES.OAM);
                     }
                     this.updateLYRegister();
@@ -113,7 +113,7 @@ class GPU {
     private updateLYRegister = () => {
         const currentLine = this.memory.read8BitsValue(REGISTERS.GPU.LY_REGISTER);
         const status = this.memory.read8BitsValue(REGISTERS.GPU.LCD_STAT_REGISTER);
-        const newCurrentLine = currentLine > MAX_SCANLINES ? 0 : currentLine + 1;
+        const newCurrentLine = currentLine >= MAX_SCANLINES ? 0 : currentLine + 1;
         this.memory.directWrite8BitsValue(REGISTERS.GPU.LY_REGISTER, newCurrentLine);
         if (this.memory.read8BitsValue(REGISTERS.GPU.LY_REGISTER) === this.memory.read8BitsValue(REGISTERS.GPU.LYC_REGISTER)) {
             const statusWithCoincidenceFlagSet = numberUtils.setBit(status, STATE_COINCIDENCE_FLAG_BIT);
