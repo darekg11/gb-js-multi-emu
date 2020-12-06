@@ -21,6 +21,8 @@ import {
     SCANLINE_CPU_CYCLES,
     DMA_MODE_CPU_CYCLES
 } from "./constants";
+import IRenderer from "./renderers/types";
+import { ClassicRenderer } from "./renderers";
 
 class GPU {
     private eventBus = new EventBus();
@@ -29,6 +31,7 @@ class GPU {
     // it's WIDTH * HEIGHT * 4 bytes per each pixel
     // RGBA format
     private pixelBuffer = new Uint8ClampedArray(LCD_WIDTH * LCD_HEIGHT * 4);
+    private pixelRenderer: IRenderer = new ClassicRenderer();
 
     constructor (eventBus: EventBus, memory: Memory) {
         this.eventBus = eventBus;
@@ -80,7 +83,7 @@ class GPU {
             case LCD_MODES.DMA: {
                 if (this.ticks >= DMA_MODE_CPU_CYCLES) {
                     this.ticks -= DMA_MODE_CPU_CYCLES;
-                    this.drawScanLine();
+                    this.pixelBuffer = this.pixelRenderer.drawScanLine(this.memory);
                     this.changeMode(LCD_MODES.HBLANK);
                 }
                 break;
@@ -142,10 +145,6 @@ class GPU {
             (mode === LCD_MODES.OAM && numberUtils.isBitSet(status, STATE_OAM_INTERRUPT_BIT))) {
                 this.eventBus.emit(new RequestLCDInterruptEvent());
             }
-    }
-
-    private drawScanLine() {
-        // TODO: implement :D
     }
 }
 
