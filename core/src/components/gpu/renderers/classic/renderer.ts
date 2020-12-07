@@ -7,11 +7,14 @@ import {
     LCD_WINDOW_TILE_MAP_BIT,
     LCD_SPRITES_ENABLE_BIT,
     LCD_WINDOW_ENABLE_BIT,
-    LCD_BACKGROUND_WINDOW_TILE_DATA_REGION_INDEX_BIT
+    LCD_BACKGROUND_WINDOW_TILE_DATA_REGION_INDEX_BIT,
+    MAX_TILES
 } from "../../constants";
 import REGISTERS from "../../../memory/constants";
 import { numberUtils } from "../../../../utils";
-import IRenderer from "../types";
+import { IColor, IRenderer } from "../types";
+import { getSignedValue } from "../../../../utils/numbers";
+
 
 // It's pixel buffer renderer for Classic GameBoy
 class Renderer implements IRenderer {
@@ -47,7 +50,7 @@ class Renderer implements IRenderer {
         const tileDataRegionStartIndex = numberUtils.isBitSet(lcdStatus, LCD_BACKGROUND_WINDOW_TILE_DATA_REGION_INDEX_BIT) ?
             REGISTERS.GPU.BACKGROUND_WINDOW_TILE_DATA_FIRST_START_INDEX :
             REGISTERS.GPU.BACKGROUND_WINDOW_TILE_DATA_ZERO_START_INDEX;
-        const signedTileIndex = !numberUtils.isBitSet(lcdStatus, LCD_BACKGROUND_WINDOW_TILE_DATA_REGION_INDEX_BIT);
+        const unsignedTileIndex = numberUtils.isBitSet(lcdStatus, LCD_BACKGROUND_WINDOW_TILE_DATA_REGION_INDEX_BIT);
         let tileMapMemoryIndex = 0;
         if (isWindowDraw) {
             tileMapMemoryIndex = numberUtils.isBitSet(lcdStatus, LCD_WINDOW_TILE_MAP_BIT) ?
@@ -59,14 +62,45 @@ class Renderer implements IRenderer {
                 REGISTERS.GPU.BACKGROUND_TILE_MAP_ZERO_START_INDEX;
         }
 
-        // {return v & 0x80 ? v-256 : v;},
-        // 128 & 0x80 ( 128) === 128
-        // 127 & 0x80 === 0
+        const currentLineInPerspective = isWindowDraw ? CURRENT_LINE - WINDOW_Y : CURRENT_LINE + SCROLL_Y;
+        const tileRow = Math.floor((currentLineInPerspective / 8)) * MAX_TILES;
+
+        for (let pixel = 0; pixel < LCD_WIDTH; pixel++) {
+            let xPos = (pixel + SCROLL_X) & 255;
+            xPos = isWindowDraw && pixel >= WINDOW_X ? pixel - WINDOW_X : xPos;
+            xPos = xPos & 255;
+
+            const tileColumn = Math.floor((xPos / 8));
+            const tileAddress = tileMapMemoryIndex + tileRow + tileColumn;
+            const tileIndex = unsignedTileIndex ? memory.read8BitsValue(tileAddress) : getSignedValue(memory.read8BitsValue(tileAddress)) + 128;
+            // 8*8 pixels == 64
+            // 64 * 2 = 128 // each pixel is 2 bytes
+            // 128 / 8 = 16;
+            const tileMemory = tileIndex * 16;
+            // find the correct vertical line we're on of the
+            // tile to get the tile data
+            // from in memory
+            // each vertical line takes up two bytes of memory
+            const line = (currentLineInPerspective % 8) * 2;
+            
+            const firstByte = memory.read8BitsValue(tileMemory + line);
+            const secondByte = memory.read8BitsValue(tileMemory + line + 1);
+            // Pixel 0 in the tile is bit 7 of data 1 and data2.
+            // Pixel 1 is bit 6 etc..
+            const colourBit = ((xPos % 8) - 7) * -1;
+        }
     }
 
     // renders sprites
     public renderSprites (pixelBuffer: Uint8ClampedArray, memory: Memory) {
 
+    }
+
+    private setPixel(pixelBuffer: Uint8ClampedArray, x: number, y: number, color: IColor) {
+        pixelBuffer[y * LCD_WIDTH + x + 0] = color.red;
+        pixelBuffer[y * LCD_WIDTH + x + 1] = color.green;
+        pixelBuffer[y * LCD_WIDTH + x + 2] = color.blue;
+        pixelBuffer[y * LCD_WIDTH + x + 3] = color.alpha;
     }
 }
 

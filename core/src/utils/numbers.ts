@@ -25,10 +25,15 @@ const unsetBit = (value: number, bit: number) => {
     return value & (~(1 << bit));
 }
 
+const getSignedValue = (value: number) => {
+    return value >= 128 ? value - 256 : value;
+}
+
 export {
     combineTwo8BitsNumbersInto16BitsNumber,
     split16BitsNumberIntoTwo8BitsNumbers,
     isBitSet,
     setBit,
-    unsetBit
+    unsetBit,
+    getSignedValue
 };

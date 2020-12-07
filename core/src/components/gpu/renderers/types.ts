@@ -4,4 +4,11 @@ interface IRenderer {
     drawScanLine (memory: Memory): Uint8ClampedArray
 }
 
-export default IRenderer;
+interface IColor {
+    red: number,
+    green: number,
+    blue: number,
+    alpha: number
+}
+
+export { IRenderer, IColor };

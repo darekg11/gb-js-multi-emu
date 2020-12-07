@@ -6,6 +6,7 @@ const MAX_SCANLINES = 153;
 const VBLANK_START_SCANLINE = 144;
 const LCD_WIDTH = 160;
 const LCD_HEIGHT = 144;
+const MAX_TILES = 32;
 
 // LCD STATUS
 const LCD_BACKGROUND_ENABLE_BIT = 0;
@@ -51,5 +52,6 @@ export {
     MAX_SCANLINES,
     LCD_HEIGHT,
     LCD_WIDTH,
+    MAX_TILES,
     LCD_MODES
 }

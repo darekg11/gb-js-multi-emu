@@ -21,7 +21,7 @@ import {
     SCANLINE_CPU_CYCLES,
     DMA_MODE_CPU_CYCLES
 } from "./constants";
-import IRenderer from "./renderers/types";
+import { IRenderer } from "./renderers/types";
 import { ClassicRenderer } from "./renderers";
 
 class GPU {
