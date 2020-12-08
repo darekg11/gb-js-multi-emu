@@ -1,13 +1,13 @@
 import { IColor } from "../types";
 
-const BLACK_COLOR : IColor = {
+const BLACK: IColor = {
     red: 0,
     green: 0,
     blue: 0,
     alpha: 1
 }
 
-const WHITE_COLOR: IColor = {
+const WHITE: IColor = {
     red: 255,
     green: 255,
     blue: 255,
@@ -28,4 +28,4 @@ const DARK_GREY: IColor = {
     alpha: 1
 }
 
-export { BLACK_COLOR, WHITE_COLOR, LIGHT_GREY, DARK_GREY };
+export { BLACK, WHITE, LIGHT_GREY, DARK_GREY };
