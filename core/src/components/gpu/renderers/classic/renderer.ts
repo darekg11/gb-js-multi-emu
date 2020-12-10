@@ -121,6 +121,41 @@ class Renderer implements IRenderer {
 
             const xFlip = numberUtils.isBitSet(spriteAttributes, SPRITE_ATTRIBUTES_BITS.X_FLIP);
             const yFlip = numberUtils.isBitSet(spriteAttributes, SPRITE_ATTRIBUTES_BITS.Y_FLIP);
+            const PALLETE = numberUtils.isBitSet(spriteAttributes, SPRITE_ATTRIBUTES_BITS.PALLETE_NUMBER) ? REGISTERS.GPU.OBJECT_PALLETE_ONE_REGISTER : REGISTERS.GPU.OBJECT_PALLETE_ZERO_REGISTER;
+
+            if (CURRENT_LINE >= spriteY && (CURRENT_LINE < (spriteY + ySizeOfSpritesInPixels))) {
+                let line = CURRENT_LINE - spriteY;
+                if (yFlip) {
+                    // read the sprite in backwards in the y axis
+                    line -= ySizeOfSpritesInPixels;
+                    line *= -1;
+                }
+                // each line takes 2 bytes in memory
+                line *= 2;
+
+                const spriteMemory = (REGISTERS.MEMORY.VRAM_AREA_START_INDEX + (tileIndex * 16));
+                const firstByte = memory.read8BitsValue(spriteMemory + line);
+                const secondByte = memory.read8BitsValue(spriteMemory + line + 1);
+
+                for (let spritePixel = 7; spritePixel >= 0; spritePixel--) {
+                    const colourBit = xFlip ? (spritePixel - 7) * -1 : spritePixel;
+                    const colorIdFirstBit = numberUtils.isBitSet(secondByte, colourBit) ? 1 : 0;
+                    const colorIdSecondBit = numberUtils.isBitSet(firstByte, colourBit) ? 1 : 0;
+                    const colorId = (colorIdFirstBit << 1) | colorIdSecondBit;
+                    const color = this.getColorFromPallete(PALLETE, colorId);
+
+                    // white is transparent for sprites.
+                    // shitty way to check but whatever
+                    if (color.blue === 255 && color.green === 255 && color.red === 255) {
+                        continue;
+                    }
+
+                    // to go from left to right
+                    const xPixel = 0 - spritePixel + 7;
+
+                    this.setPixel(pixelBuffer, spriteX + xPixel, CURRENT_LINE, color);
+                }
+            }
         }
     }
 
