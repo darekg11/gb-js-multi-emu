@@ -2,6 +2,7 @@ export enum NON_PREFIX_OP_CODES {
     NOOP = 0x00,
     DISABLE_INTERRUPTS = 0xF3,
     ENABLE_INTERRUPTS = 0xFB,
+    HALT = 0x76,
     SCF = 0x37,
     CPL = 0x2F,
     CCF = 0x3F,

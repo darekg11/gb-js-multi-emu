@@ -1,17 +1,18 @@
 import _ from "lodash";
 import Cartridge from "./components/cartridge";
 import GameboyEmulator from "./GameboyEmulator";
+import { DefaultEmulatorSettings } from "./types";
 
 describe("initialize", () => {
     test("should create new instance of emulator without crashing", () => {
-        const emulator = new GameboyEmulator();
+        const emulator = new GameboyEmulator(new DefaultEmulatorSettings(), () => {});
         expect(emulator).toBeDefined();
     });
 });
 
 describe("debug infos", () => {
     test("should return correct CPU Debug Info", () => {
-        const emulator = new GameboyEmulator();
+        const emulator = new GameboyEmulator(new DefaultEmulatorSettings(), () => {});
         const startDebugInfo = emulator.getCPUDebugInfo();
         expect(startDebugInfo.A).toBe(0);
         expect(startDebugInfo.B).toBe(0);
@@ -32,17 +33,17 @@ describe("debug infos", () => {
         expect(startDebugInfo.SUBTRACTION_FLAG).toBeFalsy();
 
         // run emulator - this will run BIOS actually...
-        emulator.run();
-        emulator.run();
-        emulator.run();
-        emulator.run();
-        emulator.run();
-        emulator.run();
-        emulator.run();
-        emulator.run();
-        emulator.run();
-        emulator.run();
-        emulator.run();
+        emulator.runSingleTick();
+        emulator.runSingleTick();
+        emulator.runSingleTick();
+        emulator.runSingleTick();
+        emulator.runSingleTick();
+        emulator.runSingleTick();
+        emulator.runSingleTick();
+        emulator.runSingleTick();
+        emulator.runSingleTick();
+        emulator.runSingleTick();
+        emulator.runSingleTick();
 
         const endDebugInfo = emulator.getCPUDebugInfo();
         expect(endDebugInfo.A).toBe(0);
@@ -73,7 +74,7 @@ describe("debug infos", () => {
         EXAMPLE_PROGRAM.push(..._.range(0x400));
 
         const TEST_ROM = new Cartridge(EXAMPLE_PROGRAM);
-        const emulator = new GameboyEmulator();
+        const emulator = new GameboyEmulator(new DefaultEmulatorSettings(), () => {});
         
         emulator.loadCartridge(TEST_ROM);
 
@@ -87,14 +88,14 @@ describe("debug infos", () => {
     });
 
     test("should return correct memory value", () => {
-        const emulator = new GameboyEmulator();
+        const emulator = new GameboyEmulator(new DefaultEmulatorSettings(), () => {});
 
         expect(emulator.getMemoryValue(0xFF)).toBe(0x50);
     })
 });
 
 describe("unmap BIOS flow", () => {
-    const emulator = new GameboyEmulator({ load_bios: false });
+    const emulator = new GameboyEmulator({ load_bios: false }, () => {});
     const UNMAP_BIOS_PROGRAM = [
         0x3E, // LD A, 0x01
         0x01,
@@ -106,8 +107,8 @@ describe("unmap BIOS flow", () => {
     UNMAP_BIOS_PROGRAM.push(..._.range(0x400));
 
     emulator.loadCartridge(new Cartridge(UNMAP_BIOS_PROGRAM));
-    emulator.run();
-    emulator.run();
+    emulator.runSingleTick();
+    emulator.runSingleTick();
 
     expect(emulator.getMemoryValue(0)).toBe(0x3E);
     expect(emulator.getMemoryValue(1)).toBe(0x01);

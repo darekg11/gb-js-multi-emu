@@ -10,8 +10,6 @@ const HALF_CARRY_FLAG_BIT = 5;
 const CARRY_FLAG_BIT = 4;
 
 class CPU {
-    // is CPU running?
-    private running: boolean = true;
     // program counter
     private PC: number = 0;
 
@@ -30,6 +28,7 @@ class CPU {
     }
 
     private interruptsEnabled: boolean = true;
+    private halted: boolean = false;
 
     private getRegisterValue = (register: CPU_REGISTERS): number => {
         if (register === "AF") {
@@ -270,11 +269,24 @@ class CPU {
         this.registers.F = numberUtils.unsetBit(this.registers.F, CARRY_FLAG_BIT);
     }
 
+    public isHalted() {
+        return this.halted;
+    }
+
+    public halt() {
+        this.halted = true;
+    }
+
+    public unhalt() {
+        this.halted = false;
+    }
+
     // Executes single CPU tick
     // Returns number of machine cycles that it took
     public tick(memory: Memory): number {
-        if (!this.running) {
-            return 0;
+        if (this.halted) {
+            // when CPU is halted it should increase ticks - it just should not execute instructions
+            return 4;
         }
 
         let ticks = 0;
@@ -291,8 +303,9 @@ class CPU {
             const instructionTicks = opCodeHandler( { CPU: this, Memory: memory });
             return ticks + instructionTicks;
         } else {
+            console.log("UNHANDLED OP CODE: %s. IS CB: %s", opCode, isCB);
             // apperently some OP CODE is not defined
-            return 0;
+            return 4;
             // TODO: add logger.error call here once we have logger
         }
     }
