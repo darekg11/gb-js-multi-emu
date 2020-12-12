@@ -6,4 +6,6 @@ class DefaultEmulatorSettings implements IEmulatorSettings {
     load_bios = true;
 };
 
-export { IEmulatorSettings, DefaultEmulatorSettings };
+type IOnDrawFrameCallback = (pixelBuffer: Uint8ClampedArray) => void
+
+export { IEmulatorSettings, DefaultEmulatorSettings, IOnDrawFrameCallback };

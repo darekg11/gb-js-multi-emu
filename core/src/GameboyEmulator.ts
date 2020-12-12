@@ -5,10 +5,11 @@ import Cartridge from "./components/cartridge";
 import EventBus from "./components/event-bus";
 import { TimaTimer, DivTimer } from "./components/timers";
 import { EVENT_TYPES } from "./components/event-bus/types";
-import { DefaultEmulatorSettings } from "./types";
+import { DefaultEmulatorSettings, IOnDrawFrameCallback } from "./types";
 import { INTERRUPTS, INTERRUPTS_SERVICE_ADDRESSES } from "./components/cpu/constants";
 import REGISTERS from "./components/memory/constants";
 import { numberUtils } from "./utils";
+import { CLASSIC_GAMEBOY_CLOCK_SPEED, FRAMES_PER_SECOND } from "./components/contants";
 
 const DMG_BIOS = [
     0x31, // LD SP, nn - initializing STACK -> LD SP, 0xFFFE
@@ -282,14 +283,20 @@ class GameboyEmulator {
     // GPU
     private gpu = new GPU(this.eventBus, this.memory);
 
+    // Draw callback executed when VBLANK occurs
+    private onDrawFrameCallback: IOnDrawFrameCallback = () => {};
+
     private settings = new DefaultEmulatorSettings();
 
     // Ticks passed
     private ticks: number = 0;
 
+    // TODO: load this dynamically based on Gameboy type used (Classic vs Color)
+    private ticksPerFrame: number = CLASSIC_GAMEBOY_CLOCK_SPEED / FRAMES_PER_SECOND;
+
     private biosSize: number = 0;
 
-    constructor(settings = new DefaultEmulatorSettings()) {
+    constructor(settings = new DefaultEmulatorSettings(), drawFrameCallback: IOnDrawFrameCallback) {
         this.settings = settings;
         if (this.settings.load_bios) {
             DMG_BIOS.forEach((value, index) => {
@@ -297,6 +304,7 @@ class GameboyEmulator {
             });
         }
         this.biosSize = DMG_BIOS.length;
+        this.onDrawFrameCallback = drawFrameCallback;
         this.initializeEventBus();
     }
 
@@ -316,7 +324,7 @@ class GameboyEmulator {
         this.eventBus.addHandler({
             type: EVENT_TYPES.REQUEST_VBLANK_INTERRUPT,
             callback: ({ buffer }) => {
-                // TODO: Add passing pixelBuffer to external display
+                this.onDrawFrameCallback(buffer);
                 this.requestInterrupt(INTERRUPTS.V_BLANK)
             }
         })
@@ -371,6 +379,9 @@ class GameboyEmulator {
         this.cpu.decreaseStackPointer(2);
         this.memory.write16BitsValue(this.cpu.getRegisterSPValue(), currentProgramCounter);
 
+        // reenable CPU
+        this.cpu.unhalt();
+
         // this interrupt service handler methods takes 20 cycles according to:
         // https://gbdev.gg8.se/wiki/articles/Interrupts
         this.ticks += 20;
@@ -415,8 +426,15 @@ class GameboyEmulator {
         }
     }
 
-    public run = () => {
+    public runSingleTick = () => {
         this.tick();
+    }
+
+    public runSingleFrame = () => {
+        this.ticks = 0;
+        while (this.ticks < this.ticksPerFrame) {
+            this.tick();
+        }
     }
 
     public getCPUDebugInfo = () => ({

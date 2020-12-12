@@ -31,6 +31,8 @@
             <div class="container">
                 <button onclick="window.singleStep()">STEP</button>
                 <button onclick="window.endLoop()">RUN UNTIL BIOS LOOP END</button>
+                <button onclick="window.singleFrame()">RUN SINGLE FRAME</button>
+                <button onclick="window.run()">RUN</button>
             </div>
             <div class="container">
                 <input id="debug_memory_index_input" class="input" placeholder="Enter memory index (HEX)">
@@ -146,6 +148,16 @@
         const singleStep = () => {
             runner.tick();
             getCPUDebugInfo();
+        }
+
+        const singleFrame = () => {
+            runner.runSingleFrame();
+            getCPUDebugInfo();
+        }
+
+        const run = () => {
+            runner.runSingleFrame();
+            requestAnimationFrame(run);
         }
 
         const getMemoryValue = () => {
