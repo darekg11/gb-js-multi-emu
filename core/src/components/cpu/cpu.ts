@@ -303,7 +303,8 @@ class CPU {
             const instructionTicks = opCodeHandler( { CPU: this, Memory: memory });
             return ticks + instructionTicks;
         } else {
-            console.log("UNHANDLED OP CODE: %s. IS CB: %s", opCode, isCB);
+            console.log("UNHANDLED OP CODE: %s. IS CB: %s, PC: %s", opCode, isCB, this.PC);
+            this.increaseProgramCounter();
             // apperently some OP CODE is not defined
             return 4;
             // TODO: add logger.error call here once we have logger
