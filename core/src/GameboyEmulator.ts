@@ -58,16 +58,16 @@ const DMG_BIOS = [
     
     0x11, // LOAD TO REG DE NEXT TWO MEMORY CELLS LD DE, 0x0104 | 0x104 is destination in ROM where Nintendo log starts
     0x04, // hence this will copy Nintendo logo to VRAM at 0x8010 after decompression and scaling
-    0x01, 
+    0x01,
     0x21, // LOAD TO REG HL A NEXT TWO MEMORY CELLS LD HL, 0x8010
     0x10,
-    0x80, 
+    0x80,
     0x1A, // LD A, (DE) LD A [0x104]
     0xCD, // CALL 0x95
     0x95,
     0x00, // NOP
     0xCD, // CALL 0x96
-    0x96, 
+    0x96,
     0x00, // NOP
     0x13, // INC DE
     0x7B, // LD A, E
