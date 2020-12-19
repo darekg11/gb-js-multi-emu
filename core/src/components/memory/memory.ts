@@ -25,7 +25,11 @@ class Memory {
         if (index < 0 || index > this.memory.length - 1) {
             throw new MemoryOutOfBoundError(index);
         }
-        this.checkEvents(index, value);
+        if (index === REGISTERS.MISC.UNMAP_ROM_REGISTER && value !== 0) {
+            this.memory[REGISTERS.MISC.UNMAP_ROM_REGISTER] = value;
+            this.eventBus.emit(new UnmapBiosEvent());
+            return;
+        }
         if (index === REGISTERS.TIMERS.DIV_REGISTER) {
             this.memory[REGISTERS.TIMERS.DIV_REGISTER] = 0;
             return;
@@ -63,16 +67,9 @@ class Memory {
         if (index < 0 || index > this.memory.length - 2) {
             throw new MemoryOutOfBoundError(index);
         }
-        this.checkEvents(index, value);
         const [ firstPart, secondPart ] = numberUtils.split16BitsNumberIntoTwo8BitsNumbers(value);
         this.memory[index] = secondPart;
         this.memory[index + 1] = firstPart;
-    }
-
-    private checkEvents = (index: number, value: number) => {
-        if (index === REGISTERS.MISC.UNMAP_ROM_REGISTER && value !== 0) {
-            this.eventBus.emit(new UnmapBiosEvent());
-        }
     }
 
     private DMA = (index: number) => {
