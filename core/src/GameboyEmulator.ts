@@ -62,7 +62,7 @@ const DMG_BIOS = [
     0x21, // LOAD TO REG HL A NEXT TWO MEMORY CELLS LD HL, 0x8010
     0x10,
     0x80, 
-    0x1A, // LD A, (DL) LD A [0x104]
+    0x1A, // LD A, (DE) LD A [0x104]
     0xCD, // CALL 0x95
     0x95,
     0x00, // NOP
@@ -300,7 +300,7 @@ class GameboyEmulator {
         this.settings = settings;
         if (this.settings.load_bios) {
             DMG_BIOS.forEach((value, index) => {
-                this.memory.write8BitsValue(index, value);
+                this.memory.directWrite8BitsValue(index, value);
             });
         }
         this.biosSize = DMG_BIOS.length;
@@ -332,7 +332,7 @@ class GameboyEmulator {
 
     private unmapBios = () => {
         this.cartridge.getProgramData().forEach((value, index) => {
-            this.memory.write8BitsValue(index, value);
+            this.memory.directWrite8BitsValue(index, value);
         });
     }
 
