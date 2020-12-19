@@ -20,6 +20,8 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     const safeValue = result & 255;
     if (safeValue === 0) {
         payload.CPU.setZeroFlag();
+    } else {
+        payload.CPU.unsetZeroFlag();
     }
     payload.CPU.unsetSubtractionFlag();
     payload.CPU.unsetCarryFlag();

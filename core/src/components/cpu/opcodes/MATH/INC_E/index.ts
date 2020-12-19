@@ -11,7 +11,6 @@ import { IOpCodeHanlePayload } from "../../types";
     Flags are not affected.
   Size: 1 Byte - increments PC by 1
   Cycles: 4
-  Flags affected: None
 */
 const handle = (payload: IOpCodeHanlePayload): number => {
     const registerEValue = payload.CPU.getRegisterEValue();
@@ -22,6 +21,8 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     const safeValue = incremented & 255;
     if (safeValue === 0) {
         payload.CPU.setZeroFlag();
+    } else {
+        payload.CPU.unsetZeroFlag();
     }
     const shouldSetHalfCarryFlag = (registerEValue & 0xF) + (1 & 0xF) > 0xF;
     if (shouldSetHalfCarryFlag) {

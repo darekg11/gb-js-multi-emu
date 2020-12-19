@@ -23,6 +23,8 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     const wrappedValue = diff & 255;
     if (wrappedValue === 0) {
         payload.CPU.setZeroFlag();
+    } else {
+        payload.CPU.unsetZeroFlag();
     }
     const shouldSetHalfCarryFlag = (registerAValue & 0xF) + (memoryValue & 0xF) > 0xF;
     if (shouldSetHalfCarryFlag) {
@@ -30,6 +32,14 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     }
     payload.CPU.setSubtractionFlag();
     payload.CPU.increaseProgramCounter(2);
+    // console.log("[CP A] PC: %s, Register A: %s, Value: %s, DE: %s, D: %s, E: %s Zero Flag: %s",
+    //   currentProgramCounter,
+    //   payload.CPU.getRegisterAValue(),
+    //   memoryValue,
+    //   payload.CPU.getRegisterDEValue(),
+    //   payload.CPU.getRegisterDValue(),
+    //   payload.CPU.getRegisterEValue(),
+    //   payload.CPU.isZeroFlagSet());
     return 8;
 }
 

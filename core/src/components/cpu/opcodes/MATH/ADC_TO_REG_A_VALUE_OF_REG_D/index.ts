@@ -23,6 +23,8 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     const wrappedValue = sum & 255;
     if (wrappedValue === 0) {
         payload.CPU.setZeroFlag();
+    } else {
+        payload.CPU.unsetZeroFlag();
     }
     const shouldSetHalfCarryFlag = (registerAValue & 0xF) + (registerDValue & 0xF) > 0xF;
     if (shouldSetHalfCarryFlag) {

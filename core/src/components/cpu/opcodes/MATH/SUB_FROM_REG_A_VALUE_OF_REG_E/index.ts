@@ -10,7 +10,6 @@ import { IOpCodeHanlePayload } from "../../types";
     Sets HALF_CARRY flag if bit 3 overflows into bit 4 so whenever there is overflow to upper nibble
   Size: 1 Byte - increments PC by 1
   Cycles: 4
-  Flags affected: None
 */
 const handle = (payload: IOpCodeHanlePayload): number => {
     const registerAValue = payload.CPU.getRegisterAValue();
@@ -22,6 +21,8 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     const wrappedValue = diff & 255;
     if (wrappedValue === 0) {
         payload.CPU.setZeroFlag();
+    } else {
+        payload.CPU.unsetZeroFlag();
     }
     const shouldSetHalfCarryFlag = (registerAValue & 0xF) + (registerEValue & 0xF) > 0xF;
     if (shouldSetHalfCarryFlag) {
