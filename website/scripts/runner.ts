@@ -6,9 +6,8 @@ class Runner {
     gameboy = null;
 
     constructor () {
-        const canvas = document.getElementById("emulator_window") as HTMLCanvasElement;
         this.gameboy = new GameboyEmulator(new DefaultEmulatorSettings(), (pixelBuffer) => {
-            console.log("LOL");
+            const canvas = document.getElementById("emulator_window") as HTMLCanvasElement;
             const canvasContext = canvas.getContext("2d");
             const imageData = canvasContext.createImageData(160, 140);
             for (let cnt = 0; cnt < imageData.data.length; cnt++) {
