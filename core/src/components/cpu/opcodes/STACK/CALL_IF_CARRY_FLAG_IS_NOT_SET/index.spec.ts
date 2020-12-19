@@ -51,9 +51,9 @@ describe("CALL_IF_CARRY_FLAG_IS_NOT_SET", () => {
         expect(cpu.isSubtractionFlagSet()).toBe(false);
         expect(cpu.isCarryFlagSet()).toBe(false);
         expect(cpu.isHalfCarryFlagSet()).toBe(false);
-        expect(memory.read8BitsValue(cpu.getRegisterSPValue())).toBe(PC & 0xFF);
-        expect(memory.read8BitsValue(cpu.getRegisterSPValue() + 1)).toBe(PC >> 8);
-        expect(memory.read16BitsValue(cpu.getRegisterSPValue())).toBe(PC);
+        expect(memory.read8BitsValue(cpu.getRegisterSPValue())).toBe(PC + 2 & 0xFF);
+        expect(memory.read8BitsValue(cpu.getRegisterSPValue() + 1)).toBe(PC + 2 >> 8);
+        expect(memory.read16BitsValue(cpu.getRegisterSPValue())).toBe(PC + 2);
     });
 
     test("Should NOT CALL if carry flag is set", () => {
