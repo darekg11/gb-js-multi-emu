@@ -14,10 +14,10 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     const registerDEValue = payload.CPU.getRegisterDEValue();
     const incremented = registerDEValue + 1;
     const splitted = numberUtils.split16BitsNumberIntoTwo8BitsNumbers(incremented);
-    const safeBValue = splitted[0] & 255;
-    const safeCValue = splitted[1] & 255;
-    payload.CPU.setRegisterDValue(safeBValue);
-    payload.CPU.setRegisterEValue(safeCValue);
+    const safeDValue = splitted[0] & 255;
+    const safeEValue = splitted[1] & 255;
+    payload.CPU.setRegisterDValue(safeDValue);
+    payload.CPU.setRegisterEValue(safeEValue);
     payload.CPU.increaseProgramCounter();
     return 8;
 }
