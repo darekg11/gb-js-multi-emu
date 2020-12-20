@@ -78,6 +78,7 @@
     </body>
     <script>
         const runner = window.globalThis.runner;
+        const fpsInterval = 1000 / 60;
 
         const pc_reg_info_element = document.getElementById("debug_pc");
         const current_instruction_info_element = document.getElementById("debug_current_instruction");
@@ -138,7 +139,7 @@
             while (true) {
                 runner.tick();
                 const debugInfo = runner.getCPUDebugInfo();
-                if (debugInfo.PC === 33) {
+                if (debugInfo.PC === 52) {
                     break;
                 }
             }
@@ -156,13 +157,12 @@
         }
 
         const run = () => {
+            setTimeout(run, fpsInterval);
             runner.runSingleFrame();
-            requestAnimationFrame(run);
         }
 
         const getMemoryValue = () => {
             const memoryIndex = Number.parseInt(memory_index_input.value, 16);
-            console.log(memoryIndex);
             reg_memory_info_element.innerHTML = `Memory Index: 0x${memoryIndex.toString(16).toUpperCase()}, value: 0x${runner.getMemoryValue(memoryIndex).toString(16).toUpperCase()}`;
         }
 
