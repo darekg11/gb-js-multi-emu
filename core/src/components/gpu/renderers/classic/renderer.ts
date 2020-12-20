@@ -181,10 +181,10 @@ class Renderer implements IRenderer {
     }
 
     private setPixel(pixelBuffer: Uint8ClampedArray, x: number, y: number, color: IColor) {
-        pixelBuffer[y * LCD_WIDTH + x + 0] = color.red;
-        pixelBuffer[y * LCD_WIDTH + x + 1] = color.green;
-        pixelBuffer[y * LCD_WIDTH + x + 2] = color.blue;
-        pixelBuffer[y * LCD_WIDTH + x + 3] = color.alpha;
+        pixelBuffer[y * LCD_WIDTH + (x * 4) + 0] = color.red;
+        pixelBuffer[y * LCD_WIDTH + (x * 4) + 1] = color.green;
+        pixelBuffer[y * LCD_WIDTH + (x * 4) + 2] = color.blue;
+        pixelBuffer[y * LCD_WIDTH + (x * 4) + 3] = color.alpha;
     }
 }
 
