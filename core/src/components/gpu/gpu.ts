@@ -15,22 +15,18 @@ import {
     HBLANK_CPU_CYCLES,
     VBLANK_START_SCANLINE,
     MAX_SCANLINES,
-    LCD_WIDTH,
-    LCD_HEIGHT,
     OAM_MODE_CPU_CYCLES,
     SCANLINE_CPU_CYCLES,
     DMA_MODE_CPU_CYCLES
 } from "./constants";
 import { IRenderer } from "./renderers/types";
-import { ClassicRenderer } from "./renderers";
+import { ClassicRenderer } from "./renderers/index";
 
 class GPU {
     private eventBus = new EventBus();
     private memory = new Memory(this.eventBus);
     private ticks = 0;
-    // it's WIDTH * HEIGHT * 4 bytes per each pixel
-    // RGBA format
-    private pixelBuffer = new Uint8ClampedArray(LCD_WIDTH * LCD_HEIGHT * 4);
+    private pixelBuffer = new Uint8ClampedArray();
     private pixelRenderer: IRenderer = new ClassicRenderer();
 
     constructor (eventBus: EventBus, memory: Memory) {
@@ -66,7 +62,7 @@ class GPU {
                 if (this.ticks >= SCANLINE_CPU_CYCLES) {
                     this.ticks -= SCANLINE_CPU_CYCLES;
                     const currentLine = this.memory.read8BitsValue(REGISTERS.GPU.LY_REGISTER);
-                    if (currentLine >= MAX_SCANLINES) {
+                    if (currentLine > MAX_SCANLINES) {
                         this.changeMode(LCD_MODES.OAM);
                     }
                     this.updateLYRegister();
@@ -116,7 +112,7 @@ class GPU {
     private updateLYRegister = () => {
         const currentLine = this.memory.read8BitsValue(REGISTERS.GPU.LY_REGISTER);
         const status = this.memory.read8BitsValue(REGISTERS.GPU.LCD_STAT_REGISTER);
-        const newCurrentLine = currentLine >= MAX_SCANLINES ? 0 : currentLine + 1;
+        const newCurrentLine = currentLine > MAX_SCANLINES ? 0 : currentLine + 1;
         this.memory.directWrite8BitsValue(REGISTERS.GPU.LY_REGISTER, newCurrentLine);
         if (this.memory.read8BitsValue(REGISTERS.GPU.LY_REGISTER) === this.memory.read8BitsValue(REGISTERS.GPU.LYC_REGISTER)) {
             const statusWithCoincidenceFlagSet = numberUtils.setBit(status, STATE_COINCIDENCE_FLAG_BIT);

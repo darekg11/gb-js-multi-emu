@@ -23,28 +23,26 @@ import { BLACK, WHITE, LIGHT_GREY, DARK_GREY } from "./colors";
 
 
 // It's pixel buffer renderer for Classic GameBoy
-class Renderer implements IRenderer {
+class Renderer {
+    private pixelBuffer = new Uint8ClampedArray(LCD_WIDTH * LCD_HEIGHT * 4);
     public drawScanLine (memory: Memory): Uint8ClampedArray {
-        // it's WIDTH * HEIGHT * 4 bytes per each pixel
-        // RGBA format
-        const pixelBuffer = new Uint8ClampedArray(LCD_WIDTH * LCD_HEIGHT * 4);
         const lcdStatus = memory.read8BitsValue(REGISTERS.GPU.LCD_CONTROL_REGISTER);
         const backgroundEnabled = numberUtils.isBitSet(lcdStatus, LCD_BACKGROUND_ENABLE_BIT);
         const spritesEnabled = numberUtils.isBitSet(lcdStatus, LCD_SPRITES_ENABLE_BIT);
 
         if (backgroundEnabled) {
-            this.renderBackground(pixelBuffer, memory);
+            this.renderBackground(memory);
         }
 
         if (spritesEnabled) {
-            this.renderSprites(pixelBuffer, memory);
+            this.renderSprites(memory);
         }
 
-        return pixelBuffer;
+        return this.pixelBuffer;
     }
 
     // renders background tiles + window
-    public renderBackground (pixelBuffer: Uint8ClampedArray, memory: Memory) {
+    public renderBackground (memory: Memory) {
         const lcdStatus = memory.read8BitsValue(REGISTERS.GPU.LCD_CONTROL_REGISTER);
         const SCROLL_X = memory.read8BitsValue(REGISTERS.GPU.SCROLL_X_REGISTER);
         const SCROLL_Y = memory.read8BitsValue(REGISTERS.GPU.SCROLL_Y_REGISTER);
@@ -89,7 +87,7 @@ class Renderer implements IRenderer {
             // from in memory
             // each vertical line takes up two bytes of memory
             const line = (currentLineInPerspective % 8) * 2;
-            
+
             const firstByte = memory.read8BitsValue(tileMemory + line);
             const secondByte = memory.read8BitsValue(tileMemory + line + 1);
             // Pixel 0 in the tile is bit 7 of data 1 and data2.
@@ -100,12 +98,12 @@ class Renderer implements IRenderer {
             const colorId = (colorIdFirstBit << 1) | colorIdSecondBit;
             const color = this.getColorFromPallete(PALLETE, colorId);
 
-            this.setPixel(pixelBuffer, pixel, CURRENT_LINE, color);
+            this.setPixel(pixel, CURRENT_LINE, color);
         }
     }
 
     // renders sprites
-    public renderSprites (pixelBuffer: Uint8ClampedArray, memory: Memory) {
+    public renderSprites (memory: Memory) {
         const lcdStatus = memory.read8BitsValue(REGISTERS.GPU.LCD_CONTROL_REGISTER);
         const areSprites16PixelsHeight = numberUtils.isBitSet(lcdStatus, LCD_SPRITES_SIZE_BIT);
         const ySizeOfSpritesInPixels = areSprites16PixelsHeight ? 16 : 8;
@@ -153,7 +151,7 @@ class Renderer implements IRenderer {
                     // to go from left to right
                     const xPixel = 0 - spritePixel + 7;
 
-                    this.setPixel(pixelBuffer, spriteX + xPixel, CURRENT_LINE, color);
+                    this.setPixel(spriteX + xPixel, CURRENT_LINE, color);
                 }
             }
         }
@@ -180,11 +178,12 @@ class Renderer implements IRenderer {
             }
     }
 
-    private setPixel(pixelBuffer: Uint8ClampedArray, x: number, y: number, color: IColor) {
-        pixelBuffer[y * LCD_WIDTH + (x * 4) + 0] = color.red;
-        pixelBuffer[y * LCD_WIDTH + (x * 4) + 1] = color.green;
-        pixelBuffer[y * LCD_WIDTH + (x * 4) + 2] = color.blue;
-        pixelBuffer[y * LCD_WIDTH + (x * 4) + 3] = color.alpha;
+    private setPixel(x: number, y: number, color: IColor) {
+        const offset = (y * LCD_WIDTH + x) * 4;
+        this.pixelBuffer[offset + 0] = color.red;
+        this.pixelBuffer[offset + 1] = color.green;
+        this.pixelBuffer[offset + 2] = color.blue;
+        this.pixelBuffer[offset + 3] = color.alpha;
     }
 }
 

@@ -9,7 +9,7 @@ class Runner {
         this.gameboy = new GameboyEmulator(new DefaultEmulatorSettings(), (pixelBuffer) => {
             const canvas = document.getElementById("emulator_window") as HTMLCanvasElement;
             const canvasContext = canvas.getContext("2d");
-            const imageData = canvasContext.getImageData(0, 0, 160, 144);
+            const imageData = canvasContext.createImageData(160, 144);
             for (let cnt = 0; cnt < imageData.data.length; cnt++) {
                 imageData.data[cnt] = pixelBuffer[cnt];
             }
