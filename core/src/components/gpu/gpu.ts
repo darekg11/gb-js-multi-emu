@@ -17,16 +17,18 @@ import {
     MAX_SCANLINES,
     OAM_MODE_CPU_CYCLES,
     SCANLINE_CPU_CYCLES,
-    DMA_MODE_CPU_CYCLES
+    DMA_MODE_CPU_CYCLES,
+    LCD_WIDTH,
+    LCD_HEIGHT
 } from "./constants";
 import { IRenderer } from "./renderers/types";
-import { ClassicRenderer } from "./renderers/index";
+import { ClassicRenderer } from "./renderers";
 
 class GPU {
     private eventBus = new EventBus();
     private memory = new Memory(this.eventBus);
     private ticks = 0;
-    private pixelBuffer = new Uint8ClampedArray();
+    private pixelBuffer = new Uint8ClampedArray(LCD_WIDTH * LCD_HEIGHT * 4);
     private pixelRenderer: IRenderer = new ClassicRenderer();
 
     constructor (eventBus: EventBus, memory: Memory) {

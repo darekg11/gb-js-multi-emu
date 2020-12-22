@@ -14,9 +14,6 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     const memoryIndexToRead = currentProgramCounter + 1;
     const firstHalfOfIndex = 0xFF;
     const secondHalfOfIndex = payload.Memory.read8BitsValue(memoryIndexToRead);
-    if (secondHalfOfIndex === 0x50) {
-      console.log("OK UNMAP. PC: %s", currentProgramCounter);
-    }
     const index = numberUtils.combineTwo8BitsNumbersInto16BitsNumber(firstHalfOfIndex, secondHalfOfIndex);
     const value = payload.CPU.getRegisterAValue()
     payload.Memory.write8BitsValue(index, value);

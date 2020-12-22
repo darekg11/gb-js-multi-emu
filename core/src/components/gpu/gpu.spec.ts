@@ -360,7 +360,7 @@ describe("update when LCD enabled - VBLANK mode", () => {
         // Configure LCD - Mode 1
         memory.write8BitsValue(REGISTERS.GPU.LCD_STAT_REGISTER, 0b11111101);
         // Setup number of lines proecssed so that it can end VBLANK period
-        memory.directWrite8BitsValue(REGISTERS.GPU.LY_REGISTER, MAX_SCANLINES);
+        memory.directWrite8BitsValue(REGISTERS.GPU.LY_REGISTER, MAX_SCANLINES + 1);
 
         const gpu = new GPU(eventBus, memory);
         // together 456 ticks - one scanline
