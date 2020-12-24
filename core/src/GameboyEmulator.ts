@@ -1,6 +1,7 @@
 import CPU from "./components/cpu";
 import Memory from "./components/memory";
 import GPU from "./components/gpu";
+import Joypad from "./components/joypad";
 import Cartridge from "./components/cartridge";
 import EventBus from "./components/event-bus";
 import { TimaTimer, DivTimer } from "./components/timers";
@@ -10,6 +11,7 @@ import { INTERRUPTS, INTERRUPTS_SERVICE_ADDRESSES } from "./components/cpu/const
 import REGISTERS from "./components/memory/constants";
 import { numberUtils } from "./utils";
 import { CLASSIC_GAMEBOY_CLOCK_SPEED, FRAMES_PER_SECOND } from "./components/contants";
+import { BUTTONS } from "./components/joypad/types";
 
 const DMG_BIOS = [
     0x31, // LD SP, nn - initializing STACK -> LD SP, 0xFFFE
@@ -283,6 +285,9 @@ class GameboyEmulator {
     // GPU
     private gpu = new GPU(this.eventBus, this.memory);
 
+    // Joypad
+    private joypad = new Joypad(this.eventBus, this.memory);
+
     // Draw callback executed when VBLANK occurs
     private onDrawFrameCallback: IOnDrawFrameCallback = () => {};
 
@@ -320,6 +325,10 @@ class GameboyEmulator {
         this.eventBus.addHandler({
             type: EVENT_TYPES.REQUEST_LCD_INTERRUPT,
             callback: () => this.requestInterrupt(INTERRUPTS.LCD_STAT)
+        })
+        this.eventBus.addHandler({
+            type: EVENT_TYPES.REQUEST_JOYPAD_INTERRUPT,
+            callback: () => this.requestInterrupt(INTERRUPTS.JOYPAD)
         })
         this.eventBus.addHandler({
             type: EVENT_TYPES.REQUEST_VBLANK_INTERRUPT,
@@ -435,6 +444,14 @@ class GameboyEmulator {
         while (this.ticks < this.ticksPerFrame) {
             this.tick();
         }
+    }
+
+    public buttonPressed = (button: BUTTONS) => {
+        this.joypad.buttonPressed(button);
+    }
+
+    public buttonReleased = (button: BUTTONS) => {
+        this.joypad.buttonReleased(button);
     }
 
     public getCPUDebugInfo = () => ({
