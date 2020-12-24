@@ -30,9 +30,18 @@
         <section class="section">
             <div class="container">
                 <button onclick="window.singleStep()">STEP</button>
-                <button onclick="window.endLoop()">RUN UNTIL BIOS LOOP END</button>
                 <button onclick="window.singleFrame()">RUN SINGLE FRAME</button>
                 <button onclick="window.run()">RUN</button>
+            </div>
+            <div class="container">
+                <label for="scaling_factor_select">Choose scaling:</label>
+                <select name="scaling_factor_select" id="scaling_factor_select" onchange="window.changeScaling()" value="1" autocomplete="off">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
             </div>
             <div class="container">
                 <input id="debug_memory_index_input" class="input" placeholder="Enter memory index (HEX)">
@@ -79,7 +88,11 @@
     <script>
         const runner = window.globalThis.runner;
         const fpsInterval = 1000 / 60;
+        const WIDTH = 160;
+        const HEIGHT = 144;
 
+        const scaling_factor_element = document.getElementById("scaling_factor_select");
+        const canvas_element = document.getElementById("emulator_window");
         const pc_reg_info_element = document.getElementById("debug_pc");
         const current_instruction_info_element = document.getElementById("debug_current_instruction");
         const reg_a_info_element = document.getElementById("debug_reg_a");
@@ -135,17 +148,6 @@
             rom_file_input.click();
         };
 
-        const endLoop = () => {
-            while (true) {
-                runner.tick();
-                const debugInfo = runner.getCPUDebugInfo();
-                if (debugInfo.PC === 52) {
-                    break;
-                }
-            }
-            getCPUDebugInfo();
-        };
-
         const singleStep = () => {
             runner.tick();
             getCPUDebugInfo();
@@ -195,6 +197,17 @@
             debug_rom_is_color_element.innerHTML = `Color Gameboy support: ${debugInfo.IS_COLOR && "YES" || "NO"}`;
             debug_rom_is_super_element.innerHTML = `Super Gameboy support: ${debugInfo.IS_SUPER && "YES" || "NO"}`;
             debug_rom_type_element.innerHTML = `Type: ${debugInfo.TYPE}`;
+        }
+
+        const changeScaling = () => {
+            const scalingFactor = Number(scaling_factor_element.value);
+
+            // change canvas dimensions
+            canvas_element.width = WIDTH * scalingFactor;
+            canvas_element.height = HEIGHT * scalingFactor;
+
+            // change scale factor in runner to draw pixels upscalled
+            runner.changeScaleFactor(scalingFactor);
         }
 
         getCPUDebugInfo();
