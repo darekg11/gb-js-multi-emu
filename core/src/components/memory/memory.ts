@@ -9,6 +9,8 @@ const MEMORY_SIZE = 65536;
 class Memory {
     constructor (eventBus: EventBus) {
         this.eventBus = eventBus;
+        // Make sure to not mark all buttons as pressed at the same time (0 === pressed)
+        this.memory[REGISTERS.JOYPAD.STATE] = 0x0F;
     }
 
     private eventBus = new EventBus();
@@ -41,6 +43,12 @@ class Memory {
         if (index === REGISTERS.MEMORY.DMA_TRANSFER_START_REGISTER) {
             this.DMA(value);
             return;
+        }
+        if (index === REGISTERS.JOYPAD.STATE) {
+            // Bits 0 - 3 are read only
+            // Bits 4 - 5 are write / read
+            // Bits 6 - 7 are not used
+            this.memory[REGISTERS.JOYPAD.STATE] = ((this.memory[REGISTERS.JOYPAD.STATE] & 0b00001111) | (value & 0b00110000));
         }
         this.memory[index] = value;
     }
