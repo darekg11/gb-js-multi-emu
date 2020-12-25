@@ -32,6 +32,7 @@
                 <button onclick="window.singleStep()">STEP</button>
                 <button onclick="window.singleFrame()">RUN SINGLE FRAME</button>
                 <button onclick="window.run()">RUN</button>
+                <button onclick="window.runTillBiosEnds()">RUN UNTIL BIOS ENDS</button>
             </div>
             <div class="container">
                 <label for="scaling_factor_select">Choose scaling:</label>
@@ -161,6 +162,17 @@
         const run = () => {
             setTimeout(run, fpsInterval);
             runner.runSingleFrame();
+        }
+
+        const runTillBiosEnds = () => {
+            while (true) {
+                runner.tick();
+                const debugInfo = runner.getCPUDebugInfo();
+                if (debugInfo.PC === 254) {
+                    break;
+                }
+            }
+            getCPUDebugInfo();
         }
 
         const getMemoryValue = () => {
