@@ -13,9 +13,7 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     const isCarryFlagSet = payload.CPU.isCarryFlagSet();
     if (isCarryFlagSet) {
         const currentProgramCounter = payload.CPU.getProgramCounter();
-        const firstHalf = payload.Memory.read8BitsValue(currentProgramCounter + 1);
-        const secondHalf = payload.Memory.read8BitsValue(currentProgramCounter + 2);
-        const value = numberUtils.combineTwo8BitsNumbersInto16BitsNumber(firstHalf, secondHalf);
+        const value = payload.Memory.read16BitsValue(currentProgramCounter + 1);
         payload.CPU.jump(value);
         return 16;
     } else {

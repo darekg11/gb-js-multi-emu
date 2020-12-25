@@ -5,7 +5,7 @@ import { IOpCodeHanlePayload } from "../../types";
   Memonic: JR n
   Description: Jump to relative address (PC + n).
                n is SIGNED BYTE
-  Size: 2 Byte - increments PC by 2 if jump is not made
+  Size: 2 Byte
   Cycles: 12
   Flags affected: None
 */

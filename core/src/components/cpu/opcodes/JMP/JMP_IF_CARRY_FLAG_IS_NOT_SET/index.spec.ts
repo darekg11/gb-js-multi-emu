@@ -8,8 +8,8 @@ describe("JMP_IF_CARRY_FLAG_IS_NOT_SET", () => {
         const cpu = new CPU();
         const memory = new Memory(new EventBus);
         const PC = 10;
-        const JMP_VALUE_FIRST_HALF = 0xAA;
-        const JMP_VALUE_SECOND_HALF = 0xBB;
+        const JMP_VALUE_FIRST_HALF = 0xBB;
+        const JMP_VALUE_SECOND_HALF = 0xAA;
         const EXPECTED_PC = (JMP_VALUE_FIRST_HALF << 8) | JMP_VALUE_SECOND_HALF;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
@@ -27,8 +27,8 @@ describe("JMP_IF_CARRY_FLAG_IS_NOT_SET", () => {
 
         cpu.jump(PC);
         cpu.unsetCarryFlag();
-        memory.write8BitsValue(PC + 1, JMP_VALUE_FIRST_HALF);
-        memory.write8BitsValue(PC + 2, JMP_VALUE_SECOND_HALF);
+        memory.write8BitsValue(PC + 2, JMP_VALUE_FIRST_HALF);
+        memory.write8BitsValue(PC + 1, JMP_VALUE_SECOND_HALF);
 
         handle({ CPU: cpu, Memory: memory });
 
@@ -75,8 +75,8 @@ describe("JMP_IF_CARRY_FLAG_IS_NOT_SET", () => {
 
         cpu.jump(PC);
         cpu.setCarryFlag();
-        memory.write8BitsValue(PC + 1, JMP_VALUE_FIRST_HALF);
-        memory.write8BitsValue(PC + 2, JMP_VALUE_SECOND_HALF);
+        memory.write8BitsValue(PC + 2, JMP_VALUE_FIRST_HALF);
+        memory.write8BitsValue(PC + 1, JMP_VALUE_SECOND_HALF);
 
         handle({ CPU: cpu, Memory: memory });
 

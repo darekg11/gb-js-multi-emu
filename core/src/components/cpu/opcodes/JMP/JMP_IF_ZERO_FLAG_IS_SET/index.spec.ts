@@ -28,8 +28,8 @@ describe("JMP_IF_ZERO_FLAG_IS_SET", () => {
 
         cpu.jump(PC);
         cpu.setZeroFlag();
-        memory.write8BitsValue(PC + 1, JMP_VALUE_FIRST_HALF);
-        memory.write8BitsValue(PC + 2, JMP_VALUE_SECOND_HALF);
+        memory.write8BitsValue(PC + 2, JMP_VALUE_FIRST_HALF);
+        memory.write8BitsValue(PC + 1, JMP_VALUE_SECOND_HALF);
 
         handle({ CPU: cpu, Memory: memory });
 
@@ -74,8 +74,8 @@ describe("JMP_IF_ZERO_FLAG_IS_SET", () => {
         expect(cpu.getProgramCounter()).toBe(0);
 
         cpu.jump(PC);
-        memory.write8BitsValue(PC + 1, JMP_VALUE_FIRST_HALF);
-        memory.write8BitsValue(PC + 2, JMP_VALUE_SECOND_HALF);
+        memory.write8BitsValue(PC + 2, JMP_VALUE_FIRST_HALF);
+        memory.write8BitsValue(PC + 1, JMP_VALUE_SECOND_HALF);
 
         handle({ CPU: cpu, Memory: memory });
 
