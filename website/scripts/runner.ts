@@ -13,7 +13,6 @@ class Runner {
             const canvasContext = canvas.getContext("2d");
             const scaledImageData = canvasContext.createImageData(LCD_WIDTH * this.scaleFactor, LCD_HEIGHT * this.scaleFactor);
             const subLine = canvasContext.createImageData(this.scaleFactor, 1).data;
-            const imageData = canvasContext.createImageData(LCD_WIDTH, LCD_HEIGHT);
 
             for (let row = 0; row < LCD_HEIGHT; row++) {
                 for (let column = 0; column < LCD_WIDTH; column++) {

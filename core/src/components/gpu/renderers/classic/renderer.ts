@@ -23,60 +23,54 @@ import { BLACK, WHITE, LIGHT_GREY, DARK_GREY } from "./colors";
 
 
 // It's pixel buffer renderer for Classic GameBoy
-class Renderer {
+class Renderer implements IRenderer {
     private pixelBuffer = new Uint8ClampedArray(LCD_WIDTH * LCD_HEIGHT * 4);
     public drawScanLine (memory: Memory): Uint8ClampedArray {
         const lcdStatus = memory.read8BitsValue(REGISTERS.GPU.LCD_CONTROL_REGISTER);
+        const CURRENT_LINE = memory.read8BitsValue(REGISTERS.GPU.LY_REGISTER);
+        const WINDOW_Y = memory.read8BitsValue(REGISTERS.GPU.WINDOW_Y_REGISTER);
         const backgroundEnabled = numberUtils.isBitSet(lcdStatus, LCD_BACKGROUND_ENABLE_BIT);
+        const windowEnabled = numberUtils.isBitSet(lcdStatus, LCD_WINDOW_ENABLE_BIT);
         const spritesEnabled = numberUtils.isBitSet(lcdStatus, LCD_SPRITES_ENABLE_BIT);
 
         if (backgroundEnabled) {
-            this.renderBackground(memory);
+            this.drawBackground(memory);
+        }
+
+        if (windowEnabled && CURRENT_LINE >= WINDOW_Y) {
+            this.drawWindow(memory);
         }
 
         if (spritesEnabled) {
-            this.renderSprites(memory);
+            // this.renderSprites(memory);
         }
 
         return this.pixelBuffer;
     }
 
-    // renders background tiles + window
-    public renderBackground (memory: Memory) {
+    private drawBackground (memory: Memory) {
         const lcdStatus = memory.read8BitsValue(REGISTERS.GPU.LCD_CONTROL_REGISTER);
         const SCROLL_X = memory.read8BitsValue(REGISTERS.GPU.SCROLL_X_REGISTER);
         const SCROLL_Y = memory.read8BitsValue(REGISTERS.GPU.SCROLL_Y_REGISTER);
-        const WINDOW_X = memory.read8BitsValue(REGISTERS.GPU.WINDOW_X_REGISTER) - 7;
-        const WINDOW_Y = memory.read8BitsValue(REGISTERS.GPU.WINDOW_Y_REGISTER);
         const CURRENT_LINE = memory.read8BitsValue(REGISTERS.GPU.LY_REGISTER);
         const PALLETE = memory.read8BitsValue(REGISTERS.GPU.BACKGROUND_PALLETE_REGISTER);
+        const unsignedTileIndex = numberUtils.isBitSet(lcdStatus, LCD_BACKGROUND_WINDOW_TILE_DATA_REGION_INDEX_BIT);
+        const tileMapMemoryIndex = numberUtils.isBitSet(lcdStatus, LCD_BACKGROUND_TILE_MAP_BIT) ?
+            REGISTERS.GPU.BACKGROUND_TILE_MAP_FIRST_START_INDEX :
+            REGISTERS.GPU.BACKGROUND_TILE_MAP_ZERO_START_INDEX;
 
-        const isWindowDraw = numberUtils.isBitSet(lcdStatus, LCD_WINDOW_ENABLE_BIT) && WINDOW_Y <= CURRENT_LINE;
         const tileDataRegionStartIndex = numberUtils.isBitSet(lcdStatus, LCD_BACKGROUND_WINDOW_TILE_DATA_REGION_INDEX_BIT) ?
             REGISTERS.GPU.BACKGROUND_WINDOW_TILE_DATA_FIRST_START_INDEX :
             REGISTERS.GPU.BACKGROUND_WINDOW_TILE_DATA_ZERO_START_INDEX;
-        const unsignedTileIndex = numberUtils.isBitSet(lcdStatus, LCD_BACKGROUND_WINDOW_TILE_DATA_REGION_INDEX_BIT);
-        let tileMapMemoryIndex = 0;
-        if (isWindowDraw) {
-            tileMapMemoryIndex = numberUtils.isBitSet(lcdStatus, LCD_WINDOW_TILE_MAP_BIT) ?
-                REGISTERS.GPU.WINDOW_TILE_MAP_FIRST_START_INDEX :
-                REGISTERS.GPU.WINDOW_TILE_MAP_ZERO_START_INDEX;
-        } else {
-            tileMapMemoryIndex = numberUtils.isBitSet(lcdStatus, LCD_BACKGROUND_TILE_MAP_BIT) ?
-                REGISTERS.GPU.BACKGROUND_TILE_MAP_FIRST_START_INDEX : 
-                REGISTERS.GPU.BACKGROUND_TILE_MAP_ZERO_START_INDEX;
-        }
 
-        const currentLineInPerspective = isWindowDraw ? CURRENT_LINE - WINDOW_Y : CURRENT_LINE + SCROLL_Y;
-        const tileRow = Math.floor((currentLineInPerspective / 8)) * MAX_TILES;
-
+        const y = SCROLL_Y + CURRENT_LINE;
         for (let pixel = 0; pixel < LCD_WIDTH; pixel++) {
-            let xPos = (pixel + SCROLL_X) & 255;
-            xPos = isWindowDraw && pixel >= WINDOW_X ? pixel - WINDOW_X : xPos;
-            xPos = xPos & 255;
+            const x = SCROLL_X + pixel;
 
-            const tileColumn = Math.floor((xPos / 8));
-            const tileAddress = tileMapMemoryIndex + tileRow + tileColumn;
+            const col = (x & 0xFF) >> 3;
+            const row = (y & 0xFF) >> 3;
+
+            const tileAddress = tileMapMemoryIndex + (row * MAX_TILES) + col;
             const tileIndex = unsignedTileIndex ? memory.read8BitsValue(tileAddress) : getSignedValue(memory.read8BitsValue(tileAddress)) + 128;
             // 8*8 pixels == 64
             // 64 * 2 = 128 // each pixel is 2 bytes
@@ -86,13 +80,63 @@ class Renderer {
             // tile to get the tile data
             // from in memory
             // each vertical line takes up two bytes of memory
-            const line = (currentLineInPerspective % 8) * 2;
+            const line = (y % 8) * 2;
 
             const firstByte = memory.read8BitsValue(tileMemory + line);
             const secondByte = memory.read8BitsValue(tileMemory + line + 1);
             // Pixel 0 in the tile is bit 7 of data 1 and data2.
             // Pixel 1 is bit 6 etc..
-            const colourBit = ((xPos % 8) - 7) * -1;
+            const colourBit = ((x % 8) - 7) * -1;
+            const colorIdFirstBit = numberUtils.isBitSet(secondByte, colourBit) ? 1 : 0;
+            const colorIdSecondBit = numberUtils.isBitSet(firstByte, colourBit) ? 1 : 0;
+            const colorId = (colorIdFirstBit << 1) | colorIdSecondBit;
+            const color = this.getColorFromPallete(PALLETE, colorId);
+
+            this.setPixel(pixel, CURRENT_LINE, color);
+        }
+    }
+
+    private drawWindow (memory: Memory) {
+        const lcdStatus = memory.read8BitsValue(REGISTERS.GPU.LCD_CONTROL_REGISTER);
+        const WINDOW_X = memory.read8BitsValue(REGISTERS.GPU.WINDOW_X_REGISTER) - 7;
+        const WINDOW_Y = memory.read8BitsValue(REGISTERS.GPU.WINDOW_Y_REGISTER);
+        const CURRENT_LINE = memory.read8BitsValue(REGISTERS.GPU.LY_REGISTER);
+        const PALLETE = memory.read8BitsValue(REGISTERS.GPU.BACKGROUND_PALLETE_REGISTER);
+        const unsignedTileIndex = numberUtils.isBitSet(lcdStatus, LCD_BACKGROUND_WINDOW_TILE_DATA_REGION_INDEX_BIT);
+
+        const tileMapMemoryIndex = numberUtils.isBitSet(lcdStatus, LCD_WINDOW_TILE_MAP_BIT) ?
+                REGISTERS.GPU.WINDOW_TILE_MAP_FIRST_START_INDEX :
+                REGISTERS.GPU.WINDOW_TILE_MAP_ZERO_START_INDEX;
+
+        const tileDataRegionStartIndex = numberUtils.isBitSet(lcdStatus, LCD_BACKGROUND_WINDOW_TILE_DATA_REGION_INDEX_BIT) ?
+                REGISTERS.GPU.BACKGROUND_WINDOW_TILE_DATA_FIRST_START_INDEX :
+                REGISTERS.GPU.BACKGROUND_WINDOW_TILE_DATA_ZERO_START_INDEX;
+
+        const y = CURRENT_LINE - WINDOW_Y;
+
+        for (let pixel = WINDOW_X; pixel < LCD_WIDTH; pixel++) {
+            const x = pixel - WINDOW_X;
+
+            const col = (x & 0xFF) >> 3;
+            const row = (y & 0xFF) >> 3;
+
+            const tileAddress = tileMapMemoryIndex + (row * MAX_TILES) + col;
+            const tileIndex = unsignedTileIndex ? memory.read8BitsValue(tileAddress) : getSignedValue(memory.read8BitsValue(tileAddress)) + 128;
+            // 8*8 pixels == 64
+            // 64 * 2 = 128 // each pixel is 2 bytes
+            // 128 / 8 = 16;
+            const tileMemory = tileDataRegionStartIndex + (tileIndex * 16);
+            // find the correct vertical line we're on of the
+            // tile to get the tile data
+            // from in memory
+            // each vertical line takes up two bytes of memory
+            const line = (y % 8) * 2;
+
+            const firstByte = memory.read8BitsValue(tileMemory + line);
+            const secondByte = memory.read8BitsValue(tileMemory + line + 1);
+            // Pixel 0 in the tile is bit 7 of data 1 and data2.
+            // Pixel 1 is bit 6 etc..
+            const colourBit = ((x % 8) - 7) * -1;
             const colorIdFirstBit = numberUtils.isBitSet(secondByte, colourBit) ? 1 : 0;
             const colorIdSecondBit = numberUtils.isBitSet(firstByte, colourBit) ? 1 : 0;
             const colorId = (colorIdFirstBit << 1) | colorIdSecondBit;

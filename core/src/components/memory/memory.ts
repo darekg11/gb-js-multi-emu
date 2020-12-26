@@ -49,6 +49,7 @@ class Memory {
             // Bits 4 - 5 are write / read
             // Bits 6 - 7 are not used
             this.memory[REGISTERS.JOYPAD.STATE] = ((this.memory[REGISTERS.JOYPAD.STATE] & 0b00001111) | (value & 0b00110000));
+            return;
         }
         this.memory[index] = value;
     }
