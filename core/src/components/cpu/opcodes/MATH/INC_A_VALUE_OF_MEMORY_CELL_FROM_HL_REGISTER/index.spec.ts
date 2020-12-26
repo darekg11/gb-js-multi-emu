@@ -50,13 +50,13 @@ describe("INC_A_VALUE_OF_MEMORY_CELL_FROM_HL_REGISTER", () => {
         expect(memory.read8BitsValue(INDEX)).toBe(RESULT);
     });
 
-    test("Result of 256 should set carry flag and zero flag, increase PC by 1 and Subtraction flag to 0", () => {
+    test("Result of 256 should set zero flag, increase PC by 1 and Subtraction flag to 0", () => {
         const cpu = new CPU();
         const memory = new Memory(new EventBus);
         const INDEX = 40041;
         const VALUE = 255;
         const RESULT = 0;
-        const EXPECTED_F_REG_VALUE = 0b10110000;
+        const EXPECTED_F_REG_VALUE = 0b10100000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
         expect(cpu.getRegisterCValue()).toBe(0);
@@ -91,7 +91,7 @@ describe("INC_A_VALUE_OF_MEMORY_CELL_FROM_HL_REGISTER", () => {
         expect(cpu.getProgramCounter()).toBe(1);
         expect(cpu.isZeroFlagSet()).toBe(true);
         expect(cpu.isSubtractionFlagSet()).toBe(false);
-        expect(cpu.isCarryFlagSet()).toBe(true);
+        expect(cpu.isCarryFlagSet()).toBe(false);
         expect(cpu.isHalfCarryFlagSet()).toBe(true);
         expect(memory.read8BitsValue(INDEX)).toBe(RESULT);
     });

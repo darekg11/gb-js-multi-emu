@@ -14,7 +14,7 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     const address = payload.Memory.read16BitsValue(currentProgramCounter + 1);
     if (isCarryFlagSet) {
         payload.CPU.decreaseStackPointer(2);
-        payload.Memory.write16BitsValue(payload.CPU.getRegisterSPValue(), currentProgramCounter + 2);
+        payload.Memory.write16BitsValue(payload.CPU.getRegisterSPValue(), currentProgramCounter + 3);
         payload.CPU.jump(address);
         return 24;
     } else {

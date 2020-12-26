@@ -12,9 +12,8 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     const currentProgramCounter = payload.CPU.getProgramCounter();
     const address = payload.Memory.read16BitsValue(currentProgramCounter + 1);
     payload.CPU.decreaseStackPointer(2);
-    payload.Memory.write16BitsValue(payload.CPU.getRegisterSPValue(), currentProgramCounter + 2);
+    payload.Memory.write16BitsValue(payload.CPU.getRegisterSPValue(), currentProgramCounter + 3);
     payload.CPU.jump(address);
     return 24;
 }
-
 export default handle;

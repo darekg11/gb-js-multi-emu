@@ -4,8 +4,8 @@ import { IOpCodeHanlePayload } from "../../types";
   OP Code: 0x1C
   Memonic: INC E
   Description: Increases value stored in E register.
-    Sets SUBTRACTION flag to 1
-    Sets CARRY flag if we underflow 0 value
+    Sets SUBTRACTION flag to 0
+    Carry flag is not changed
     Sets ZERO flag if result is 0
     Sets HALF_CARRY flag if bit 3 overflows into bit 4 so whenever there is overflow to upper nibble
     Flags are not affected.
@@ -15,9 +15,6 @@ import { IOpCodeHanlePayload } from "../../types";
 const handle = (payload: IOpCodeHanlePayload): number => {
     const registerEValue = payload.CPU.getRegisterEValue();
     const incremented = registerEValue + 1;
-    if (incremented > 255) {
-        payload.CPU.setCarryFlag();
-    }
     const safeValue = incremented & 255;
     if (safeValue === 0) {
         payload.CPU.setZeroFlag();
@@ -27,6 +24,8 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     const shouldSetHalfCarryFlag = (registerEValue & 0xF) + (1 & 0xF) > 0xF;
     if (shouldSetHalfCarryFlag) {
         payload.CPU.setHalfCarryFlag();
+    } else {
+        payload.CPU.unsetHalfCarryFlag();
     }
     payload.CPU.unsetSubtractionFlag();
     payload.CPU.setRegisterEValue(safeValue);

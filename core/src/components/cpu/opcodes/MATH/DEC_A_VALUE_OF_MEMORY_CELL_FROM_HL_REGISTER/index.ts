@@ -17,9 +17,6 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     const index = payload.CPU.getRegisterHLValue();
     const value = payload.Memory.read8BitsValue(index);
     const decreased = value - 1;
-    if (decreased < 0) {
-        payload.CPU.setCarryFlag();
-    }
     const safeValue = decreased & 255;
     if (safeValue === 0) {
         payload.CPU.setZeroFlag();
@@ -29,6 +26,8 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     const shouldSetHalfCarryFlag = (value & 0xF) - (1 & 0xF) > 0xF;
     if (shouldSetHalfCarryFlag) {
         payload.CPU.setHalfCarryFlag();
+    } else {
+        payload.CPU.unsetHalfCarryFlag();
     }
     payload.CPU.setSubtractionFlag();
     payload.Memory.write8BitsValue(index, safeValue);

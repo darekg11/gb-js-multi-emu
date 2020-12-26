@@ -16,9 +16,6 @@ import { IOpCodeHanlePayload } from "../../types";
 const handle = (payload: IOpCodeHanlePayload): number => {
     const registerEValue = payload.CPU.getRegisterEValue();
     const decremented = registerEValue - 1;
-    if (decremented < 0) {
-        payload.CPU.setCarryFlag();
-    }
     const safeValue = decremented & 255;
     if (safeValue === 0) {
         payload.CPU.setZeroFlag();
@@ -28,6 +25,8 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     const shouldSetHalfCarryFlag = (registerEValue & 0xF) + (1 & 0xF) > 0xF;
     if (shouldSetHalfCarryFlag) {
         payload.CPU.setHalfCarryFlag();
+    } else {
+        payload.CPU.unsetHalfCarryFlag();
     }
     payload.CPU.setSubtractionFlag();
     payload.CPU.setRegisterEValue(safeValue);

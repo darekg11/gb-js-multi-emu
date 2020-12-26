@@ -52,7 +52,7 @@ describe("INC_C", () => {
         const memory = new Memory(new EventBus);
         const REG_C = 255;
         const RESULT = 0;
-        const EXPECTED_F_REG_VALUE = 0b10110000;
+        const EXPECTED_F_REG_VALUE = 0b10100000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
         expect(cpu.getRegisterCValue()).toBe(0);
@@ -86,7 +86,7 @@ describe("INC_C", () => {
         expect(cpu.getProgramCounter()).toBe(1);
         expect(cpu.isZeroFlagSet()).toBe(true);
         expect(cpu.isSubtractionFlagSet()).toBe(false);
-        expect(cpu.isCarryFlagSet()).toBe(true);
+        expect(cpu.isCarryFlagSet()).toBe(false);
         expect(cpu.isHalfCarryFlagSet()).toBe(true);
     });
 
