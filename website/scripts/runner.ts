@@ -2,6 +2,7 @@ import GameboyEmulator from "gb-js-multi-emu-core";
 import Cartridge from "gb-js-multi-emu-core/dist/components/cartridge";
 import { DefaultEmulatorSettings } from "gb-js-multi-emu-core/dist/types";
 import { LCD_WIDTH, LCD_HEIGHT } from "gb-js-multi-emu-core/dist/components/gpu/constants";
+import { BUTTONS } from "gb-js-multi-emu-core/dist/components/joypad/types";
 
 class Runner {
     gameboy = null;
@@ -53,17 +54,25 @@ class Runner {
         this.gameboy.loadCartridge(new Cartridge(rawBinaryData));
     }
 
-    public runSingleFrame() {
+    public runSingleFrame = () => {
         this.gameboy.runSingleFrame();
     }
 
-    public changeScaleFactor(newScaleFactor) {
+    public changeScaleFactor = (newScaleFactor) => {
         let safeScaleFactor = 1;
         if (newScaleFactor < 1 || newScaleFactor > 5) {
             safeScaleFactor = 1;
         }
         safeScaleFactor = Math.min(newScaleFactor, 5);
         this.scaleFactor = safeScaleFactor;
+    }
+
+    public buttonPressed = (button: BUTTONS) => {
+        this.gameboy.buttonPressed(button);
+    }
+
+    public buttonReleased = (button: BUTTONS) => {
+        this.gameboy.buttonReleased(button);
     }
 }
 

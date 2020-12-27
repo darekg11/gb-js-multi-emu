@@ -1,12 +1,12 @@
 enum BUTTONS {
-    "UP",
-    "DOWN",
-    "LEFT",
-    "RIGHT",
-    "START",
-    "SELECT",
-    "A",
-    "B"
+    UP = "UP",
+    DOWN = "DOWN",
+    LEFT = "LEFT",
+    RIGHT = "RIGHT",
+    START = "START",
+    SELECT = "SELECT",
+    A = "A",
+    B = "B"
 }
 
 const BUTTONS_BITS = {
