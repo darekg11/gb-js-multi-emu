@@ -1,3 +1,4 @@
+import _ from "lodash";
 import Memory from "../../../memory";
 import {
     LCD_WIDTH,
@@ -13,13 +14,15 @@ import {
     MAX_SPRITES,
     OAM_ENTRY_SIZE_BYTES,
     OAM_ENTRY_INDEXES,
-    SPRITE_ATTRIBUTES_BITS
+    SPRITE_ATTRIBUTES_BITS,
+    MAX_SPRITES_PER_LINE
 } from "../../constants";
 import REGISTERS from "../../../memory/constants";
 import { numberUtils } from "../../../../utils";
 import { IColor, IRenderer } from "../types";
 import { getSignedValue } from "../../../../utils/numbers";
 import { BLACK, WHITE, LIGHT_GREY, DARK_GREY } from "./colors";
+import OAM from "../../OAM";
 
 
 // It's pixel buffer renderer for Classic GameBoy
@@ -42,13 +45,13 @@ class Renderer implements IRenderer {
         }
 
         if (spritesEnabled) {
-            // this.renderSprites(memory);
+            this.drawSprites(memory);
         }
 
         return this.pixelBuffer;
     }
 
-    private drawBackground (memory: Memory) {
+    private drawBackground = (memory: Memory) => {
         const lcdStatus = memory.read8BitsValue(REGISTERS.GPU.LCD_CONTROL_REGISTER);
         const SCROLL_X = memory.read8BitsValue(REGISTERS.GPU.SCROLL_X_REGISTER);
         const SCROLL_Y = memory.read8BitsValue(REGISTERS.GPU.SCROLL_Y_REGISTER);
@@ -96,7 +99,7 @@ class Renderer implements IRenderer {
         }
     }
 
-    private drawWindow (memory: Memory) {
+    private drawWindow = (memory: Memory) => {
         const lcdStatus = memory.read8BitsValue(REGISTERS.GPU.LCD_CONTROL_REGISTER);
         const WINDOW_X = memory.read8BitsValue(REGISTERS.GPU.WINDOW_X_REGISTER) - 7;
         const WINDOW_Y = memory.read8BitsValue(REGISTERS.GPU.WINDOW_Y_REGISTER);
@@ -146,57 +149,74 @@ class Renderer implements IRenderer {
         }
     }
 
-    // renders sprites
-    public renderSprites (memory: Memory) {
+    private drawSprites = (memory: Memory) => {
         const lcdStatus = memory.read8BitsValue(REGISTERS.GPU.LCD_CONTROL_REGISTER);
         const areSprites16PixelsHeight = numberUtils.isBitSet(lcdStatus, LCD_SPRITES_SIZE_BIT);
         const ySizeOfSpritesInPixels = areSprites16PixelsHeight ? 16 : 8;
         const CURRENT_LINE = memory.read8BitsValue(REGISTERS.GPU.LY_REGISTER);
-        
+        const BACKGROUND_PALLETE = memory.read8BitsValue(REGISTERS.GPU.BACKGROUND_PALLETE_REGISTER);
+
+        // get only 10 spites per line since it's limit
+        const spritesInThisLine: OAM[] = [];
         for (let sprite = 0; sprite < MAX_SPRITES; sprite++) {
-            // each entry takes 4 bytes;
             const spriteIndexInOAM = sprite * OAM_ENTRY_SIZE_BYTES;
             const spriteY = memory.read8BitsValue(REGISTERS.MEMORY.OAM_AREA_START_INDEX + spriteIndexInOAM + OAM_ENTRY_INDEXES.Y_POSITION) - 16;
             const spriteX = memory.read8BitsValue(REGISTERS.MEMORY.OAM_AREA_START_INDEX + spriteIndexInOAM + OAM_ENTRY_INDEXES.X_POSITION) - 8;
             const tileIndex = memory.read8BitsValue(REGISTERS.MEMORY.OAM_AREA_START_INDEX + spriteIndexInOAM + OAM_ENTRY_INDEXES.TILE_INDEX);
             const spriteAttributes = memory.read8BitsValue(REGISTERS.MEMORY.OAM_AREA_START_INDEX + spriteIndexInOAM + OAM_ENTRY_INDEXES.ATTRIBUTES);
 
-            const xFlip = numberUtils.isBitSet(spriteAttributes, SPRITE_ATTRIBUTES_BITS.X_FLIP);
-            const yFlip = numberUtils.isBitSet(spriteAttributes, SPRITE_ATTRIBUTES_BITS.Y_FLIP);
-            const PALLETE = numberUtils.isBitSet(spriteAttributes, SPRITE_ATTRIBUTES_BITS.PALLETE_NUMBER) ? REGISTERS.GPU.OBJECT_PALLETE_ONE_REGISTER : REGISTERS.GPU.OBJECT_PALLETE_ZERO_REGISTER;
+            if (CURRENT_LINE >= spriteY && (CURRENT_LINE < spriteY + ySizeOfSpritesInPixels) && spriteX < LCD_WIDTH) {
+                spritesInThisLine.push(new OAM(spriteX, spriteY, tileIndex, spriteAttributes));
+            }
 
-            if (CURRENT_LINE >= spriteY && (CURRENT_LINE < (spriteY + ySizeOfSpritesInPixels))) {
-                let line = CURRENT_LINE - spriteY;
-                if (yFlip) {
-                    // read the sprite in backwards in the y axis
-                    line -= ySizeOfSpritesInPixels;
-                    line *= -1;
+        }
+        // in Classic Gameboy the lower the Sprite X the higher the priority
+        const sortedSprites = _.sortBy(spritesInThisLine, [ (sprite) => sprite.getX() ]);
+        const spritesInThisLineLimit = sortedSprites.slice(0, MAX_SPRITES_PER_LINE);
+
+
+        for (let sprite = spritesInThisLineLimit.length - 1; sprite >= 0; sprite--) {
+            const spriteOAM = spritesInThisLineLimit[sprite];
+            const spriteX = spriteOAM.getX();
+            const py = spriteOAM.isYFlipped() ? (ySizeOfSpritesInPixels - 1) - (CURRENT_LINE - spriteOAM.getY()) : CURRENT_LINE - spriteOAM.getY();
+            const line = py * 2;
+            // in case of 8x16 sprites, bit 0 is ignored 0xFE is 11111110 so it will drop last bit
+            const spriteTileIndex = areSprites16PixelsHeight ? spriteOAM.getIndex() & 0xFE : spriteOAM.getIndex();
+            const spriteMemory = (REGISTERS.MEMORY.VRAM_AREA_START_INDEX + (spriteTileIndex * 16));
+            const firstByte = memory.read8BitsValue(spriteMemory + line);
+            const secondByte = memory.read8BitsValue(spriteMemory + line + 1);
+            const PALLETE = memory.read8BitsValue(spriteOAM.getPalleteRegister());
+
+            for (let x = spriteX; x < spriteX + 8 && x < LCD_WIDTH; x++) {
+                if (x < 0) {
+                    continue;
                 }
-                // each line takes 2 bytes in memory
-                line *= 2;
 
-                const spriteMemory = (REGISTERS.MEMORY.VRAM_AREA_START_INDEX + (tileIndex * 16));
-                const firstByte = memory.read8BitsValue(spriteMemory + line);
-                const secondByte = memory.read8BitsValue(spriteMemory + line + 1);
+                // Pixel 0 in the tile is bit 7 of data 1 and data2.
+                // Pixel 1 is bit 6 etc..
+                const spriteBit = (((x - spriteX) % 8) - 7) * -1;
+                const colourBit = spriteOAM.isXFlipped() ? 7 - spriteBit : spriteBit;
+                const colorIdFirstBit = numberUtils.isBitSet(secondByte, colourBit) ? 1 : 0;
+                const colorIdSecondBit = numberUtils.isBitSet(firstByte, colourBit) ? 1 : 0;
+                const colorId = (colorIdFirstBit << 1) | colorIdSecondBit;
+                const color = this.getColorFromPallete(PALLETE, colorId);
 
-                for (let spritePixel = 7; spritePixel >= 0; spritePixel--) {
-                    const colourBit = xFlip ? (spritePixel - 7) * -1 : spritePixel;
-                    const colorIdFirstBit = numberUtils.isBitSet(secondByte, colourBit) ? 1 : 0;
-                    const colorIdSecondBit = numberUtils.isBitSet(firstByte, colourBit) ? 1 : 0;
-                    const colorId = (colorIdFirstBit << 1) | colorIdSecondBit;
-                    const color = this.getColorFromPallete(PALLETE, colorId);
-
-                    // white is transparent for sprites.
-                    // shitty way to check but whatever
-                    if (color.blue === 255 && color.green === 255 && color.red === 255) {
-                        continue;
-                    }
-
-                    // to go from left to right
-                    const xPixel = 0 - spritePixel + 7;
-
-                    this.setPixel(spriteX + xPixel, CURRENT_LINE, color);
+                // white is transparent for sprites.
+                // shitty way to check but whatever
+                if (color.blue === 255 && color.green === 255 && color.red === 255) {
+                    continue;
                 }
+
+                // OBJ-to-BG Priority
+                // - 0: OBJ Above BG
+                // - 1: OBJ Behind BG color 1-3
+                const backgroundZeroColor = this.getColorFromPallete(BACKGROUND_PALLETE, 0);
+                const currentPixelColor = this.getPixel(x, CURRENT_LINE);
+                if (spriteOAM.isPriority() && currentPixelColor.red !== backgroundZeroColor.red && currentPixelColor.green !== backgroundZeroColor.green && currentPixelColor.blue !== backgroundZeroColor.blue) {
+                    continue;
+                }
+
+                this.setPixel(x, CURRENT_LINE, color);
             }
         }
     }
@@ -222,12 +242,22 @@ class Renderer implements IRenderer {
             }
     }
 
-    private setPixel(x: number, y: number, color: IColor) {
+    private setPixel = (x: number, y: number, color: IColor) => {
         const offset = (y * LCD_WIDTH + x) * 4;
         this.pixelBuffer[offset + 0] = color.red;
         this.pixelBuffer[offset + 1] = color.green;
         this.pixelBuffer[offset + 2] = color.blue;
         this.pixelBuffer[offset + 3] = color.alpha;
+    }
+
+    private getPixel = (x: number, y: number): IColor => {
+        const offset = (y * LCD_WIDTH + x) * 4;
+        return {
+            red: this.pixelBuffer[offset + 0],
+            green: this.pixelBuffer[offset + 1],
+            blue: this.pixelBuffer[offset + 2],
+            alpha: this.pixelBuffer[offset + 3]
+        }
     }
 }
 
