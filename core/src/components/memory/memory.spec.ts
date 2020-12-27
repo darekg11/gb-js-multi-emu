@@ -19,7 +19,7 @@ describe("read8BitsValue + write8BitsValue", () => {
         expect(() => { memory.read8BitsValue(MEMORY_SIZE + 1) }).toThrow(MemoryOutOfBoundError);
     });
     test("should return value", () => {
-        const TEST_INDEX = 10;
+        const TEST_INDEX = 50000;
         const TEST_VALUE = 190;
         const memory = new Memory(new EventBus);
         memory.write8BitsValue(TEST_INDEX, TEST_VALUE);
@@ -49,7 +49,7 @@ describe("read16BitsValue + write16BitsValue", () => {
         expect(() => { memory.read16BitsValue(MEMORY_SIZE + 1) }).toThrow(MemoryOutOfBoundError);
     });
     test("should return value", () => {
-        const TEST_INDEX = 10;
+        const TEST_INDEX = 50000;
         const TEST_VALUE = 40987;
         const memory = new Memory(new EventBus);
         memory.write16BitsValue(TEST_INDEX, TEST_VALUE);
@@ -72,8 +72,8 @@ describe("DIV Register Write", () => {
 describe("DMA transfer", () => {
     test("should copy bytes correctly", () => {
         const memory = new Memory(new EventBus);
-        const dmaValue = 78;
-        const sourceIndex = 78 << 8;
+        const dmaValue = 200;
+        const sourceIndex = 200 << 8;
         for (let cnt = 0; cnt < 0xA0; cnt++) {
             memory.write8BitsValue(sourceIndex + cnt, cnt + 1);
         }

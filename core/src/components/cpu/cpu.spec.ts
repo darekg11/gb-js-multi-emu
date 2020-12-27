@@ -386,7 +386,7 @@ describe("Tick - executing regular OP Code", () => {
     const NOOP_OP_CODE_MACHINE_CYCLE = 4;
 
     const memory = new Memory(new EventBus);
-    OP_CODES.forEach((opCode, index) => memory.write8BitsValue(index, opCode));
+    OP_CODES.forEach((opCode, index) => memory.directWrite8BitsValue(index, opCode));
 
     let machineCycles = 0;
     machineCycles += cpu.tick(memory);
@@ -407,7 +407,7 @@ describe("Tick - execute CB prefix OP Code", () => {
     const TOTAL_MACHINE_CYCLES = NOOP_OP_CODE_MACHINE_CYCLES + 0 + RLCC_OP_CODE_MACHINE_CYCLES + NOOP_OP_CODE_MACHINE_CYCLES + CB_PREFIX_MAHCINE_CYCLES
 
     const memory = new Memory(new EventBus);
-    OP_CODES.forEach((opCode, index) => memory.write8BitsValue(index, opCode));
+    OP_CODES.forEach((opCode, index) => memory.directWrite8BitsValue(index, opCode));
 
     let machineCycles = 0;
     machineCycles += cpu.tick(memory);

@@ -25,7 +25,7 @@ describe("ADD_TO_SP_A_VALUE_FROM_NEXT_MEMORY_CELL", () => {
         expect(cpu.getProgramCounter()).toBe(0);
 
         cpu.setRegisterSPValue(REG_SP);
-        memory.write8BitsValue(1, VALUE);
+        memory.directWrite8BitsValue(1, VALUE);
 
         handle({ CPU: cpu, Memory: memory });
 
@@ -71,7 +71,7 @@ describe("ADD_TO_SP_A_VALUE_FROM_NEXT_MEMORY_CELL", () => {
         expect(cpu.getProgramCounter()).toBe(0);
 
         cpu.setRegisterSPValue(REG_SP);
-        memory.write8BitsValue(1, VALUE);
+        memory.directWrite8BitsValue(1, VALUE);
 
         handle({ CPU: cpu, Memory: memory });
 

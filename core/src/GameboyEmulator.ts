@@ -383,7 +383,7 @@ class GameboyEmulator {
         const inerruptsStateAfterDisabling =  numberUtils.unsetBit(interruptRequestState, interrupt);
         this.memory.write8BitsValue(REGISTERS.INTERRUPTS.INTERRUPT_REQUEST_REGISTER, inerruptsStateAfterDisabling);
 
-        // push PC to stach
+        // push PC to stack
         const currentProgramCounter = this.cpu.getProgramCounter();
         this.cpu.decreaseStackPointer(2);
         this.memory.write16BitsValue(this.cpu.getRegisterSPValue(), currentProgramCounter);
@@ -426,7 +426,7 @@ class GameboyEmulator {
         // do not copy first 0x100 bytes since at the beggining it's BIOS
         // which get unammped at the end of BOOT sequence
         this.cartridge.getProgramData().slice(shouldLoadBIOS ? 0x100 : 0x00).forEach((value, index) => {
-            this.memory.write8BitsValue(index + (shouldLoadBIOS ? this.biosSize : 0), value);
+            this.memory.directWrite8BitsValue(index + (shouldLoadBIOS ? this.biosSize : 0), value);
         });
         this.cpu = new CPU();
         if (!shouldLoadBIOS) {

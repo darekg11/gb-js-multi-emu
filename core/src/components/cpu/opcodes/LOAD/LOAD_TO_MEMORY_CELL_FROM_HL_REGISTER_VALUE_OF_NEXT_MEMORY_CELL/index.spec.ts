@@ -24,7 +24,7 @@ describe("LOAD_TO_MEMORY_CELL_FROM_HL_REGISTER_VALUE_OF_NEXT_MEMORY_CELL", () =>
         expect(cpu.getProgramCounter()).toBe(0);
         expect(memory.read8BitsValue(TEST_INDEX)).toBe(0);
 
-        memory.write8BitsValue(1, TEST_VALUE);
+        memory.directWrite8BitsValue(1, TEST_VALUE);
         cpu.setRegisterHLValue(TEST_INDEX);
 
         handle({ CPU: cpu, Memory: memory });

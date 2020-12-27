@@ -24,8 +24,8 @@ describe("LOAD_TO_REG_A_VALUE_OF_MEMORY_INDEX_FROM_NEXT_MEMORY_CELL", () => {
         expect(cpu.getRegisterAFValue()).toBe(0);
         expect(cpu.getProgramCounter()).toBe(0);
 
-        memory.write8BitsValue(1, NEXT_MEMORY_CELL_VALUE);
-        memory.write8BitsValue(TEST_INDEX, TEST_VALUE)
+        memory.directWrite8BitsValue(1, NEXT_MEMORY_CELL_VALUE);
+        memory.directWrite8BitsValue(TEST_INDEX, TEST_VALUE)
 
         handle({ CPU: cpu, Memory: memory });
 

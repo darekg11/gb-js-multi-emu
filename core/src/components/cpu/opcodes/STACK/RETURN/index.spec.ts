@@ -8,7 +8,7 @@ describe("RETURN", () => {
         const cpu = new CPU();
         const memory = new Memory(new EventBus);
         const PC = 56789;
-        const SP = 100;
+        const SP = 50000;
         const RETURN_VALUE = 56789;
         const EXPECTED_SP = SP + 2;
         expect(cpu.getRegisterAValue()).toBe(0);

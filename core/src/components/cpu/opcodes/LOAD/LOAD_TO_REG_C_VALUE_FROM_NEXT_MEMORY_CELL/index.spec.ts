@@ -22,7 +22,7 @@ describe("LOAD_TO_REG_C_VALUE_FROM_NEXT_MEMORY_CELL", () => {
         expect(cpu.getRegisterAFValue()).toBe(0);
         expect(cpu.getProgramCounter()).toBe(0);
 
-        memory.write8BitsValue(1, TEST_VALUE);
+        memory.directWrite8BitsValue(1, TEST_VALUE);
 
         handle({ CPU: cpu, Memory: memory });
 

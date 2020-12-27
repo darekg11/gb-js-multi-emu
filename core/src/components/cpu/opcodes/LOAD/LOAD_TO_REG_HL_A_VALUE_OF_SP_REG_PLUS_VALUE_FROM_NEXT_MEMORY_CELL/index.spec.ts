@@ -27,7 +27,7 @@ describe("LOAD_TO_REG_HL_A_VALUE_OF_SP_REG_PLUS_VALUE_FROM_NEXT_MEMORY_CELL", ()
 
         cpu.setRegisterHLValue(REG_HL);
         cpu.setRegisterSPValue(REG_SP);
-        memory.write8BitsValue(1, VALUE);
+        memory.directWrite8BitsValue(1, VALUE);
 
         handle({ CPU: cpu, Memory: memory });
 

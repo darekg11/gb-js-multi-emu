@@ -25,7 +25,7 @@ describe("LOAD_TO_MEMORY_CELL_COMBINED_FROM_NEXT_MEMORY_CELL_VALUE_OF_A_REGISTER
         expect(cpu.getProgramCounter()).toBe(0);
         expect(memory.read8BitsValue(TEST_INDEX)).toBe(0);
 
-        memory.write8BitsValue(1, NEXT_MEMORY_CELL);
+        memory.directWrite8BitsValue(1, NEXT_MEMORY_CELL);
         cpu.setRegisterAValue(TEST_VALUE);
 
         handle({ CPU: cpu, Memory: memory });

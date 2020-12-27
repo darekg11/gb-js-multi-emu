@@ -3,6 +3,8 @@ import MemoryOutOfBoundError from "../../errors/MemoryOutOfBoundError";
 import EventBus from "../event-bus";
 import REGISTERS from "./constants";
 import { UnmapBiosEvent } from "../event-bus/events/UNMAP_BIOS";
+import { CARTRIDGE_TYPE_INDEX } from "../cartridge/constants";
+import { CARTRIGDE_TYPES } from "../cartridge/types";
 
 const MEMORY_SIZE = 65536;
 
@@ -51,6 +53,11 @@ class Memory {
             this.memory[REGISTERS.JOYPAD.STATE] = ((this.memory[REGISTERS.JOYPAD.STATE] & 0b00001111) | (value & 0b00110000));
             return;
         }
+        // if MBC === 0 do not allow writes under 0x8000 - for example Dr Mario is doing illegal writes messing up logic on it's own
+        const romType = this.memory[CARTRIDGE_TYPE_INDEX];
+        if (romType === CARTRIGDE_TYPES.ROM_ONLY && index < 0x8000) {
+            return;
+        }
         this.memory[index] = value;
     }
 
@@ -76,6 +83,13 @@ class Memory {
         if (index < 0 || index > this.memory.length - 2) {
             throw new MemoryOutOfBoundError(index);
         }
+        
+        // if MBC === 0 do not allow writes under 0x8000 - for example Dr Mario is doing illegal writes messing up logic on it's own
+        const romType = this.memory[CARTRIDGE_TYPE_INDEX];
+        if (romType === CARTRIGDE_TYPES.ROM_ONLY && index < 0x8000) {
+            return;
+        }
+
         const [ firstPart, secondPart ] = numberUtils.split16BitsNumberIntoTwo8BitsNumbers(value);
         this.memory[index] = secondPart;
         this.memory[index + 1] = firstPart;

@@ -1,5 +1,5 @@
 import Bus from "./bus";
-import { RedrawSpriteEvent } from "./events/REDRAW_SPRITE";
+import { RequestLCDInterruptEvent } from "./events/REQUEST_LCD_INERRUPT";
 import { UnmapBiosEvent } from "./events/UNMAP_BIOS";
 import { EVENT_TYPES } from "./types";
 
@@ -53,19 +53,19 @@ describe("emit", () => {
 
     test("adding single handler to emit should invoke callback with payload", () => {
         const bus = new Bus();
-        const testEvent = new RedrawSpriteEvent(10, 20);
+        const testEvent = new RequestLCDInterruptEvent();
         const mockCallback = jest.fn(data => data);
 
 
         bus.addHandler({
-            type: EVENT_TYPES.REDRAW_SPRITE,
+            type: EVENT_TYPES.REQUEST_LCD_INTERRUPT,
             callback: mockCallback
         });
 
         bus.emit(testEvent);
 
         expect(mockCallback.mock.calls.length).toBe(1);
-        expect(mockCallback.mock.calls[0][0]).toMatchObject({ x: 10, y: 20});
+        expect(mockCallback.mock.calls[0][0]).toMatchObject({});
     })
 
     test("emiting event for one type of event should not call different type handlers", () => {
@@ -77,7 +77,7 @@ describe("emit", () => {
 
 
         bus.addHandler({
-            type: EVENT_TYPES.REDRAW_SPRITE,
+            type: EVENT_TYPES.REQUEST_LCD_INTERRUPT,
             callback: redrawSpriteEventCallback
         });
 

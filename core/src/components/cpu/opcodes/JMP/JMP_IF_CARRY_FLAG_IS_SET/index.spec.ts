@@ -28,8 +28,8 @@ describe("JMP_IF_CARRY_FLAG_IS_SET", () => {
 
         cpu.jump(PC);
         cpu.setCarryFlag();
-        memory.write8BitsValue(PC + 2, JMP_VALUE_FIRST_HALF);
-        memory.write8BitsValue(PC + 1, JMP_VALUE_SECOND_HALF);
+        memory.directWrite8BitsValue(PC + 2, JMP_VALUE_FIRST_HALF);
+        memory.directWrite8BitsValue(PC + 1, JMP_VALUE_SECOND_HALF);
 
         handle({ CPU: cpu, Memory: memory });
 
@@ -75,8 +75,8 @@ describe("JMP_IF_CARRY_FLAG_IS_SET", () => {
 
         cpu.jump(PC);
         cpu.unsetCarryFlag();
-        memory.write8BitsValue(PC + 2, JMP_VALUE_FIRST_HALF);
-        memory.write8BitsValue(PC + 1, JMP_VALUE_SECOND_HALF);
+        memory.directWrite8BitsValue(PC + 2, JMP_VALUE_FIRST_HALF);
+        memory.directWrite8BitsValue(PC + 1, JMP_VALUE_SECOND_HALF);
 
         handle({ CPU: cpu, Memory: memory });
 

@@ -27,7 +27,7 @@ describe("JMP_RELATIVE_IF_ZERO_FLAG_IS_SET", () => {
 
         cpu.jump(PC);
         cpu.setZeroFlag();
-        memory.write8BitsValue(PC + 1, RELATIVE_JMP_VALUE);
+        memory.directWrite8BitsValue(PC + 1, RELATIVE_JMP_VALUE);
 
         handle({ CPU: cpu, Memory: memory });
 
@@ -72,7 +72,7 @@ describe("JMP_RELATIVE_IF_ZERO_FLAG_IS_SET", () => {
 
         cpu.jump(PC);
         cpu.unsetZeroFlag();
-        memory.write8BitsValue(PC + 1, RELATIVE_JMP_VALUE);
+        memory.directWrite8BitsValue(PC + 1, RELATIVE_JMP_VALUE);
 
         handle({ CPU: cpu, Memory: memory });
 

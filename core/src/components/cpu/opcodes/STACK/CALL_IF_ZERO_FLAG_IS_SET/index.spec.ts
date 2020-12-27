@@ -8,7 +8,7 @@ describe("CALL_IF_ZERO_FLAG_IS_SET", () => {
         const cpu = new CPU();
         const memory = new Memory(new EventBus);
         const PC = 56789;
-        const SP = 100;
+        const SP = 50000;
         const CALL_VALUE = 120;
         const EXPECTED_PC = CALL_VALUE;
         const EXPECTED_SP = SP - 2;
@@ -61,7 +61,7 @@ describe("CALL_IF_ZERO_FLAG_IS_SET", () => {
         const cpu = new CPU();
         const memory = new Memory(new EventBus);
         const PC = 56789;
-        const SP = 100;
+        const SP = 50000;
         const CALL_VALUE = 120;
         const EXPECTED_PC = PC + 3;
         expect(cpu.getRegisterAValue()).toBe(0);

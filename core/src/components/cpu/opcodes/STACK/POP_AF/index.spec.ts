@@ -7,7 +7,7 @@ describe("POP_AF", () => {
     test("Should store stack values in A and F registers, increase SP Register by 2, increase PC by 1", () => {
         const cpu = new CPU();
         const memory = new Memory(new EventBus);
-        const SP_INDEX = 20981;
+        const SP_INDEX = 50000;
         const EXPECTED_SP_INDEX = SP_INDEX + 2;
         const REG_A_VALUE = 10;
         const REG_F_VALUE = 0b11110000;
@@ -26,8 +26,8 @@ describe("POP_AF", () => {
         expect(cpu.getProgramCounter()).toBe(0);
 
         cpu.setRegisterSPValue(SP_INDEX)
-        memory.write8BitsValue(SP_INDEX, REG_F_VALUE);
-        memory.write8BitsValue(SP_INDEX + 1, REG_A_VALUE);
+        memory.directWrite8BitsValue(SP_INDEX, REG_F_VALUE);
+        memory.directWrite8BitsValue(SP_INDEX + 1, REG_A_VALUE);
 
         handle({ CPU: cpu, Memory: memory });
 

@@ -8,7 +8,7 @@ describe("RETURN_IF_ZERO_FLAG_IS_SET", () => {
         const cpu = new CPU();
         const memory = new Memory(new EventBus);
         const PC = 56789;
-        const SP = 100;
+        const SP = 50000;
         const RETURN_VALUE = 56789;
         const EXPECTED_SP = SP + 2;
         const EXPECTED_F_REG_VALUE = 0b10000000;
@@ -60,7 +60,7 @@ describe("RETURN_IF_ZERO_FLAG_IS_SET", () => {
         const cpu = new CPU();
         const memory = new Memory(new EventBus);
         const PC = 56789;
-        const SP = 100;
+        const SP = 50000;
         const RETURN_VALUE = 56789;
         const EXPECTED_PC = PC + 1;
         expect(cpu.getRegisterAValue()).toBe(0);

@@ -26,7 +26,7 @@ describe("SBC_FROM_REG_A_VALUE_FROM_NEXT_MEMORY_CELL", () => {
         expect(cpu.getProgramCounter()).toBe(0);
 
         cpu.setRegisterAValue(REG_A);
-        memory.write8BitsValue(1, VALUE);
+        memory.directWrite8BitsValue(1, VALUE);
         cpu.setCarryFlag();
 
         handle({ CPU: cpu, Memory: memory });
@@ -72,7 +72,7 @@ describe("SBC_FROM_REG_A_VALUE_FROM_NEXT_MEMORY_CELL", () => {
         expect(cpu.getProgramCounter()).toBe(0);
 
         cpu.setRegisterAValue(REG_A);
-        memory.write8BitsValue(1, VALUE);
+        memory.directWrite8BitsValue(1, VALUE);
 
         handle({ CPU: cpu, Memory: memory });
 

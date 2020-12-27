@@ -26,8 +26,8 @@ describe("JMP", () => {
         expect(cpu.getProgramCounter()).toBe(0);
 
         cpu.jump(PC);
-        memory.write8BitsValue(PC + 2, JMP_VALUE_FIRST_HALF);
-        memory.write8BitsValue(PC + 1, JMP_VALUE_SECOND_HALF);
+        memory.directWrite8BitsValue(PC + 2, JMP_VALUE_FIRST_HALF);
+        memory.directWrite8BitsValue(PC + 1, JMP_VALUE_SECOND_HALF);
 
         handle({ CPU: cpu, Memory: memory });
 

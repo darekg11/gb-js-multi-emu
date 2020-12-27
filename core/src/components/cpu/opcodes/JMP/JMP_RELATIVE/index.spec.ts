@@ -25,7 +25,7 @@ describe("JMP_RELATIVE", () => {
         expect(cpu.getProgramCounter()).toBe(0);
 
         cpu.jump(PC);
-        memory.write8BitsValue(PC + 1, RELATIVE_JMP_VALUE);
+        memory.directWrite8BitsValue(PC + 1, RELATIVE_JMP_VALUE);
 
         handle({ CPU: cpu, Memory: memory });
 

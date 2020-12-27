@@ -25,8 +25,8 @@ describe("LOAD_TO_REG_SP_A_VALUE_OF_NEXT_TWO_MEMORY_CELLS", () => {
         expect(cpu.getRegisterSPValue()).toBe(0);
         expect(cpu.getProgramCounter()).toBe(0);
 
-        memory.write8BitsValue(1, TEST_VALUE_FIRST_HALF);
-        memory.write8BitsValue(2, TEST_VALUE_SECOND_HALF);
+        memory.directWrite8BitsValue(1, TEST_VALUE_FIRST_HALF);
+        memory.directWrite8BitsValue(2, TEST_VALUE_SECOND_HALF);
 
         handle({ CPU: cpu, Memory: memory });
 
