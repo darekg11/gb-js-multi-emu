@@ -11,7 +11,7 @@ import { IOpCodeHanlePayload } from "../../types";
 const handle = (payload: IOpCodeHanlePayload): number => {
     const currentProgramCounter = payload.CPU.getProgramCounter();
     payload.CPU.decreaseStackPointer(2);
-    payload.Memory.write16BitsValue(payload.CPU.getRegisterSPValue(), currentProgramCounter);
+    payload.Memory.write16BitsValue(payload.CPU.getRegisterSPValue(), currentProgramCounter + 1);
     payload.CPU.jump(0x18);
     return 16;
 }
