@@ -492,6 +492,7 @@ class GameboyEmulator {
         this.timaTimer.update(tickCount);
         this.divTimer.update(tickCount);
         this.gpu.update(tickCount);
+        this.joypad.update();
         this.checkInterrupts();
     }
 }

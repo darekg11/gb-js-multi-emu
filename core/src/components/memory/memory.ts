@@ -11,8 +11,6 @@ const MEMORY_SIZE = 65536;
 class Memory {
     constructor (eventBus: EventBus) {
         this.eventBus = eventBus;
-        // Make sure to not mark all buttons as pressed at the same time (0 === pressed)
-        this.memory[REGISTERS.JOYPAD.STATE] = 0x0F;
     }
 
     private eventBus = new EventBus();
