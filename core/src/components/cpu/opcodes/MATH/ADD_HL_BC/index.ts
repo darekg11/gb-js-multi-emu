@@ -16,13 +16,17 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     const registerHLValue = payload.CPU.getRegisterHLValue();
     const registerBCValue = payload.CPU.getRegisterBCValue();
     const sum = registerHLValue + registerBCValue;
-    if (sum > 65535) {
+    if ((sum & 65536) !== 0) {
         payload.CPU.setCarryFlag();
+    } else {
+      payload.CPU.unsetHalfCarryFlag();
     }
     const wrappedValue = sum & 65535;
-    const shouldSetHalfCarryFlag = (registerHLValue & 0xF) + (registerBCValue & 0xF) > 0xF;
+    const shouldSetHalfCarryFlag = ((registerHLValue ^ registerBCValue ^ sum) & 0x1000) !== 0;
     if (shouldSetHalfCarryFlag) {
         payload.CPU.setHalfCarryFlag();
+    } else {
+        payload.CPU.unsetHalfCarryFlag();
     }
     payload.CPU.unsetSubtractionFlag();
     payload.CPU.setRegisterHLValue(wrappedValue);

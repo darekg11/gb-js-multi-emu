@@ -20,18 +20,22 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     const signedMemoryValue = memoryValue > 127 ? -((~memoryValue + 1) & 255) : memoryValue;
     const sum = spRegisterValue + signedMemoryValue;
     const wrappedValue = sum & 0xFFFF;
-    if (sum > 0xFF) {
-      payload.CPU.setCarryFlag();
+    if ((sum & 65536) !== 0) {
+        payload.CPU.setCarryFlag();
+    } else {
+        payload.CPU.unsetCarryFlag();
     }
-    const shouldSetHalfCarryFlag = (spRegisterValue & 0xF) + (signedMemoryValue & 0xF) > 0xF;
+    const shouldSetHalfCarryFlag = ((spRegisterValue ^ signedMemoryValue ^ sum) & 0x10) !== 0;
     if (shouldSetHalfCarryFlag) {
         payload.CPU.setHalfCarryFlag();
+    } else {
+      payload.CPU.unsetHalfCarryFlag();
     }
     payload.CPU.unsetZeroFlag();
     payload.CPU.unsetSubtractionFlag();
     payload.CPU.setRegisterHLValue(wrappedValue);
     payload.CPU.increaseProgramCounter(2);
-    return 8;
+    return 12;
 }
 
 export default handle;

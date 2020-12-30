@@ -20,7 +20,7 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     } else {
         payload.CPU.unsetZeroFlag();
     }
-    const shouldSetHalfCarryFlag = (registerCValue & 0xF) + (1 & 0xF) > 0xF;
+    const shouldSetHalfCarryFlag = (registerCValue & 0xF) === 0xF;
     if (shouldSetHalfCarryFlag) {
         payload.CPU.setHalfCarryFlag();
     } else {

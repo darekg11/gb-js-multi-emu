@@ -15,13 +15,17 @@ import { IOpCodeHanlePayload } from "../../types";
 const handle = (payload: IOpCodeHanlePayload): number => {
     const registerHLValue = payload.CPU.getRegisterHLValue();
     const sum = registerHLValue + registerHLValue;
-    if (sum > 65535) {
+    if ((sum & 65536) !== 0) {
         payload.CPU.setCarryFlag();
+    } else {
+      payload.CPU.unsetHalfCarryFlag();
     }
     const wrappedValue = sum & 65535;
-    const shouldSetHalfCarryFlag = (registerHLValue & 0xF) + (registerHLValue & 0xF) > 0xF;
+    const shouldSetHalfCarryFlag = ((registerHLValue ^ registerHLValue ^ sum) & 0x1000) !== 0;
     if (shouldSetHalfCarryFlag) {
         payload.CPU.setHalfCarryFlag();
+    } else {
+        payload.CPU.unsetHalfCarryFlag();
     }
     payload.CPU.unsetSubtractionFlag();
     payload.CPU.setRegisterHLValue(wrappedValue);
