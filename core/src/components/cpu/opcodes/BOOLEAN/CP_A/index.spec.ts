@@ -66,7 +66,6 @@ describe("CP_A", () => {
         const cpu = new CPU();
         const memory = new Memory(new EventBus);
         const REG_A = 240;
-        const EXPECTED_F_REG_VALUE = 0b11000000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
         expect(cpu.getRegisterCValue()).toBe(0);
@@ -91,7 +90,6 @@ describe("CP_A", () => {
         const cpu = new CPU();
         const memory = new Memory(new EventBus);
         const REG_A = 240;
-        const EXPECTED_F_REG_VALUE = 0b11000000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
         expect(cpu.getRegisterCValue()).toBe(0);
