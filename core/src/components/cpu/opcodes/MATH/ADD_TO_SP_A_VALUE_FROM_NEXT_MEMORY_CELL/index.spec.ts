@@ -49,12 +49,12 @@ describe("ADD_TO_SP_A_VALUE_FROM_NEXT_MEMORY_CELL", () => {
         expect(cpu.isHalfCarryFlagSet()).toBe(false);
     });
 
-    test("Result of 256 should set carry flag, increase PC by 2 and Subtraction flag to 0", () => {
+    test("Result of 65536 should set carry flag, increase PC by 2 and Subtraction flag to 0", () => {
         const cpu = new CPU();
         const memory = new Memory(new EventBus);
-        const REG_SP = 255;
+        const REG_SP = 65535;
         const VALUE = 1;
-        const RESULT = 256;
+        const RESULT = 0;
         const EXPECTED_F_REG_VALUE = 0b00110000;
         expect(cpu.getRegisterAValue()).toBe(0);
         expect(cpu.getRegisterBValue()).toBe(0);
