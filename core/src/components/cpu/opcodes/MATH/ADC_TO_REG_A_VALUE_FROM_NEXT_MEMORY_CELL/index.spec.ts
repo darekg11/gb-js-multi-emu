@@ -358,7 +358,7 @@ describe("ADC_TO_REG_A_VALUE_FROM_NEXT_MEMORY_CELL", () => {
         expect(cpu.getRegisterAValue()).toBe(RESULT);
     });
 
-    test("PC should be increased by 1", () => {
+    test("PC should be increased by 2", () => {
         const cpu = new CPU();
         const memory = new Memory(new EventBus);
         const REG_A = -17;
@@ -382,7 +382,7 @@ describe("ADC_TO_REG_A_VALUE_FROM_NEXT_MEMORY_CELL", () => {
     
         handle({ CPU: cpu, Memory: memory });
 
-        expect(cpu.getProgramCounter()).toBe(1);
+        expect(cpu.getProgramCounter()).toBe(2);
     });
 
     test("Subtraction flag should NOT be set", () => {
