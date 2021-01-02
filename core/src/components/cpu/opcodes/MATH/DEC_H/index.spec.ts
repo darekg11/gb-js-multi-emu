@@ -29,7 +29,7 @@ describe("DEC_H", () => {
         handle({ CPU: cpu, Memory: memory });
 
         expect(cpu.isZeroFlagSet()).toBe(true);
-        expect(cpu.getRegisterEValue()).toBe(RESULT);
+        expect(cpu.getRegisterHValue()).toBe(RESULT);
     });
 
     test("Result above 0 should not set zero flag", () => {
