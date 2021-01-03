@@ -156,26 +156,26 @@
             reader.readAsArrayBuffer(romFile);
         });
 
-        const openROMSelectionDialog = () => {
+        window.openROMSelectionDialog = () => {
             rom_file_input.click();
         };
 
-        const singleStep = () => {
+        window.singleStep = () => {
             runner.tick();
             getCPUDebugInfo();
         }
 
-        const singleFrame = () => {
+        window.singleFrame = () => {
             runner.runSingleFrame();
             getCPUDebugInfo();
         }
 
-        const run = () => {
+        window.run = () => {
             setTimeout(run, fpsInterval);
             runner.runSingleFrame();
         }
 
-        const runTillBiosEnds = () => {
+        window.runTillBiosEnds = () => {
             while (true) {
                 runner.tick();
                 const debugInfo = runner.getCPUDebugInfo();
@@ -186,7 +186,7 @@
             getCPUDebugInfo();
         }
 
-        const runTillTest = () => {
+        window.runTillTest = () => {
             while (true) {
                 runner.tick();
                 const debugInfo = runner.getCPUDebugInfo();
@@ -197,12 +197,12 @@
             getCPUDebugInfo();
         }
 
-        const getMemoryValue = () => {
+        window.getMemoryValue = () => {
             const memoryIndex = Number.parseInt(memory_index_input.value, 16);
             reg_memory_info_element.innerHTML = `Memory Index: 0x${memoryIndex.toString(16).toUpperCase()}, value: 0x${runner.getMemoryValue(memoryIndex).toString(16).toUpperCase()}`;
         }
 
-        const getCPUDebugInfo = (memoryIndex = 0) => {
+        window.getCPUDebugInfo = (memoryIndex = 0) => {
             const debugInfo = runner.getCPUDebugInfo();
             pc_reg_info_element.innerHTML = `PC: ${debugInfo.PC}`;
             reg_a_info_element.innerHTML = `A: 0x${debugInfo.A.toString(16).toUpperCase()}`;
@@ -224,7 +224,7 @@
             current_instruction_info_element.innerHTML = `Current Instruction (HEX): 0x${runner.getMemoryValue(debugInfo.PC).toString(16).toUpperCase()}`;
         }
 
-        const getROMDebugInfo = () => {
+        window.getROMDebugInfo = () => {
             const debugInfo = runner.getROMDebugInfo();
             debug_rom_name_element.innerHTML = `Name: ${debugInfo.NAME}`;
             debug_rom_manufacturer_element.innerHTML = `Manufacturer: ${debugInfo.MANUFACTURER}`;
@@ -233,7 +233,7 @@
             debug_rom_type_element.innerHTML = `Type: ${debugInfo.TYPE}`;
         }
 
-        const changeScaling = () => {
+        window.changeScaling = () => {
             const scalingFactor = Number(scaling_factor_element.value);
 
             // change canvas dimensions
