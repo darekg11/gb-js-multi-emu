@@ -76,7 +76,7 @@ describe("CPU - Registers - Sets and Gets", () => {
         expect(cpu.getRegisterCValue()).toBe(0);
         expect(cpu.getRegisterDValue()).toBe(0);
         expect(cpu.getRegisterEValue()).toBe(0);
-        expect(cpu.getRegisterFValue()).toBe(99);
+        expect(cpu.getRegisterFValue()).toBe(96);
         expect(cpu.getRegisterHValue()).toBe(0);
         expect(cpu.getRegisterLValue()).toBe(0);
         expect(cpu.getRegisterSPValue()).toBe(0);
@@ -115,13 +115,13 @@ describe("CPU - Registers - Sets and Gets", () => {
         expect(cpu.getRegisterCValue()).toBe(0);
         expect(cpu.getRegisterDValue()).toBe(0);
         expect(cpu.getRegisterEValue()).toBe(0);
-        expect(cpu.getRegisterFValue()).toBe(83);
+        expect(cpu.getRegisterFValue()).toBe(80);
         expect(cpu.getRegisterHValue()).toBe(0);
         expect(cpu.getRegisterLValue()).toBe(0);
         expect(cpu.getRegisterBCValue()).toBe(0);
         expect(cpu.getRegisterDEValue()).toBe(0);
         expect(cpu.getRegisterHLValue()).toBe(0);
-        expect(cpu.getRegisterAFValue()).toBe(45907);
+        expect(cpu.getRegisterAFValue()).toBe(45904);
         expect(cpu.getRegisterSPValue()).toBe(0);
     });
     test("Register BC", () => {
@@ -188,7 +188,40 @@ describe("CPU - Registers - Sets and Gets", () => {
         expect(cpu.getRegisterLValue()).toBe(0);
         expect(cpu.getRegisterSPValue()).toBe(55021);
     });
-})
+});
+
+describe("F / AF Register - only top 4 bits of F register are writeable", () => {
+    test("F register solo", () => {
+        const cpu = new CPU();
+        cpu.setRegisterFValue(0b11111111);
+        expect(cpu.getRegisterAValue()).toBe(0);
+        expect(cpu.getRegisterBValue()).toBe(0);
+        expect(cpu.getRegisterCValue()).toBe(0);
+        expect(cpu.getRegisterDValue()).toBe(0);
+        expect(cpu.getRegisterEValue()).toBe(0);
+        expect(cpu.getRegisterFValue()).toBe(0b11110000);
+        expect(cpu.getRegisterHValue()).toBe(0);
+        expect(cpu.getRegisterLValue()).toBe(0);
+        expect(cpu.getRegisterSPValue()).toBe(0);
+    });
+    test("AF register", () => {
+        const cpu = new CPU();
+        cpu.setRegisterAFValue(45907);
+        expect(cpu.getRegisterAValue()).toBe(179);
+        expect(cpu.getRegisterBValue()).toBe(0);
+        expect(cpu.getRegisterCValue()).toBe(0);
+        expect(cpu.getRegisterDValue()).toBe(0);
+        expect(cpu.getRegisterEValue()).toBe(0);
+        expect(cpu.getRegisterFValue()).toBe(80);
+        expect(cpu.getRegisterHValue()).toBe(0);
+        expect(cpu.getRegisterLValue()).toBe(0);
+        expect(cpu.getRegisterBCValue()).toBe(0);
+        expect(cpu.getRegisterDEValue()).toBe(0);
+        expect(cpu.getRegisterHLValue()).toBe(0);
+        expect(cpu.getRegisterAFValue()).toBe(45904);
+        expect(cpu.getRegisterSPValue()).toBe(0);
+    });
+});
 
 describe("Program Counter - Increase and Get", () => {
     test("Should correctly increase and get value of PC", () => {

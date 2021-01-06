@@ -53,7 +53,7 @@ class CPU {
         if (register === "AF") {
             const [ A, F ] = numberUtils.split16BitsNumberIntoTwo8BitsNumbers(value);
             this.registers.A = A;
-            this.registers.F = F;
+            this.registers.F = F & 0b11110000;
             return;
         }
         if (register === "BC") {
@@ -127,7 +127,9 @@ class CPU {
     }
 
     public setRegisterFValue(value: number) {
-        this.setRegisterValue("F", value);
+        // Register F value can only save higher 4 bits
+        // Lower 4 bits should never be set
+        this.setRegisterValue("F", value & 0b11110000);
     }
 
     public setRegisterHValue(value: number) {
