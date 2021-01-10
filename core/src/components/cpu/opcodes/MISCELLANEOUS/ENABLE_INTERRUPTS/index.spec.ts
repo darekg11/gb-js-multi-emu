@@ -20,7 +20,7 @@ describe("ENABLE_INTERRUPTS", () => {
         expect(cpu.getRegisterHLValue()).toBe(0);
         expect(cpu.getRegisterAFValue()).toBe(0);
         expect(cpu.getProgramCounter()).toBe(0);
-        expect(cpu.areInterruptsEnabled()).toBe(true);
+        expect(cpu.areInterruptsEnabled()).toBe(false);
 
         cpu.disableInterrupts();
 

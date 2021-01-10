@@ -273,7 +273,7 @@ describe("SP pointer - Decrease and Get", () => {
 describe("Interrupts - Enable / Disable / Get", () => {
     test("Should correctly return state of interrupts", () => {
         const cpu = new CPU();
-        expect(cpu.areInterruptsEnabled()).toBe(true);
+        expect(cpu.areInterruptsEnabled()).toBe(false);
     });
     test("Should disable interrupts", () => {
         const cpu = new CPU();
@@ -436,8 +436,7 @@ describe("Tick - execute CB prefix OP Code", () => {
     const cpu = new CPU();
     const NOOP_OP_CODE_MACHINE_CYCLES = 4;
     const RLCC_OP_CODE_MACHINE_CYCLES = 8;
-    const CB_PREFIX_MAHCINE_CYCLES = 4;
-    const TOTAL_MACHINE_CYCLES = NOOP_OP_CODE_MACHINE_CYCLES + 0 + RLCC_OP_CODE_MACHINE_CYCLES + NOOP_OP_CODE_MACHINE_CYCLES + CB_PREFIX_MAHCINE_CYCLES
+    const TOTAL_MACHINE_CYCLES = NOOP_OP_CODE_MACHINE_CYCLES + 0 + RLCC_OP_CODE_MACHINE_CYCLES + NOOP_OP_CODE_MACHINE_CYCLES;
 
     const memory = new Memory(new EventBus);
     OP_CODES.forEach((opCode, index) => memory.directWrite8BitsValue(index, opCode));

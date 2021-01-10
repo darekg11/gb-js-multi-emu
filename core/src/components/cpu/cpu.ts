@@ -27,7 +27,7 @@ class CPU {
         L: 0
     }
 
-    private interruptsEnabled: boolean = true;
+    private interruptsEnabled: boolean = false;
     private halted: boolean = false;
 
     private getRegisterValue = (register: CPU_REGISTERS): number => {
@@ -291,19 +291,17 @@ class CPU {
             return 4;
         }
 
-        let ticks = 0;
         let opCode = memory.read8BitsValue(this.PC);
         const isCB = opCode === 0xCB;
         const jumpTableToUse = isCB ? CB_PREFIX_JUMP_TABLE : NON_PREIFX_JUMP_TABLE;
         if (isCB) {
             // read next OP Code in case of CB
             opCode = memory.read8BitsValue(this.PC + 1);
-            ticks += 4;
         }
         const opCodeHandler = jumpTableToUse[opCode];
         if (opCodeHandler) {
             const instructionTicks = opCodeHandler( { CPU: this, Memory: memory });
-            return ticks + instructionTicks;
+            return instructionTicks;
         } else {
             console.log("UNHANDLED OP CODE: %s. IS CB: %s, PC: %s", opCode, isCB, this.PC);
             this.increaseProgramCounter();
