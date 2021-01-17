@@ -395,6 +395,10 @@ class GameboyEmulator {
         // https://gbdev.gg8.se/wiki/articles/Interrupts
         this.ticks += 20;
 
+        this.timaTimer.update(20);
+        this.divTimer.update(20);
+        this.gpu.update(20);
+
         // jump to interrupt handler method
         switch (interrupt) {
             case INTERRUPTS.V_BLANK: {

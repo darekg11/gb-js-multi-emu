@@ -13,7 +13,7 @@ const handle = (payload: IOpCodeHanlePayload): number => {
     const memoryIndexToRead = currentProgramCounter + 1;
     const index = payload.Memory.read16BitsValue(memoryIndexToRead);
     const value = payload.CPU.getRegisterSPValue();
-    payload.Memory.write8BitsValue(index, value);
+    payload.Memory.write16BitsValue(index, value);
     payload.CPU.increaseProgramCounter(3);
     return 20;
 }

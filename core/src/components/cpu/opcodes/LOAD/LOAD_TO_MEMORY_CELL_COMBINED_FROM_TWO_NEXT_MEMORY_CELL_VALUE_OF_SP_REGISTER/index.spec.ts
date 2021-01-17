@@ -5,7 +5,7 @@ import EventBus from "../../../../event-bus";
 
 describe("LOAD_TO_MEMORY_CELL_COMBINED_FROM_TWO_NEXT_MEMORY_CELL_VALUE_OF_SP_REGISTER", () => {
     test("Should set value correctly and increase PC by 3", () => {
-        const TEST_VALUE = 198;
+        const TEST_VALUE = 50000;
         const TEST_INDEX = 0xABE1;
         const cpu = new CPU();
         const memory = new Memory(new EventBus);
@@ -44,6 +44,6 @@ describe("LOAD_TO_MEMORY_CELL_COMBINED_FROM_TWO_NEXT_MEMORY_CELL_VALUE_OF_SP_REG
         expect(cpu.getRegisterAFValue()).toBe(0);
         expect(cpu.getRegisterSPValue()).toBe(TEST_VALUE);
         expect(cpu.getProgramCounter()).toBe(3);
-        expect(memory.read8BitsValue(TEST_INDEX)).toBe(TEST_VALUE);
+        expect(memory.read16BitsValue(TEST_INDEX)).toBe(TEST_VALUE);
     });
 })
