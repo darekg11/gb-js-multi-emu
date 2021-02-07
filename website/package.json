@@ -5,7 +5,8 @@
     "main": "index.js",
     "scripts": {
         "dev": "parcel index.html",
-        "build": "parcel build index.html"
+        "build": "rm -rf dist/* && parcel build index.html --public-url ./",
+        "deploy": "npm run build && push-dir --dir=dist --branch=website/deploy --cleanup --verbose"
     },
     "author": "Dariusz Górak",
     "license": "MIT",
@@ -14,6 +15,7 @@
     },
     "devDependencies": {
         "parcel": "^1.12.4",
+        "push-dir": "0.4.1",
         "typescript": "^4.0.3"
     }
 }
