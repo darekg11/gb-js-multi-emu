@@ -32,6 +32,10 @@ class Memory {
             this.eventBus.emit(new UnmapBiosEvent());
             return;
         }
+        // if (index === REGISTERS.TIMERS.TAC_REGISTER) {
+        //     this.memory[REGISTERS.TIMERS.TAC_REGISTER] &= 0b00000111;
+        //     return;
+        // }
         if (index === REGISTERS.TIMERS.DIV_REGISTER) {
             this.memory[REGISTERS.TIMERS.DIV_REGISTER] = 0;
             return;
@@ -99,6 +103,10 @@ class Memory {
         for (let writeOffset = 0; writeOffset < 0xA0; writeOffset++) {
             this.memory[REGISTERS.MEMORY.OAM_AREA_START_INDEX + writeOffset] = this.memory[source + writeOffset];
         }
+    }
+
+    public reset = () => {
+        this.memory = new Uint8Array(MEMORY_SIZE);
     }
 }
 

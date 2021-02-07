@@ -311,6 +311,21 @@ class CPU {
         }
     }
 
+    public reset() {
+        this.PC = 0;
+        this.SP = 0;
+        this.registers.A = 0;
+        this.registers.B = 0;
+        this.registers.C = 0;
+        this.registers.D = 0;
+        this.registers.E = 0;
+        this.registers.F = 0;
+        this.registers.H = 0;
+        this.registers.L = 0;
+        this.interruptsEnabled = false;
+        this.halted = false;
+    }
+
 }
 
 export default CPU;

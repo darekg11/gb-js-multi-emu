@@ -144,6 +144,11 @@ class GPU {
                 this.eventBus.emit(new RequestLCDInterruptEvent());
             }
     }
+
+    public reset = () => {
+        this.ticks = 0;
+        this.pixelBuffer = new Uint8ClampedArray(LCD_WIDTH * LCD_HEIGHT * 4);
+    }
 }
 
 export default GPU;

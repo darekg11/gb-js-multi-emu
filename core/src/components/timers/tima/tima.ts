@@ -62,6 +62,10 @@ class TimaTimer {
         }
         return (this.cpuClockSpeed / 1024) * ( this.doubleSpeed ? 2 : 1);
     }
+
+    public reset = () => {
+        this.ticks = 0;
+    }
 }
 
 export default TimaTimer;

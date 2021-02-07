@@ -3,89 +3,63 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="GB Js Multi Emu - Website playground">
+        <meta name="description" content="GB JS Multi Emu - Website playground">
         <meta name="author" content="Dariusz Górak (https://www.github.com/darekg11)">
 
         <title>GB JS Multi Emu - Website playground</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+        <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="./styles//index.css">
     </head>
     <body>
         <script src="scripts/runner.ts"></script>
-        <section class="section">
-            <div class="container">
-                <div class="columns is-mobile is-centered">
-                    <div class="column is-centered is-flex" style="justify-content: center;">
-                        <canvas class="emulator-window" id="emulator_window" width="160" height="144"></canvas>
-                    </div>
-                  </div>
-            </div>
-        </section>
-        <section class="section">
-            <div class="container">
-                <button onclick="window.openROMSelectionDialog()">LOAD ROM</button>
-                <input id="rom_file_picker" accept=".gb,.bin" type="file" style="position: fixed; top: -100em;" />
-            </div>
-        </section>
-        <section class="section">
-            <div class="container">
-                <button onclick="window.singleStep()">STEP</button>
-                <button onclick="window.singleFrame()">RUN SINGLE FRAME</button>
-                <button onclick="window.run()">RUN</button>
-                <button onclick="window.runTillBiosEnds()">RUN UNTIL BIOS ENDS</button>
-                <button onclick="window.runTillTest()">RUN TILL TEST</button>
-            </div>
-            <div class="container">
-                <label for="scaling_factor_select">Choose scaling:</label>
-                <select name="scaling_factor_select" id="scaling_factor_select" onchange="window.changeScaling()" value="1" autocomplete="off">
-                    <option value="1" selected>1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-            </div>
-            <div class="container">
-                <input id="debug_memory_index_input" class="input" placeholder="Enter memory index (HEX)">
-                <button class="button" onclick="window.getMemoryValue()">SEARCH</button>
-                <h3 id="debug_memory_value_index">MEMORY: </h3>
-            </div>
-        </section>
-        <section class="section">
-            <div class="container">
-                <div class="columns">
-                    <div class="column">
-                        <h4>CPU DEBUG INFO:</h4>
-                        <h3 id="debug_pc">PC: </h3>
-                        <h3 id="debug_current_instruction">Current Instruction (HEX): </h3>
-                        <h3 id="debug_reg_a">A: </h3>
-                        <h3 id="debug_reg_b">B: </h3>
-                        <h3 id="debug_reg_c">C: </h3>
-                        <h3 id="debug_reg_d">D: </h3>
-                        <h3 id="debug_reg_e">E: </h3>
-                        <h3 id="debug_reg_f">F: </h3>
-                        <h3 id="debug_reg_h">H: </h3>
-                        <h3 id="debug_reg_l">L: </h3>
-                        <h3 id="debug_reg_hl">HL: </h3>
-                        <h3 id="debug_reg_bc">BC: </h3>
-                        <h3 id="debug_reg_de">DE: </h3>
-                        <h3 id="debug_reg_sp">SP: </h3>
-                        <h3 id="debug_zero_flag">Zero Flag state: </h3>
-                        <h3 id="debug_subtraction_flag">Subtraction flag state: </h3>
-                        <h3 id="debug_half_carry_flag">Half carry flag state: </h3>
-                        <h3 id="debug_carry_flag">Carry flag state: </h3>
-                    </div>
-                    <div class="column">
-                        <h4>ROM DEBUG INFO:</h4>
-                        <h3 id="debug_rom_name">Name: </h3>
-                        <h3 id="debug_rom_manufacturer">Manufacturer: </h3>
-                        <h3 id="debug_rom_is_color">Color Gameboy support: </h3>
-                        <h3 id="debug_rom_is_super">Super Gameboy support: </h3>
-                        <h3 id="debug_rom_type">Type: </h3>
-                    </div>
+        <div class="nes-container with-title is-centered header">
+            <p class="title">GB JS Multi Emu</p>
+            <p>Welcome to the website version of GB JS Multi Emu.</p>
+            <p>Just load ROM of your choice by clicking on the button below.</p>
+            <p>You can check out GitHub repo by following link available in the top right corner.</p>
+        </div>
+        <div class="flex emulator-container">
+            <canvas class="emulator-window" id="emulator_window" width="160" height="144"></canvas>
+        </div>
+        <div class="flex main-row">
+            <div class="flex column">
+                <label class="nes-btn rom-select-button" onclick="window.openROMSelectionDialog()">
+                    <span>Select your ROM</span>
+                    <input id="rom_file_picker" accept=".gb,.bin" type="file" style="position: fixed; top: -100em;" />
+                </label>
+                <label for="scaling_factor_select">Choose emulator LCD scale:</label>
+                <div class="nes-select scale-select">
+                    <select required name="scaling_factor_select" id="scaling_factor_select" onchange="window.changeScaling()" value="2" autocomplete="off">
+                        <option value="1">1</option>
+                        <option value="2" selected>2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
                 </div>
             </div>
-        </section>
+            <div class="flex column">
+                <section class="nes-container with-title controls-container">
+                    <p class="title">Controls</p>
+                    <p>UP - UP Arrow</p>
+                    <p>DOWN - DOWN Arrow</p>
+                    <p>LEFT - LEFT Arrow</p>
+                    <p>RIGHT - RIGHT Arrow</p>
+                    <p>A - Z</p>
+                    <p>B - X</p>
+                    <p>START - N</p>
+                    <p>SELECT - M</p>
+                </section>
+            </div>
+        </div>
+        <a href="https://github.com/darekg11/gb-js-multi-emu" class="github-corner" aria-label="View source on GitHub" rel="noopener noreferrer" target="_blank">
+            <svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+                <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+                <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+                <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+            </svg>
+        </a>
     </body>
     <script>
         const runner = window.globalThis.runner;
@@ -105,38 +79,7 @@
 
         const scaling_factor_element = document.getElementById("scaling_factor_select");
         const canvas_element = document.getElementById("emulator_window");
-        const pc_reg_info_element = document.getElementById("debug_pc");
-        const current_instruction_info_element = document.getElementById("debug_current_instruction");
-        const reg_a_info_element = document.getElementById("debug_reg_a");
-        const reg_b_info_element = document.getElementById("debug_reg_b");
-        const reg_c_info_element = document.getElementById("debug_reg_c");
-        const reg_d_info_element = document.getElementById("debug_reg_d");
-        const reg_e_info_element = document.getElementById("debug_reg_e");
-        const reg_f_info_element = document.getElementById("debug_reg_f");
-        const reg_h_info_element = document.getElementById("debug_reg_h");
-        const reg_l_info_element = document.getElementById("debug_reg_l");
-        const reg_bc_info_element = document.getElementById("debug_reg_bc");
-        const reg_hl_info_element = document.getElementById("debug_reg_hl");
-        const debug_reg_de_element = document.getElementById("debug_reg_de");
-        const reg_sp_info_element = document.getElementById("debug_reg_sp");
-        const reg_memory_info_element = document.getElementById("debug_memory_value_index");
-        const zero_flag_info_element = document.getElementById("debug_zero_flag");
-        const subtraction_flag_info_element = document.getElementById("debug_subtraction_flag");
-        const half_carry_flag_info_element = document.getElementById("debug_half_carry_flag");
-        const carry_flag_info_element = document.getElementById("debug_carry_flag");
-        const memory_index_input = document.getElementById("debug_memory_index_input");
-        const debug_rom_name_element = document.getElementById("debug_rom_name");
-        const debug_rom_manufacturer_element = document.getElementById("debug_rom_manufacturer");
-        const debug_rom_is_color_element = document.getElementById("debug_rom_is_color");
-        const debug_rom_is_super_element = document.getElementById("debug_rom_is_super");
-        const debug_rom_type_element = document.getElementById("debug_rom_type");
         const rom_file_input = document.getElementById("rom_file_picker");
-        memory_index_input.addEventListener("keyup", ({ key }) => {
-            if (key === "Enter") {
-                getMemoryValue();
-                return false;
-            }
-        });
 
         rom_file_input.addEventListener("change", event => {
             const romFile = event && event.target && event.target.files && event.target.files[0] || null;
@@ -149,8 +92,7 @@
                 if (event.target.result) {
                     const romData = new Uint8Array(event.target.result);
                     runner.loadRom(romData);
-                    getCPUDebugInfo();
-                    getROMDebugInfo();
+                    window.run();
                 }
             });
             reader.readAsArrayBuffer(romFile);
@@ -160,77 +102,9 @@
             rom_file_input.click();
         };
 
-        window.singleStep = () => {
-            runner.tick();
-            getCPUDebugInfo();
-        }
-
-        window.singleFrame = () => {
-            runner.runSingleFrame();
-            getCPUDebugInfo();
-        }
-
         window.run = () => {
             setTimeout(run, fpsInterval);
             runner.runSingleFrame();
-        }
-
-        window.runTillBiosEnds = () => {
-            while (true) {
-                runner.tick();
-                const debugInfo = runner.getCPUDebugInfo();
-                if (debugInfo.PC === 254) {
-                    break;
-                }
-            }
-            getCPUDebugInfo();
-        }
-
-        window.runTillTest = () => {
-            while (true) {
-                runner.tick();
-                const debugInfo = runner.getCPUDebugInfo();
-                if (debugInfo.PC === 0xC7F1) {
-                    break;
-                }
-            }
-            getCPUDebugInfo();
-        }
-
-        window.getMemoryValue = () => {
-            const memoryIndex = Number.parseInt(memory_index_input.value, 16);
-            reg_memory_info_element.innerHTML = `Memory Index: 0x${memoryIndex.toString(16).toUpperCase()}, value: 0x${runner.getMemoryValue(memoryIndex).toString(16).toUpperCase()}`;
-        }
-
-        window.getCPUDebugInfo = (memoryIndex = 0) => {
-            const debugInfo = runner.getCPUDebugInfo();
-            pc_reg_info_element.innerHTML = `PC: ${debugInfo.PC}`;
-            reg_a_info_element.innerHTML = `A: 0x${debugInfo.A.toString(16).toUpperCase()}`;
-            reg_b_info_element.innerHTML = `B: 0x${debugInfo.B.toString(16).toUpperCase()}`;
-            reg_c_info_element.innerHTML = `C: 0x${debugInfo.C.toString(16).toUpperCase()}`;
-            reg_d_info_element.innerHTML = `D: 0x${debugInfo.D.toString(16).toUpperCase()}`;
-            reg_e_info_element.innerHTML = `E: 0x${debugInfo.E.toString(16).toUpperCase()}`;
-            reg_f_info_element.innerHTML = `F: 0x${debugInfo.F.toString(16).toUpperCase()}`;
-            reg_h_info_element.innerHTML = `H: 0x${debugInfo.H.toString(16).toUpperCase()}`;
-            reg_l_info_element.innerHTML = `L: 0x${debugInfo.L.toString(16).toUpperCase()}`;
-            reg_hl_info_element.innerHTML = `HL: 0x${debugInfo.HL.toString(16).toUpperCase()}`;
-            reg_bc_info_element.innerHTML = `BC: 0x${debugInfo.BC.toString(16).toUpperCase()}`;
-            debug_reg_de_element.innerHTML = `DE: 0x${debugInfo.DE.toString(16).toUpperCase()}`;
-            reg_sp_info_element.innerHTML = `SP: 0x${debugInfo.SP.toString(16).toUpperCase()}`;
-            zero_flag_info_element.innerHTML = `Zero Flag state: ${Number(debugInfo.ZERO_FLAG)}`;
-            subtraction_flag_info_element.innerHTML = `Subtraction Flag state: ${Number(debugInfo.SUBTRACTION_FLAG)}`;
-            half_carry_flag_info_element.innerHTML = `Half Carry Flag state: ${Number(debugInfo.HALF_CARRY_FLAG)}`;
-            carry_flag_info_element.innerHTML = `Carry Flag state: ${Number(debugInfo.CARRY_FLAG)}`;
-            current_instruction_info_element.innerHTML = `Current Instruction (HEX): 0x${runner.getMemoryValue(debugInfo.PC).toString(16).toUpperCase()}`;
-        }
-
-        window.getROMDebugInfo = () => {
-            const debugInfo = runner.getROMDebugInfo();
-            debug_rom_name_element.innerHTML = `Name: ${debugInfo.NAME}`;
-            debug_rom_manufacturer_element.innerHTML = `Manufacturer: ${debugInfo.MANUFACTURER}`;
-            debug_rom_is_color_element.innerHTML = `Color Gameboy support: ${debugInfo.IS_COLOR && "YES" || "NO"}`;
-            debug_rom_is_super_element.innerHTML = `Super Gameboy support: ${debugInfo.IS_SUPER && "YES" || "NO"}`;
-            debug_rom_type_element.innerHTML = `Type: ${debugInfo.TYPE}`;
         }
 
         window.changeScaling = () => {
@@ -272,7 +146,6 @@
 
         document.addEventListener("keydown", onKeyDown);
         document.addEventListener("keyup", onKeyUp);
-
-        getCPUDebugInfo();
+        window.changeScaling(2);
     </script>
 </html>
