@@ -18,6 +18,10 @@ class EventBus {
             handler(event.data);
         });
     }
+
+    public reset = () => {
+        this.handlers = {};
+    }
 }
 
 export default EventBus;

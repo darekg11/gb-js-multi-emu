@@ -34,23 +34,8 @@ class Runner {
         });
     }
 
-    public tick() {
-        this.gameboy.runSingleTick();
-    }
-
-    public getCPUDebugInfo() {
-        return this.gameboy.getCPUDebugInfo();
-    }
-
-    public getROMDebugInfo() {
-        return this.gameboy.getROMDebugInfo();
-    }
-
-    public getMemoryValue = (address: number) => {
-        return this.gameboy.getMemoryValue(address);
-    }
-
     public loadRom = (rawBinaryData: Uint8Array) => {
+        this.gameboy.reset();
         this.gameboy.loadCartridge(new Cartridge(rawBinaryData));
     }
 

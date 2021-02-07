@@ -64,6 +64,10 @@ class Joypad {
         const mask = 0xFF - this.buttonToUniqueBitMap[button];
         this.state &= mask;
     }
+
+    public reset = () => {
+        this.state = 0;
+    }
 }
 
 export default Joypad;

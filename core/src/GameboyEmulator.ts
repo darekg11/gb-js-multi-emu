@@ -490,6 +490,19 @@ class GameboyEmulator {
         return this.memory.read8BitsValue(address);
     }
 
+    public reset = () => {
+        this.cpu.reset();
+        this.memory.reset();
+        this.gpu.reset();
+        this.timaTimer.reset();
+        this.divTimer.reset();
+        if (this.settings.load_bios) {
+            DMG_BIOS.forEach((value, index) => {
+                this.memory.directWrite8BitsValue(index, value);
+            });
+        }
+    }
+
     private tick = () => {
         const tickCount = this.cpu.tick(this.memory);
         this.ticks += tickCount;
