@@ -13,19 +13,12 @@ const mainWindowMenuTemplate: MenuItemConstructorOptions[] = [
         }, {
             label: "Restart ROM"
         }, {
-            label: "Options"
-        }, {
             type: "separator",
         }, {
             label: "Quit",
             click: () => {
                 app.quit();
             }
-        }]
-    }, {
-        label: "Debugging",
-        submenu: [{
-            label: "Show debugging tools"
         }]
     }, {
         label: "Help",
@@ -50,9 +43,11 @@ const createMainWindow = () => {
         maxHeight: (LCD_HEIGHT * 5) + 20,
         webPreferences: {
             nodeIntegration: true,
+            contextIsolation: false,
             devTools: !IS_PRODUCTION
         }
     });
+    mainWindowInstance.loadURL(`file://${__dirname}/screens/main.html`);
     Menu.setApplicationMenu(mainWindowMenu);
 }
 
