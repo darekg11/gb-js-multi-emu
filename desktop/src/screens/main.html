@@ -3,13 +3,92 @@
     <head>
         <meta charset="utf-8">
     </head>
+    <style>
+        .emulator-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
     <body>
-        <script>
-            require("../scripts/runner.js")
-        </script>
-        <canvas class="emulator-window" id="emulator_window" width="160" height="144"></canvas>
+        <div class="emulator-container">
+            <canvas id="emulator_window" width="160" height="144"></canvas>
+        </div>
     </body>
     <script>
+        require("../scripts/runner.js");
         const runner = window.globalThis.runner;
+
+        const fpsInterval = 1000 / 60;
+        const WIDTH = 160;
+        const HEIGHT = 144;
+        const KEYBOARD_KEYS_CODE_TO_GAMEBOY_BUTTONS_MAPPING = {
+            "38": "UP",
+            "40": "DOWN",
+            "37": "LEFT",
+            "39": "RIGHT",
+            "90": "A",
+            "88": "B",
+            "78": "START",
+            "77": "SELECT"
+        };
+        const canvas_element = document.getElementById("emulator_window");
+        const run = () => {
+            setTimeout(run, fpsInterval);
+            runner.runSingleFrame();
+        }
+
+        const onKeyDown = (event) => {
+            if (event.isComposing || event.keyCode === 229) {
+                return;
+            }
+            const key = event.keyCode;
+            const gameboyButton = KEYBOARD_KEYS_CODE_TO_GAMEBOY_BUTTONS_MAPPING["" + key];
+            if (gameboyButton) {
+                event.preventDefault();
+                event.stopPropagation();
+                runner.buttonPressed(gameboyButton);
+            }
+        }
+
+        const onKeyUp = (event) => {
+            if (event.isComposing || event.keyCode === 229) {
+                return;
+            }
+            const key = event.keyCode;
+            const gameboyButton = KEYBOARD_KEYS_CODE_TO_GAMEBOY_BUTTONS_MAPPING["" + key];
+            if (gameboyButton) {
+                event.preventDefault();
+                event.stopPropagation();
+                runner.buttonReleased(gameboyButton);
+            }
+        }
+
+        const changeScaling = scale => {
+            const scalingFactor = Number(scale);
+
+            // change canvas dimensions
+            canvas_element.width = WIDTH * scalingFactor;
+            canvas_element.height = HEIGHT * scalingFactor;
+
+            // change scale factor in runner to draw pixels upscalled
+            runner.changeScaleFactor(scalingFactor);
+        }
+
+        document.addEventListener("keydown", onKeyDown);
+        document.addEventListener("keyup", onKeyUp);
+        changeScaling(2);
+
+        const { LOAD_ROM_IPC_EVENT } = require("../scripts/types");
+        const ipcRenderer = require("electron").ipcRenderer;
+        ipcRenderer.on(LOAD_ROM_IPC_EVENT, (event, romData) => {
+            if (!romData) {
+                return;
+            }
+
+            const rawRomData = new Uint8Array(romData);
+            runner.loadRom(rawRomData);
+            run();
+        });
     </script>
 </html>
