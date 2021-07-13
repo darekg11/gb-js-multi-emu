@@ -1,4 +1,4 @@
-import { app, BrowserWindow, dialog, Menu, MenuItemConstructorOptions } from "electron";
+import { app, BrowserWindow, dialog, Menu, MenuItemConstructorOptions , shell } from "electron";
 import { LCD_HEIGHT } from "gb-js-multi-emu-core/dist/components/gpu/constants";
 import { LOAD_ROM_IPC_EVENT } from "./scripts/types";
 import fs from "fs";
@@ -51,7 +51,10 @@ const buildMenu = (windowInstance: BrowserWindow) : MenuItemConstructorOptions[]
             }, {
                 label: "Version Info"
             }, {
-                label: "Check out on GitHub"
+                label: "Check out on GitHub",
+                click: () => {
+                    shell.openExternal("https://github.com/darekg11/gb-js-multi-emu");
+                }
             }]
         }
     ]
