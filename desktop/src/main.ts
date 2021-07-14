@@ -1,6 +1,6 @@
 import { app, BrowserWindow, dialog, Menu, MenuItemConstructorOptions , shell } from "electron";
 import { LCD_HEIGHT } from "gb-js-multi-emu-core/dist/components/gpu/constants";
-import { LOAD_ROM_IPC_EVENT } from "./scripts/types";
+import { LOAD_ROM_IPC_EVENT, RESTART_ROM_IPC_EVENT } from "./scripts/types";
 import fs from "fs";
 
 const isMac = process.platform === 'darwin';
@@ -35,7 +35,10 @@ const buildMenu = (windowInstance: BrowserWindow) : MenuItemConstructorOptions[]
                     }
                 }
             }, {
-                label: "Restart ROM"
+                label: "Restart ROM",
+                click: () => {
+                    windowInstance.webContents.send(RESTART_ROM_IPC_EVENT);
+                }
             }, {
                 type: "separator",
             }, {
