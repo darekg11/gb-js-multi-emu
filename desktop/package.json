@@ -5,8 +5,8 @@
     "main": "index.js",
     "scripts": {
         "watch": "tsc -w",
-        "copy-resources": "cp -r ./src/screens ./dist && cp -r ./src/styles ./dist && cp -r ./src/fonts ./dist",
-        "dev": "npm run copy-resources && electron ./dist/main.js"
+        "copy-resources": "cp -r ./src/screens ./dist && cp -r ./src/styles ./dist && cp -r ./src/fonts ./dist && cp ./package.json ./dist",
+        "dev": "npm run copy-resources && GIT_COMMIT_HASH=$(git rev-parse HEAD) electron ./dist/main.js"
     },
     "author": "Dariusz Górak",
     "license": "MIT",
