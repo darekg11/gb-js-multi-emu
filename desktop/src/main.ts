@@ -50,7 +50,24 @@ const buildMenu = (windowInstance: BrowserWindow) : MenuItemConstructorOptions[]
         }, {
             label: "Help",
             submenu: [{
-                label: "Controls"
+                label: "Controls",
+                click: () => {
+                    const controlsDialogWindow = new BrowserWindow({
+                        title: "Controls",
+                        modal: true,
+                        maximizable: false,
+                        resizable: false,
+                        parent: windowInstance,
+                        show: false,
+                        width: 350,
+                        height: 350,
+                    });
+                    controlsDialogWindow.setMenu(null);
+                    controlsDialogWindow.loadURL(`file://${__dirname}/screens/controls.html`);
+                    controlsDialogWindow.once('ready-to-show', () => {
+                        controlsDialogWindow.show()
+                    });
+                }
             }, {
                 label: "Version Info"
             }, {
@@ -80,7 +97,7 @@ const createMainWindow = () => {
     });
     mainWindowInstance.loadURL(`file://${__dirname}/screens/main.html`);
     const mainWindowMenu = Menu.buildFromTemplate(buildMenu(mainWindowInstance));
-    Menu.setApplicationMenu(mainWindowMenu);
+    mainWindowInstance.setMenu(mainWindowMenu);
 }
 
 app.whenReady().then(createMainWindow);
