@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link href="../styles/fonts.css" rel="stylesheet">
+    </head>
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .git-commit-label {
+            word-break: break-all;
+        }
+        p, a {
+            font-family: "Press Start 2P", cursive;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+    <body>
+        <div class="container">
+            <p id="version">Version: </p>
+            <p id="git_commit_hash" class="git-commit-label">Git Commit Hash: </p>
+            <a id="git_commit_link" href="" target="_blank" rel="noopener noreferrer">GitHub Commit Link</a>
+        </div>
+    </body>
+    <script>
+        const { VERSION_INFO_EVENT } = require("../scripts/types");
+        const ipcRenderer = require("electron").ipcRenderer;
+        ipcRenderer.on(VERSION_INFO_EVENT, (event, versionInfo) => {
+            const { VERSION, GIT_COMMIT_HASH } = versionInfo;
+            const versionLabel = document.getElementById("version");
+            const gitCommitHashLabel = document.getElementById("git_commit_hash");
+            const gitCommitLinkLabel = document.getElementById("git_commit_link");
+
+            versionLabel.innerHTML = `Version: ${VERSION}`;
+            gitCommitHashLabel.innerHTML = `Git Commit Hash: ${GIT_COMMIT_HASH}`;
+            gitCommitLinkLabel.href = `https://github.com/darekg11/gb-js-multi-emu/commit/${GIT_COMMIT_HASH}`;
+        });
+    </script>
+</html>

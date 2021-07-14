@@ -1,10 +1,13 @@
 import { app, BrowserWindow, dialog, Menu, MenuItemConstructorOptions , shell } from "electron";
 import { LCD_HEIGHT } from "gb-js-multi-emu-core/dist/components/gpu/constants";
-import { LOAD_ROM_IPC_EVENT, RESTART_ROM_IPC_EVENT } from "./scripts/types";
+import { LOAD_ROM_IPC_EVENT, RESTART_ROM_IPC_EVENT, VERSION_INFO_EVENT } from "./scripts/types";
 import fs from "fs";
+const pacakge = require("./package.json");
 
 const isMac = process.platform === 'darwin';
 const IS_PRODUCTION = process.env.NODE_ENV === "production";
+const GIT_COMMIT_HASH = process.env.GIT_COMMIT_HASH || "";
+const VERSION = pacakge.version;
 
 const buildMenu = (windowInstance: BrowserWindow) : MenuItemConstructorOptions[] => {
     return [
@@ -69,7 +72,34 @@ const buildMenu = (windowInstance: BrowserWindow) : MenuItemConstructorOptions[]
                     });
                 }
             }, {
-                label: "Version Info"
+                label: "Version Info",
+                click: () => {
+                    const versionDialogWindow = new BrowserWindow({
+                        title: "Version",
+                        modal: true,
+                        maximizable: false,
+                        resizable: false,
+                        parent: windowInstance,
+                        show: false,
+                        width: 350,
+                        height: 250,
+                        webPreferences: {
+                            nodeIntegration: true,
+                            contextIsolation: false,
+                            devTools: !IS_PRODUCTION
+                        }
+                    });
+                    versionDialogWindow.setMenu(null);
+                    versionDialogWindow.loadURL(`file://${__dirname}/screens/version.html`);
+                    versionDialogWindow.once('ready-to-show', () => {
+                        versionDialogWindow.show();
+                        versionDialogWindow.webContents.send(VERSION_INFO_EVENT, { VERSION, GIT_COMMIT_HASH });
+                    });
+                    versionDialogWindow.webContents.setWindowOpenHandler(({ url }) => {
+                        shell.openExternal(url);
+                        return { action: 'deny' };
+                    });
+                }
             }, {
                 label: "Check out on GitHub",
                 click: () => {
