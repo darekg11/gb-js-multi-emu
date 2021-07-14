@@ -19,6 +19,8 @@
         require("../scripts/runner.js");
         const runner = window.globalThis.runner;
 
+        let romBinary = new Uint8Array();
+        let refreshTimeoutInstance = null;
         const fpsInterval = 1000 / 60;
         const WIDTH = 160;
         const HEIGHT = 144;
@@ -34,7 +36,7 @@
         };
         const canvas_element = document.getElementById("emulator_window");
         const run = () => {
-            setTimeout(run, fpsInterval);
+            refreshTimeoutInstance = setTimeout(run, fpsInterval);
             runner.runSingleFrame();
         }
 
@@ -79,16 +81,26 @@
         document.addEventListener("keyup", onKeyUp);
         changeScaling(2);
 
-        const { LOAD_ROM_IPC_EVENT } = require("../scripts/types");
+        const { LOAD_ROM_IPC_EVENT, RESTART_ROM_IPC_EVENT } = require("../scripts/types");
         const ipcRenderer = require("electron").ipcRenderer;
         ipcRenderer.on(LOAD_ROM_IPC_EVENT, (event, romData) => {
             if (!romData) {
                 return;
             }
 
-            const rawRomData = new Uint8Array(romData);
-            runner.loadRom(rawRomData);
+            romBinary = new Uint8Array(romData);
+            runner.loadRom(romBinary);
             run();
+        });
+
+        ipcRenderer.on(RESTART_ROM_IPC_EVENT, () => {
+            if (romBinary.length > 0) {
+                runner.loadRom(romBinary);
+                if (refreshTimeoutInstance) {
+                    clearTimeout(refreshTimeoutInstance);
+                }
+                run();
+            }
         });
     </script>
 </html>
