@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link href="../styles/fonts.css" rel="stylesheet">
+        <link href="../styles/nes.min.css" rel="stylesheet">
+    </head>
+    <style>
+        body {
+            height: 100vh;
+        }
+        html {
+            cursor: default
+        }
+        html, body, pre, code, kbd, samp {
+            font-family: "Press Start 2P", cursive;
+        }
+        .buttons-rows {
+            align-self: flex-end;
+        }
+        .container {
+            display: flex;
+            justify-content: flex-start;
+            height: 100%;
+            align-items: center;
+            flex-direction: column;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .flex-filler {
+            display: flex;
+            flex: 1
+        }
+    </style>
+    <body>
+        <div class="container">
+            <label for="scaling_factor_select">Choose emulator LCD scale:</label>
+            <div class="nes-select scale-select">
+                <select required name="scaling_factor_select" id="scaling_factor_select" value="2">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div class="flex-filler"></div>
+            <div class="buttons-rows">
+                <button type="button" class="nes-btn is-primary" onclick="saveSettings()">Apply</button>
+                <button type="button" class="nes-btn is-warning" onclick="closeWindow()">Cancel</button>
+            </div>
+        </div>
+    </body>
+    <script>
+        const ipcRenderer = require("electron").ipcRenderer;
+        const { CLOSE_SETTINGS_WINDOW_EVENT, SETTINGS_CHANGED_EVENT } = require("../scripts/types");
+        const SettingsService = require("../scripts/settings.js").Settings;
+        const scalingFactorSelect = document.getElementById("scaling_factor_select");
+        if (scalingFactorSelect) {
+            scalingFactorSelect.value = SettingsService.getScreenScaleFactor();
+        }
+
+        const closeWindow = () => {
+            ipcRenderer.send(CLOSE_SETTINGS_WINDOW_EVENT);
+        }
+
+        const saveSettings = () => {
+            if (scalingFactorSelect) {
+                SettingsService.setScreenScaleFactor(Number(scalingFactorSelect.value));
+            }
+            ipcRenderer.send(SETTINGS_CHANGED_EVENT, SettingsService.stringify());
+            ipcRenderer.send(CLOSE_SETTINGS_WINDOW_EVENT);
+        }
+    </script>
+</html>

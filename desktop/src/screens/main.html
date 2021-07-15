@@ -17,9 +17,11 @@
     </body>
     <script>
         require("../scripts/runner.js");
+        const SettingsService = require("../scripts/settings.js").Settings;
         const runner = window.globalThis.runner;
 
         let romBinary = new Uint8Array();
+        let SCALE_FACTOR = SettingsService.getScreenScaleFactor();
         let refreshTimeoutInstance = null;
         const fpsInterval = 1000 / 60;
         const WIDTH = 160;
@@ -79,9 +81,9 @@
 
         document.addEventListener("keydown", onKeyDown);
         document.addEventListener("keyup", onKeyUp);
-        changeScaling(2);
+        changeScaling(SCALE_FACTOR);
 
-        const { LOAD_ROM_IPC_EVENT, RESTART_ROM_IPC_EVENT } = require("../scripts/types");
+        const { LOAD_ROM_IPC_EVENT, RESTART_ROM_IPC_EVENT, SETTINGS_CHANGED_EVENT } = require("../scripts/types");
         const ipcRenderer = require("electron").ipcRenderer;
         ipcRenderer.on(LOAD_ROM_IPC_EVENT, (event, romData) => {
             if (!romData) {
@@ -101,6 +103,11 @@
                 }
                 run();
             }
+        });
+
+        ipcRenderer.on(SETTINGS_CHANGED_EVENT, () => {
+            SCALE_FACTOR = SettingsService.getScreenScaleFactor();
+            changeScaling(SCALE_FACTOR);
         });
     </script>
 </html>

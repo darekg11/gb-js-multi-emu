@@ -3,13 +3,19 @@
     <head>
         <meta charset="utf-8">
         <link href="../styles/fonts.css" rel="stylesheet">
+        <link href="../styles/nes.min.css" rel="stylesheet">
     </head>
     <style>
+        html {
+            cursor: default
+        }
         .container {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            padding-top: 20px;
+            padding-bottom: 20px;
         }
         p {
             font-family: "Press Start 2P", cursive;
@@ -19,14 +25,17 @@
     </style>
     <body>
         <div class="container">
-            <p>UP - UP Arrow</p>
-            <p>DOWN - DOWN Arrow</p>
-            <p>LEFT - LEFT Arrow</p>
-            <p>RIGHT - RIGHT Arrow</p>
-            <p>A - Z</p>
-            <p>B - X</p>
-            <p>START - N</p>
-            <p>SELECT - M</p>
+            <section class="nes-container with-title">
+                <p class="title">Controls</p>
+                <p>UP - UP Arrow</p>
+                <p>DOWN - DOWN Arrow</p>
+                <p>LEFT - LEFT Arrow</p>
+                <p>RIGHT - RIGHT Arrow</p>
+                <p>A - Z</p>
+                <p>B - X</p>
+                <p>START - N</p>
+                <p>SELECT - M</p>
+            </section>
         </div>
     </body>
 </html>

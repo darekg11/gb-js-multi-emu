@@ -1,7 +1,8 @@
-import { app, BrowserWindow, dialog, Menu, MenuItemConstructorOptions , shell } from "electron";
-import { LCD_HEIGHT } from "gb-js-multi-emu-core/dist/components/gpu/constants";
-import { LOAD_ROM_IPC_EVENT, RESTART_ROM_IPC_EVENT, VERSION_INFO_EVENT } from "./scripts/types";
+import { app, BrowserWindow, dialog, Menu, MenuItemConstructorOptions, ipcMain, shell } from "electron";
+import { LCD_HEIGHT, LCD_WIDTH } from "gb-js-multi-emu-core/dist/components/gpu/constants";
+import { CLOSE_SETTINGS_WINDOW_EVENT, LOAD_ROM_IPC_EVENT, RESTART_ROM_IPC_EVENT, SETTINGS_CHANGED_EVENT, VERSION_INFO_EVENT } from "./scripts/types";
 import fs from "fs";
+import { DEFAULT_SCREEN_SCALE_FACTOR_VALUE, SCREEN_SCALE_FACTOR_SETTING_KEY_NAME } from "./scripts/settings";
 const pacakge = require("./package.json");
 
 const isMac = process.platform === 'darwin';
@@ -43,6 +44,33 @@ const buildMenu = (windowInstance: BrowserWindow) : MenuItemConstructorOptions[]
                     windowInstance.webContents.send(RESTART_ROM_IPC_EVENT);
                 }
             }, {
+                label: "Settings",
+                click: () => {
+                    const settingsDialogWindow = new BrowserWindow({
+                        title: "Settings",
+                        modal: true,
+                        maximizable: false,
+                        resizable: false,
+                        parent: windowInstance,
+                        show: false,
+                        width: 600,
+                        height: 600,
+                        webPreferences: {
+                            nodeIntegration: true,
+                            contextIsolation: false,
+                            devTools: !IS_PRODUCTION
+                        }
+                    });
+                    settingsDialogWindow.setMenu(null);
+                    settingsDialogWindow.loadURL(`file://${__dirname}/screens/settings.html`);
+                    settingsDialogWindow.once('ready-to-show', () => {
+                        settingsDialogWindow.show()
+                    });
+                    ipcMain.on(CLOSE_SETTINGS_WINDOW_EVENT, () => {
+                        settingsDialogWindow.destroy();
+                    })
+                }
+            },{
                 type: "separator",
             }, {
                 label: "Quit",
@@ -62,8 +90,8 @@ const buildMenu = (windowInstance: BrowserWindow) : MenuItemConstructorOptions[]
                         resizable: false,
                         parent: windowInstance,
                         show: false,
-                        width: 350,
-                        height: 350,
+                        width: 400,
+                        height: 400,
                     });
                     controlsDialogWindow.setMenu(null);
                     controlsDialogWindow.loadURL(`file://${__dirname}/screens/controls.html`);
@@ -110,24 +138,36 @@ const buildMenu = (windowInstance: BrowserWindow) : MenuItemConstructorOptions[]
     ]
 }
 
-
-
 const createMainWindow = () => {
     const mainWindowInstance = new BrowserWindow({
-        width: 400,
-        height: (LCD_HEIGHT * 2) + 50,
         title: "GB JS Multi Emu",
         maximizable: false,
-        resizable: false,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
             devTools: !IS_PRODUCTION
         }
     });
+    // it's via callbacks since doing async await breaks Electron along the way when setting window
+    mainWindowInstance.webContents.executeJavaScript(`localStorage.getItem('${SCREEN_SCALE_FACTOR_SETTING_KEY_NAME}')`)
+        .then(screenScaleFactor => screenScaleFactor)
+        .catch(() => DEFAULT_SCREEN_SCALE_FACTOR_VALUE)
+        .then(screenScaleFactor => {
+            mainWindowInstance.setSize(LCD_WIDTH * screenScaleFactor, (LCD_HEIGHT * screenScaleFactor) + 50);
+            mainWindowInstance.setResizable(false);
+        });
     mainWindowInstance.loadURL(`file://${__dirname}/screens/main.html`);
     const mainWindowMenu = Menu.buildFromTemplate(buildMenu(mainWindowInstance));
     mainWindowInstance.setMenu(mainWindowMenu);
+    ipcMain.on(SETTINGS_CHANGED_EVENT, (event, newSettings: string) => {
+        if (newSettings) {
+            const settings = JSON.parse(newSettings);
+            mainWindowInstance.setResizable(true);
+            mainWindowInstance.setSize(LCD_WIDTH * settings.screen_scale_factor, (LCD_HEIGHT * settings.screen_scale_factor) + 50);
+            mainWindowInstance.setResizable(false);
+            mainWindowInstance.webContents.send(SETTINGS_CHANGED_EVENT);
+        }
+    })
 }
 
 app.whenReady().then(createMainWindow);
