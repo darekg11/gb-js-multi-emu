@@ -6,9 +6,9 @@ import { DEFAULT_SCREEN_SCALE_FACTOR_VALUE, SCREEN_SCALE_FACTOR_SETTING_KEY_NAME
 const pacakge = require("./package.json");
 
 const isMac = process.platform === 'darwin';
-const IS_PRODUCTION = process.env.NODE_ENV === "production";
-const GIT_COMMIT_HASH = process.env.GIT_COMMIT_HASH || "";
+const IS_PRODUCTION = app.isPackaged;
 const VERSION = pacakge.version;
+const GIT_COMMIT_HASH = fs.readFileSync(`${__dirname}/git_commit`, { encoding: "ascii" });
 
 const buildMenu = (windowInstance: BrowserWindow) : MenuItemConstructorOptions[] => {
     return [
@@ -150,7 +150,7 @@ const createMainWindow = () => {
     });
     // it's via callbacks since doing async await breaks Electron along the way when setting window
     mainWindowInstance.webContents.executeJavaScript(`localStorage.getItem('${SCREEN_SCALE_FACTOR_SETTING_KEY_NAME}')`)
-        .then(screenScaleFactor => screenScaleFactor)
+        .then(screenScaleFactor => screenScaleFactor || DEFAULT_SCREEN_SCALE_FACTOR_VALUE)
         .catch(() => DEFAULT_SCREEN_SCALE_FACTOR_VALUE)
         .then(screenScaleFactor => {
             mainWindowInstance.setSize(LCD_WIDTH * screenScaleFactor, (LCD_HEIGHT * screenScaleFactor) + 50);
