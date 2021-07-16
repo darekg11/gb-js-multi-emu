@@ -3,3 +3,5 @@ roms/
 dist/
 .cache/
 coverage/
+releases/
+desktop/git_commit

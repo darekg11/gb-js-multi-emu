@@ -2,11 +2,15 @@
     "name": "gb-js-multi-emu-",
     "version": "1.0.0",
     "description": "Desktop UI for GB JS Multi Emu",
-    "main": "index.js",
+    "main": "dist/main.js",
     "scripts": {
         "watch": "tsc -w",
-        "copy-resources": "cp -r ./src/screens ./dist && cp -r ./src/styles ./dist && cp -r ./src/fonts ./dist && cp ./package.json ./dist",
-        "dev": "npm run copy-resources && GIT_COMMIT_HASH=$(git rev-parse HEAD) electron ./dist/main.js"
+        "copy-resources": "cp -r ./src/screens ./dist && cp -r ./src/styles ./dist && cp -r ./src/fonts ./dist && cp ./package.json ./dist && cp ./git_commit ./dist",
+        "dev": "npm run build-write-commit && npm run copy-resources && electron ./dist/main.js",
+        "clean-build": "rm -rf ./dist && rm -rf ./releases",
+        "build-typescript": "tsc",
+        "build-write-commit": "rm git_commit && echo $(git rev-parse HEAD) >> git_commit",
+        "build-release-linux": "npm run clean-build && npm run build-typescript && npm run build-write-commit && npm run copy-resources && electron-packager . --out=./releases 'GB JS Multi Emu' --platform=linux --arch=x64 --ignore='src/.*' && tar -Jcf './releases/GB JS Multi Emu-linux-x64.tar.xz' './releases/GB JS Multi Emu-linux-x64'"
     },
     "author": "Dariusz Górak",
     "license": "MIT",
@@ -15,6 +19,7 @@
     },
     "devDependencies": {
         "electron": "13.1.6",
+        "electron-packager": "15.2.0",
         "typescript": "^4.0.3"
     }
 }
