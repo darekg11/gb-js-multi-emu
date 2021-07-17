@@ -1,5 +1,5 @@
 {
-    "name": "gb-js-multi-emu-",
+    "name": "gb-js-multi-emu-desktop",
     "version": "1.0.0",
     "description": "Desktop UI for GB JS Multi Emu",
     "main": "dist/main.js",
