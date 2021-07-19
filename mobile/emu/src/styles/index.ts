@@ -1,0 +1,3 @@
+import {LIGHT_THEME_COLORS, DARK_THEME_COLORS} from './colors';
+
+export {LIGHT_THEME_COLORS, DARK_THEME_COLORS};
