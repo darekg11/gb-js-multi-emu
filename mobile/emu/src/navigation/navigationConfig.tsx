@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
   drawer: {
     borderRightWidth: StyleSheet.hairlineWidth,
     borderRightColor: stylesService.getDividerColor(),
-    width: '60%',
   },
 });
 
