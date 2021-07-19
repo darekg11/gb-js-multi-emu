@@ -1,17 +1,10 @@
-import {
-  Box,
-  Container,
-  Icon,
-  Text,
-  VStack,
-  HStack,
-  Pressable,
-} from 'native-base';
+import {Divider, Icon, Text, VStack, HStack, Pressable} from 'native-base';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {
   DrawerContentComponentProps,
   DrawerContentOptions,
+  DrawerContentScrollView,
 } from '@react-navigation/drawer';
 import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5Icons from 'react-native-vector-icons/FontAwesome5';
@@ -62,12 +55,12 @@ class Drawer extends React.PureComponent<IOwnProps> {
     icon: string,
     onPress: () => void,
   ) => (
-    <Pressable onPress={onPress} borderWidth={0}>
-      <HStack justifyContent="space-between">
+    <Pressable px={5} py={2} onPress={onPress} borderWidth={0}>
+      <HStack space={7} alignItems="center">
         <Icon
           as={ICON_FAMILY_TO_ICON_MAP[iconFamily]}
           name={icon}
-          size={10}
+          size={8}
           color={stylesService.getTextPrimaryColor()}
         />
         <Text style={styles.buttonText}>{text}</Text>
@@ -76,79 +69,60 @@ class Drawer extends React.PureComponent<IOwnProps> {
   );
   render() {
     return (
-      <Container style={styles.content}>
-        <Box style={styles.scrollableContent}>
-          <View style={[styles.actionContainer, styles.mainActionsContainer]}>
-            <VStack space={5}>
-              {this.renderSingleItem(
-                translationService.translate(APP_TRANSLATIONS.DRAWER.home),
-                'FontAwesome5',
-                'home',
-                this.goToHomePage,
-              )}
-              {this.renderSingleItem(
-                translationService.translate(APP_TRANSLATIONS.DRAWER.rom_load),
-                'AntDesign',
-                'folderopen',
-                this.loadRom,
-              )}
-              {this.renderSingleItem(
-                translationService.translate(
-                  APP_TRANSLATIONS.DRAWER.rom_restart,
-                ),
-                'MaterialCommunity',
-                'restart',
-                this.restartRom,
-              )}
-            </VStack>
-          </View>
-          <View style={styles.divider} />
-          <View style={[styles.actionContainer, styles.mainActionsContainer]}>
-            <VStack space={5}>
-              {this.renderSingleItem(
-                translationService.translate(APP_TRANSLATIONS.DRAWER.settings),
-                'FontAwesome',
-                'cogs',
-                this.goToSettingsPage,
-              )}
-              {this.renderSingleItem(
-                translationService.translate(APP_TRANSLATIONS.DRAWER.info),
-                'Feather',
-                'info',
-                this.goToInfoPage,
-              )}
-            </VStack>
-          </View>
-        </Box>
-      </Container>
+      <DrawerContentScrollView {...this.props} style={styles.content}>
+        <VStack
+          divider={
+            <Divider backgroundColor={stylesService.getDividerColor()} />
+          }
+          space={7}>
+          <VStack space={3}>
+            {this.renderSingleItem(
+              translationService.translate(APP_TRANSLATIONS.DRAWER.home),
+              'FontAwesome5',
+              'home',
+              this.goToHomePage,
+            )}
+            {this.renderSingleItem(
+              translationService.translate(APP_TRANSLATIONS.DRAWER.rom_load),
+              'AntDesign',
+              'folderopen',
+              this.loadRom,
+            )}
+            {this.renderSingleItem(
+              translationService.translate(APP_TRANSLATIONS.DRAWER.rom_restart),
+              'MaterialCommunity',
+              'restart',
+              this.restartRom,
+            )}
+          </VStack>
+          <VStack space={3}>
+            {this.renderSingleItem(
+              translationService.translate(APP_TRANSLATIONS.DRAWER.settings),
+              'FontAwesome',
+              'cogs',
+              this.goToSettingsPage,
+            )}
+            {this.renderSingleItem(
+              translationService.translate(APP_TRANSLATIONS.DRAWER.info),
+              'Feather',
+              'info',
+              this.goToInfoPage,
+            )}
+          </VStack>
+        </VStack>
+      </DrawerContentScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  actionContainer: {
-    flexDirection: 'column',
-    paddingBottom: 10,
-    paddingTop: 10,
-  },
   buttonText: {
     color: stylesService.getTextPrimaryColor(),
     letterSpacing: 0.5,
+    fontWeight: '500',
   },
   content: {
     backgroundColor: stylesService.getBackgroundColor(),
-    maxWidth: '100%',
-    flex: 1,
-  },
-  divider: {
-    borderBottomColor: stylesService.getDividerColor(),
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  mainActionsContainer: {
-    flex: 1,
-  },
-  scrollableContent: {
-    flexGrow: 1,
   },
 });
 
