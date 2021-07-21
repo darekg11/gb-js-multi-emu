@@ -1,0 +1,7 @@
+{
+  "name": "GB JS Multi Emu",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
