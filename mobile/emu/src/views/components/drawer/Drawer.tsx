@@ -11,6 +11,8 @@ import FontAwesome5Icons from 'react-native-vector-icons/FontAwesome5';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FeatherIcons from 'react-native-vector-icons/Feather';
+import DocumentPicker from 'react-native-document-picker';
+import RNFS from 'react-native-fs';
 import {APP_TRANSLATIONS} from '../../../../locales';
 import {APP_PAGES} from '../../../enums';
 import {stylesService, translationService} from '../../../services';
@@ -28,6 +30,18 @@ const ICON_FAMILY_TO_ICON_MAP = {
 };
 
 class Drawer extends React.PureComponent<IOwnProps> {
+  chooseRom = async () => {
+    try {
+      const romPathInfo = await DocumentPicker.pick({
+        type: ['*/*'],
+      });
+      return {
+        uri: romPathInfo.uri,
+        size: romPathInfo.size,
+      };
+    } catch (error) {}
+  };
+
   goToHomePage = () => {
     this.props.drawerProps.navigation.navigate(APP_PAGES.EMULATOR_PAGE);
   };
@@ -40,7 +54,15 @@ class Drawer extends React.PureComponent<IOwnProps> {
     this.props.drawerProps.navigation.navigate(APP_PAGES.INFO_PAGE);
   };
 
-  loadRom = () => {};
+  loadRom = async () => {
+    const romPathInfo = await this.chooseRom();
+    if (romPathInfo && romPathInfo.uri && romPathInfo.size) {
+      const uri = romPathInfo.uri;
+      // When using Hermes Engine, 'ascii' is actually returning binary data /shrug
+      // DON'T upgrade react-native-fs without check if this works correctly after upgrade
+      const romData = await RNFS.readFile(uri, 'ascii');
+    }
+  };
 
   restartRom = () => {};
 

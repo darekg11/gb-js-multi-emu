@@ -1,0 +1,10 @@
+.emulator-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 1em;
+}
+
+.emulator-window {
+    display: flex;
+    border: 4px solid black;
+}

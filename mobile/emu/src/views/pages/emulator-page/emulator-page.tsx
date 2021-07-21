@@ -1,55 +1,37 @@
 import {SafeAreaView} from 'react-native-safe-area-context';
 import React from 'react';
-import {
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const Section: React.FC<{
-  title: string;
-}> = ({children, title}) => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+import Canvas, {ImageData} from 'react-native-canvas';
+import {ScrollView, StatusBar, useColorScheme, useWindowDimensions} from 'react-native';
+import {stylesService} from '../../../services';
 
 const EmulatorPage = () => {
   const isDarkMode = useColorScheme() === 'dark';
+  const dimensions = useWindowDimensions();
+  const height = 
 
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    backgroundColor: stylesService.getBackgroundColor(),
+  };
+
+  const handleCanvas = (canvas: Canvas) => {
+    canvas.width = 200;
+    canvas.height = 200;
+
+    const context = canvas.getContext('2d');
+    context.fillStyle = 'purple';
+    context.fillRect(0, 0, 200, 200);
+
+    context.getImageData(0, 0, 200, 200).then(imageData => {
+      const data = Object.values(imageData.data);
+      const length = Object.keys(data).length;
+      for (let i = 0; i < length; i += 4) {
+        data[i] = 0;
+        data[i + 1] = 0;
+        data[i + 2] = 0;
+      }
+      const imgData = new ImageData(canvas, data, 200, 200);
+      context.putImageData(imgData, 0, 0);
+    });
   };
 
   return (
@@ -58,45 +40,10 @@ const EmulatorPage = () => {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">EMULATOR PAGE</Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
+        <Canvas ref={handleCanvas} />
       </ScrollView>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default EmulatorPage;

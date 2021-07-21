@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "GB JS Multi Emu",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}
