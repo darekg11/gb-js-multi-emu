@@ -37,13 +37,13 @@ interface AppPage {
 const appPages: AppPage[] = [
   {
     title: 'Emulator',
-    url: '/page/Emulator',
+    url: '/page/emulator',
     iosIcon: homeOutline,
     mdIcon: homeSharp
   },
   {
     title: 'Settings',
-    url: '/page/Settings',
+    url: '/page/settings',
     iosIcon: settingsOutline,
     mdIcon: settingsSharp
   },

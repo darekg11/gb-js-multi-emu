@@ -6,6 +6,8 @@ import { Redirect, Route } from 'react-router-dom';
 import { EmulatorStateContext, DEFAULT_STATE } from "./contexts/EmulatorStateContext";
 import Menu from './components/Menu';
 import EmulatorPage from "./pages/emulator-page";
+import SettingsPage from "./pages/settings-page";
+import InfoPage from "./pages/info-page";
 import EmulatorRunner from "./runner";
 
 /* Core CSS required for Ionic components to work properly */
@@ -42,10 +44,16 @@ const App: React.FC = () => {
             <Menu setGamebotStateContext={setGamebotStateContext}/>
             <IonRouterOutlet id="main">
               <Route path="/" exact={true}>
-                <Redirect to="/page/Emulator" />
+                <Redirect to="/page/emulator" />
               </Route>
-              <Route path="/page/Emulator" exact={true}>
+              <Route path="/page/emulator" exact={true}>
                 <EmulatorPage />
+              </Route>
+              <Route path="/page/settings" exact={true}>
+                <SettingsPage />
+              </Route>
+              <Route path="/page/info" exact={true}>
+                <InfoPage />
               </Route>
             </IonRouterOutlet>
           </IonSplitPane>
