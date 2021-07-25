@@ -1,0 +1,10 @@
+.version-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.git-commit-label {
+    word-break: break-all;
+}

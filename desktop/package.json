@@ -9,7 +9,7 @@
         "dev": "npm run build-write-commit && npm run copy-resources && electron ./dist/main.js",
         "clean-build": "rm -rf ./dist && rm -rf ./releases",
         "build-typescript": "tsc",
-        "build-write-commit": "rm git_commit && echo $(git rev-parse HEAD) >> git_commit",
+        "build-write-commit": "rm -f git_commit && echo $(git rev-parse HEAD) >> git_commit",
         "build-release-linux": "npm run clean-build && npm run build-typescript && npm run build-write-commit && npm run copy-resources && electron-packager . --out=./releases 'GB JS Multi Emu' --platform=linux --arch=x64 --ignore='src/.*' && tar -Jcf './releases/GB JS Multi Emu-linux-x64.tar.xz' './releases/GB JS Multi Emu-linux-x64'"
     },
     "author": "Dariusz Górak",
