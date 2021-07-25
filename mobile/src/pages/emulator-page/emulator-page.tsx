@@ -42,14 +42,14 @@ const EmulatorPage: React.FC = () => {
                 <div className="emulator-controls-container">
                     <div className="emulator-controls-child-wrapper">
                         <div className="emulator-single-arrow-row-wrapper">
-                            <IonImg onTouchStart={() => keyPressed(BUTTONS.UP)} onTouchEnd={() => keyReleased(BUTTONS.UP)} className="emulator-arrow-button" src="../../assets/arrow-up.png" ></IonImg>
+                            <IonImg onTouchStart={() => keyPressed(BUTTONS.UP)} onTouchEnd={() => keyReleased(BUTTONS.UP)} className="emulator-arrow-button" src="/assets/arrow-up.png" ></IonImg>
                         </div>
                         <div className="emulator-mulitple-arrow-row-wrapper">
-                            <IonImg onTouchStart={() => keyPressed(BUTTONS.LEFT)} onTouchEnd={() => keyReleased(BUTTONS.LEFT)} className="emulator-arrow-button" src="../../assets/arrow-left.png" ></IonImg>
-                            <IonImg onTouchStart={() => keyPressed(BUTTONS.RIGHT)} onTouchEnd={() => keyReleased(BUTTONS.RIGHT)} className="emulator-arrow-button" src="../../assets/arrow-right.png" ></IonImg>
+                            <IonImg onTouchStart={() => keyPressed(BUTTONS.LEFT)} onTouchEnd={() => keyReleased(BUTTONS.LEFT)} className="emulator-arrow-button" src="/assets/arrow-left.png" ></IonImg>
+                            <IonImg onTouchStart={() => keyPressed(BUTTONS.RIGHT)} onTouchEnd={() => keyReleased(BUTTONS.RIGHT)} className="emulator-arrow-button" src="/assets/arrow-right.png" ></IonImg>
                         </div>
                         <div className="emulator-single-arrow-row-wrapper">
-                            <IonImg onTouchStart={() => keyPressed(BUTTONS.DOWN)} onTouchEnd={() => keyReleased(BUTTONS.DOWN)} className="emulator-arrow-button" src="../../assets/arrow-down.png" ></IonImg>
+                            <IonImg onTouchStart={() => keyPressed(BUTTONS.DOWN)} onTouchEnd={() => keyReleased(BUTTONS.DOWN)} className="emulator-arrow-button" src="/assets/arrow-down.png" ></IonImg>
                         </div>
                     </div>
                     <div className="emulator-controls-child-wrapper">

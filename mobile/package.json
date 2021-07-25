@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build-production-android": "./scripts/build-release-android.sh",
-    "android": "ionic capacitor run android --livereload --external",
+    "build-write-commit": "./scripts/write-git-commit.sh",
+    "build-production-android": "npm run build-write-commit && ./scripts/build-release-android.sh",
+    "android": "npm run build-write-commit && ionic capacitor run android --livereload --external",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
