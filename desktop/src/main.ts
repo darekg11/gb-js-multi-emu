@@ -1,4 +1,5 @@
 import { app, BrowserWindow, dialog, Menu, MenuItemConstructorOptions, ipcMain, shell } from "electron";
+import path from "path";
 import { LCD_HEIGHT, LCD_WIDTH } from "gb-js-multi-emu-core/dist/components/gpu/constants";
 import { CLOSE_SETTINGS_WINDOW_EVENT, LOAD_ROM_IPC_EVENT, RESTART_ROM_IPC_EVENT, SETTINGS_CHANGED_EVENT, VERSION_INFO_EVENT } from "./scripts/types";
 import fs from "fs";
@@ -146,7 +147,8 @@ const createMainWindow = () => {
             nodeIntegration: true,
             contextIsolation: false,
             devTools: !IS_PRODUCTION
-        }
+        },
+        icon: path.join(__dirname, "/assets/icons/128x128.png")
     });
     // it's via callbacks since doing async await breaks Electron along the way when setting window
     mainWindowInstance.webContents.executeJavaScript(`localStorage.getItem('${SCREEN_SCALE_FACTOR_SETTING_KEY_NAME}')`)
