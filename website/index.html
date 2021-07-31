@@ -64,6 +64,7 @@
     </body>
     <script>
         const runner = window.globalThis.runner;
+        let refreshTimeoutInstance = null;
         const fpsInterval = 1000 / 60;
         const WIDTH = 160;
         const HEIGHT = 144;
@@ -92,6 +93,9 @@
             reader.addEventListener("load", (event) => {
                 if (event.target.result) {
                     const romData = new Uint8Array(event.target.result);
+                    if (refreshTimeoutInstance) {
+                        clearTimeout(refreshTimeoutInstance);
+                    }
                     runner.loadRom(romData);
                     window.run();
                 }
@@ -104,7 +108,7 @@
         };
 
         window.run = () => {
-            setTimeout(run, fpsInterval);
+            refreshTimeoutInstance = setTimeout(run, fpsInterval);
             runner.runSingleFrame();
         }
 
