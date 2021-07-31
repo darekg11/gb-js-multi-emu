@@ -5,32 +5,36 @@ import { LCD_WIDTH, LCD_HEIGHT } from "gb-js-multi-emu-core/dist/components/gpu/
 import { BUTTONS } from "gb-js-multi-emu-core/dist/components/joypad/types";
 
 class Runner {
+    canvas: HTMLCanvasElement | null = null;
 
     private drawFrameCallbackHandler = (pixelBuffer: Uint8ClampedArray) => {
-        const canvas = document.getElementById("emulator_window") as HTMLCanvasElement;
-            const canvasContext = canvas.getContext("2d");
-            if (!canvasContext) {
-                return;
-            }
-            const scaledImageData = canvasContext.createImageData(LCD_WIDTH * this.scaleFactor, LCD_HEIGHT * this.scaleFactor);
-            const subLine = canvasContext.createImageData(this.scaleFactor, 1).data;
+        if (!this.canvas) {
+            this.canvas = document.getElementById("emulator_window") as HTMLCanvasElement;
+        }
+        const canvasContext = this.canvas.getContext("2d");
+        if (!canvasContext) {
+            return;
+        }
+        const scaledImageData = canvasContext.createImageData(LCD_WIDTH * this.scaleFactor, LCD_HEIGHT * this.scaleFactor);
+        const subLine = canvasContext.createImageData(this.scaleFactor, 1).data;
 
-            for (let row = 0; row < LCD_HEIGHT; row++) {
-                for (let column = 0; column < LCD_WIDTH; column++) {
-                    const pixelStartIndex = (row * LCD_WIDTH + column) * 4;
-                    const pixelEndIndex = (row * LCD_WIDTH + column) * 4 + 4;
-                    const originalPixelRGBA = pixelBuffer.subarray(pixelStartIndex, pixelEndIndex);
-                    for (let x = 0; x < this.scaleFactor; x++) {
-                        subLine.set(originalPixelRGBA, x * 4);
-                    }
-                    for (let y = 0; y < this.scaleFactor; y++) {
-                        const destinationRow = row * this.scaleFactor + y;
-                        const destinationColumn = column * this.scaleFactor;
-                        scaledImageData.data.set(subLine, (destinationRow * LCD_WIDTH * this.scaleFactor + destinationColumn) * 4);
-                    }
+        for (let row = 0; row < LCD_HEIGHT; row++) {
+            for (let column = 0; column < LCD_WIDTH; column++) {
+                for (let x = 0; x < this.scaleFactor; x++) {
+                    const originX = x * 4;
+                    subLine[originX] = pixelBuffer[(row * LCD_WIDTH + column) * 4];
+                    subLine[originX + 1] = pixelBuffer[(row * LCD_WIDTH + column) * 4 + 1];
+                    subLine[originX + 2] = pixelBuffer[(row * LCD_WIDTH + column) * 4 + 2];
+                    subLine[originX + 3] = pixelBuffer[(row * LCD_WIDTH + column) * 4 + 3];
+                }
+                for (let y = 0; y < this.scaleFactor; y++) {
+                    const destinationRow = row * this.scaleFactor + y;
+                    const destinationColumn = column * this.scaleFactor;
+                    scaledImageData.data.set(subLine, (destinationRow * LCD_WIDTH * this.scaleFactor + destinationColumn) * 4);
                 }
             }
-            canvasContext.putImageData(scaledImageData, 0, 0);
+        }
+        canvasContext.putImageData(scaledImageData, 0, 0);
     }
 
     gameboy: GameboyEmulator = new GameboyEmulator(new DefaultEmulatorSettings(), this.drawFrameCallbackHandler);
