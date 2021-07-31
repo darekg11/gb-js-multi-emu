@@ -287,7 +287,7 @@ class CPU {
     // Returns number of machine cycles that it took
     public tick(memory: Memory): number {
         if (this.halted) {
-            // when CPU is halted it should increase ticks - it just should not execute instructions
+            // when CPU is halted it should increase ticks - it just should not execute instructions - BLA BLA
             return 4;
         }
 
