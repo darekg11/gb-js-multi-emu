@@ -11,7 +11,7 @@ jobs:
     defaults:
       run:
         working-directory: core
-    stategy:
+    strategy:
       matrix:
         node-version: [12.22.4]
     steps:
