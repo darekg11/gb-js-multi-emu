@@ -11,7 +11,7 @@ import { numberUtils } from "../../../../../utils";
 */
 const handle = (payload: IOpCodeHanlePayload): number => {
     const registerHLValue = payload.CPU.getRegisterHLValue();
-    payload.CPU.jump(registerHLValue);
+    payload.CPU.jump(registerHLValue + 2);
     return 4;
 }
 
