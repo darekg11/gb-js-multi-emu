@@ -1,5 +1,4 @@
 import { IOpCodeHanlePayload } from "../../types";
-import { numberUtils } from "../../../../../utils";
 
 /*
   OP Code: 0xE9
