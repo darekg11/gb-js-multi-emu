@@ -1,30 +1,30 @@
 import { IColor } from "../types";
 
 const BLACK: IColor = {
-    red: 0,
-    green: 0,
-    blue: 0,
+    red: 24,
+    green: 52,
+    blue: 66,
     alpha: 255
 }
 
 const WHITE: IColor = {
-    red: 255,
+    red: 239,
     green: 255,
-    blue: 255,
+    blue: 222,
     alpha: 255
 }
 
 const LIGHT_GREY: IColor = {
-    red: 204,
-    green: 204,
-    blue: 204,
+    red: 173,
+    green: 215,
+    blue: 148,
     alpha: 255
 }
 
 const DARK_GREY: IColor = {
-    red: 119,
-    green: 119,
-    blue: 119,
+    red: 82,
+    green: 146,
+    blue: 115,
     alpha: 255
 }
 

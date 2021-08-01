@@ -203,7 +203,7 @@ class Renderer implements IRenderer {
 
                 // white is transparent for sprites.
                 // shitty way to check but whatever
-                if (color.blue === 255 && color.green === 255 && color.red === 255) {
+                if (color.blue === WHITE.blue && color.green === WHITE.green && color.red === WHITE.red) {
                     continue;
                 }
 
