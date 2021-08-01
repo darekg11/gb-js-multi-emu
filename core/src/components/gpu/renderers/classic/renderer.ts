@@ -202,8 +202,7 @@ class Renderer implements IRenderer {
                 const color = this.getColorFromPallete(PALLETE, colorId);
 
                 // white is transparent for sprites.
-                // shitty way to check but whatever
-                if (color.blue === WHITE.blue && color.green === WHITE.green && color.red === WHITE.red) {
+                if (colorId === 0) {
                     continue;
                 }
 
