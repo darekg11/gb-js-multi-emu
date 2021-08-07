@@ -20,7 +20,7 @@ Theare are three four main directories in repository:
 
 `website` - this is web GUI implementation for Emulator. It uses `core` package for emulation and currently is running via `HTML5 canvas` on web. Release is available under GitHub page link [here](https://darekg11.github.io/gb-js-multi-emu/). It's tested on Firefox and Chromium.
 
-Each of these directories contains it's own `README.md` file and `CHANGELOG.md` file. Please refer to them for more documenation on each component including `npm` scripts description, directory structure, etc.
+Each of these directories contains it's own `README.md` file. Please refer to them for more documenation on each component including `npm` scripts description, directory structure, etc.
 
 # What are the supported features / what is missing?
 | Feature             | Status             | Addtional description
