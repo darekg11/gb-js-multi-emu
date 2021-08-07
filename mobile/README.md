@@ -17,7 +17,7 @@ This directory contains GUI implementation of Emulator. It uses Ionic framework 
 1. Run `npm install`
 2. Run `npm link gb-js-multi-emu-core` to link `gb-js-multi-emu-core` locally
 3. Run `npm start` in `core` directory to build `core` package with automatic reload
-4. Run `npm run android` to start the app on your mobile device or within the emulator
+4. Run `npm run android` in `mobile` directory to start the app on your mobile device or within the emulator
 
 ## How to build new release
 
