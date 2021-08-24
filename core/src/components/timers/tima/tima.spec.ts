@@ -45,7 +45,7 @@ describe("update", () => {
             callback: requestTimaTimerInterruptCallback
         });
 
-        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 1024;
+        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 4096;
 
         timer.update(requiredTicksToTriggerInterrupt - 1);
         expect(requestTimaTimerInterruptCallback.mock.calls.length).toBe(0);
@@ -75,7 +75,7 @@ describe("update", () => {
             callback: requestTimaTimerInterruptCallback
         });
 
-        const requiredTicksToTriggerInterrupt = (CLASSIC_GAMEBOY_CLOCK_SPEED / 1024) * 2;
+        const requiredTicksToTriggerInterrupt = (CLASSIC_GAMEBOY_CLOCK_SPEED / 4096) * 2;
 
         timer.update(requiredTicksToTriggerInterrupt - 1);
         expect(requestTimaTimerInterruptCallback.mock.calls.length).toBe(0);
@@ -107,7 +107,7 @@ describe("update", () => {
             callback: requestTimaTimerInterruptCallback
         });
 
-        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 1024;
+        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 4096;
 
         for (let cnt = 0; cnt < 0xFF; cnt++) {
             timer.update(requiredTicksToTriggerInterrupt);
@@ -135,7 +135,7 @@ describe("update", () => {
             callback: requestTimaTimerInterruptCallback
         });
 
-        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 256;
+        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 16384;
 
         timer.update(requiredTicksToTriggerInterrupt - 1);
         expect(requestTimaTimerInterruptCallback.mock.calls.length).toBe(0);
@@ -165,7 +165,7 @@ describe("update", () => {
             callback: requestTimaTimerInterruptCallback
         });
 
-        const requiredTicksToTriggerInterrupt = (CLASSIC_GAMEBOY_CLOCK_SPEED / 256) * 2;
+        const requiredTicksToTriggerInterrupt = (CLASSIC_GAMEBOY_CLOCK_SPEED / 16384) * 2;
 
         timer.update(requiredTicksToTriggerInterrupt - 1);
         expect(requestTimaTimerInterruptCallback.mock.calls.length).toBe(0);
@@ -197,7 +197,7 @@ describe("update", () => {
             callback: requestTimaTimerInterruptCallback
         });
 
-        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 256;
+        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 16384;
 
         for (let cnt = 0; cnt < 0xFF; cnt++) {
             timer.update(requiredTicksToTriggerInterrupt);
@@ -225,7 +225,7 @@ describe("update", () => {
             callback: requestTimaTimerInterruptCallback
         });
 
-        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 64;
+        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 65536;
 
         timer.update(requiredTicksToTriggerInterrupt - 1);
         expect(requestTimaTimerInterruptCallback.mock.calls.length).toBe(0);
@@ -255,7 +255,7 @@ describe("update", () => {
             callback: requestTimaTimerInterruptCallback
         });
 
-        const requiredTicksToTriggerInterrupt = (CLASSIC_GAMEBOY_CLOCK_SPEED / 64) * 2;
+        const requiredTicksToTriggerInterrupt = (CLASSIC_GAMEBOY_CLOCK_SPEED / 65536) * 2;
 
         timer.update(requiredTicksToTriggerInterrupt - 1);
         expect(requestTimaTimerInterruptCallback.mock.calls.length).toBe(0);
@@ -287,7 +287,7 @@ describe("update", () => {
             callback: requestTimaTimerInterruptCallback
         });
 
-        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 64;
+        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 65536;
 
         for (let cnt = 0; cnt < 0xFF; cnt++) {
             timer.update(requiredTicksToTriggerInterrupt);
@@ -315,7 +315,7 @@ describe("update", () => {
             callback: requestTimaTimerInterruptCallback
         });
 
-        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 16;
+        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 262144;
 
         timer.update(requiredTicksToTriggerInterrupt - 1);
         expect(requestTimaTimerInterruptCallback.mock.calls.length).toBe(0);
@@ -345,7 +345,7 @@ describe("update", () => {
             callback: requestTimaTimerInterruptCallback
         });
 
-        const requiredTicksToTriggerInterrupt = (CLASSIC_GAMEBOY_CLOCK_SPEED / 16) * 2;
+        const requiredTicksToTriggerInterrupt = (CLASSIC_GAMEBOY_CLOCK_SPEED / 262144) * 2;
 
         timer.update(requiredTicksToTriggerInterrupt - 1);
         expect(requestTimaTimerInterruptCallback.mock.calls.length).toBe(0);
@@ -377,7 +377,7 @@ describe("update", () => {
             callback: requestTimaTimerInterruptCallback
         });
 
-        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 16;
+        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 262144;
 
         for (let cnt = 0; cnt < 0xFF; cnt++) {
             timer.update(requiredTicksToTriggerInterrupt);

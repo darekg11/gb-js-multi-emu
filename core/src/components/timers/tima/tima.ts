@@ -49,18 +49,18 @@ class TimaTimer {
         const TAC_REGISTER_VALUE = this.memory.read8BitsValue(REGISTERS.TIMERS.TAC_REGISTER);
         const frequency = TAC_REGISTER_VALUE & 3;
         if (frequency === 0) {
-            return (this.cpuClockSpeed / 1024) * (this.doubleSpeed ? 2 : 1);
+            return Math.floor((this.cpuClockSpeed / 4096) * (this.doubleSpeed ? 2 : 1));
         }
         if (frequency === 1) {
-            return (this.cpuClockSpeed / 16) * (this.doubleSpeed ? 2 : 1);
+            return Math.floor((this.cpuClockSpeed / 262144) * (this.doubleSpeed ? 2 : 1));
         }
         if (frequency === 2) {
-            return (this.cpuClockSpeed / 64) * (this.doubleSpeed ? 2 : 1);
+            return Math.floor((this.cpuClockSpeed / 65536) * (this.doubleSpeed ? 2 : 1));
         }
         if (frequency === 3) {
-            return (this.cpuClockSpeed / 256) * (this.doubleSpeed ? 2 : 1);
+            return Math.floor((this.cpuClockSpeed / 16382) * (this.doubleSpeed ? 2 : 1));
         }
-        return (this.cpuClockSpeed / 1024) * ( this.doubleSpeed ? 2 : 1);
+        return Math.floor((this.cpuClockSpeed / 4096) * ( this.doubleSpeed ? 2 : 1));
     }
 
     public reset = () => {
