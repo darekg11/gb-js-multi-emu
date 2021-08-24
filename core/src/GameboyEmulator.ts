@@ -348,7 +348,14 @@ class GameboyEmulator {
     private requestInterrupt = (interrupt: INTERRUPTS) => {
         const interruptRequestState = this.memory.read8BitsValue(REGISTERS.INTERRUPTS.INTERRUPT_REQUEST_REGISTER);
         const inerruptsStateAfterEnabling =  numberUtils.setBit(interruptRequestState, interrupt);
+        const interruptEnableState = this.memory.read8BitsValue(REGISTERS.INTERRUPTS.INTERRUPT_ENABLE_REGISTER);
         this.memory.write8BitsValue(REGISTERS.INTERRUPTS.INTERRUPT_REQUEST_REGISTER, inerruptsStateAfterEnabling);
+
+        // CPU is unhalted when interrupt is required, even when IME is disabled that makes sure that Gameboy won't get stuck
+        // ! it's crucial that unhalting only happens when requested inerrupt is enabled !
+        if (numberUtils.isBitSet(inerruptsStateAfterEnabling, interrupt) && numberUtils.isBitSet(interruptEnableState, interrupt)) {
+            this.cpu.unhalt();
+        }
     }
 
     private checkInterrupts = () => {
@@ -360,14 +367,9 @@ class GameboyEmulator {
         const interruptRequestState = this.memory.read8BitsValue(REGISTERS.INTERRUPTS.INTERRUPT_REQUEST_REGISTER);
         const interruptEnableState = this.memory.read8BitsValue(REGISTERS.INTERRUPTS.INTERRUPT_ENABLE_REGISTER);
 
-        // no interrupts to process, just return
-        if (interruptRequestState === 0) {
-            return;
-        }
-
         // go by interrupts priority
         // V-BLANK (0) has the HIGHEST while JOYPAD (4) has the LOWEST
-        for (let interrupt = INTERRUPTS.V_BLANK; interrupt < INTERRUPTS.JOYPAD; interrupt++) {
+        for (let interrupt = INTERRUPTS.V_BLANK; interrupt < INTERRUPTS.JOYPAD + 1; interrupt++) {
             if (numberUtils.isBitSet(interruptRequestState, interrupt) && numberUtils.isBitSet(interruptEnableState, interrupt)) {
                 this.handleInterrupt(interrupt);
             }
@@ -387,9 +389,6 @@ class GameboyEmulator {
         const currentProgramCounter = this.cpu.getProgramCounter();
         this.cpu.decreaseStackPointer(2);
         this.memory.write16BitsValue(this.cpu.getRegisterSPValue(), currentProgramCounter);
-
-        // reenable CPU
-        this.cpu.unhalt();
 
         // this interrupt service handler methods takes 20 cycles according to:
         // https://gbdev.gg8.se/wiki/articles/Interrupts
