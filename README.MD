@@ -26,7 +26,7 @@ Each of these directories contains it's own `README.md` file. Please refer to th
 | Feature             | Status             | Addtional description
 | ------------------- | ------------------ | ---------------------------------
 | CPU                 | :heavy_check_mark: | Done, CPU running at 4.194304 MHz
-| CPU + Memory Timing | :x:                | There is problem with passing instr_timing test + timer tests of Blargg's CPU tests. The issue arrises from the fact that each CPU OP Code is retuning number of cycles by the end of execeution and ticks are incremented once at the end. Correct implementation would increase ticks at each memory read / write so that it could be synced correectly
+| CPU + Memory Timing | :x:                | There is problem with passing instr_timing test tests. The issue arrises from the fact that each CPU OP Code is retuning number of cycles by the end of execeution and ticks are incremented once at the end. Correct implementation would increase ticks at each memory read / write so that it could be synced correectly
 | Timer - DIV         | :heavy_check_mark: | Done
 | Timer - TIMA        | :heavy_check_mark: | Done
 | Joypad              | :heavy_check_mark: | Done
@@ -53,7 +53,7 @@ Currently those tests are run manually, but in future those will run automatical
 
 `02-interrupts`:
 
-![interrupts](https://user-images.githubusercontent.com/11317951/127767539-8cdbad52-f57b-4980-8f38-972ad9c89559.png)
+![interrupts](https://user-images.githubusercontent.com/11317951/130689655-23ba99be-b5a3-4ced-a4ea-06c777c270b8.png)
 
 `03-op sp,hl`:
 
@@ -101,9 +101,7 @@ Currently those tests are run manually, but in future those will run automatical
 
 ### Fairy lake
 
-![fairylake](https://user-images.githubusercontent.com/11317951/127767949-d408d507-6c41-47a9-b3b5-9d7e1d695d20.png)
-
-**It's missing bridge in the center - not sure know why yet**
+![fairy-lake](https://user-images.githubusercontent.com/11317951/130689865-4e40389b-05b2-4b87-b90d-eafb10f6ddff.png)
 
 
 # Knowledge list - articles / tutorials / videos / specs / repos / test ROMs:
