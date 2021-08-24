@@ -19,7 +19,7 @@ describe("update", () => {
 
         const timer = new DivTimer(eventBus, memory);
 
-        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 256;
+        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 16384;
 
         timer.update(requiredTicksToTriggerInterrupt);
         // check if value is increased
@@ -39,7 +39,7 @@ describe("update", () => {
 
         const timer = new DivTimer(eventBus, memory);
 
-        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 256;
+        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 16384;
 
         for (let cnt = 0; cnt < 0xFF; cnt ++) {
             timer.update(requiredTicksToTriggerInterrupt + 1);
@@ -57,7 +57,7 @@ describe("update", () => {
 
         const timer = new DivTimer(eventBus, memory, CLASSIC_GAMEBOY_CLOCK_SPEED, true);
 
-        const requiredTicksToTriggerInterrupt = (CLASSIC_GAMEBOY_CLOCK_SPEED / 256) * 2;
+        const requiredTicksToTriggerInterrupt = (CLASSIC_GAMEBOY_CLOCK_SPEED / 16384) * 2;
 
         timer.update(requiredTicksToTriggerInterrupt);
         // check if value is increased
@@ -77,7 +77,7 @@ describe("update", () => {
 
         const timer = new DivTimer(eventBus, memory, CLASSIC_GAMEBOY_CLOCK_SPEED, true);
 
-        const requiredTicksToTriggerInterrupt = (CLASSIC_GAMEBOY_CLOCK_SPEED / 256) * 2;
+        const requiredTicksToTriggerInterrupt = (CLASSIC_GAMEBOY_CLOCK_SPEED / 16384) * 2;
 
         for (let cnt = 0; cnt < 0xFF; cnt ++) {
             timer.update(requiredTicksToTriggerInterrupt + 1);
@@ -97,7 +97,7 @@ describe("reset", () => {
 
         const timer = new DivTimer(eventBus, memory);
 
-        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 256;
+        const requiredTicksToTriggerInterrupt = CLASSIC_GAMEBOY_CLOCK_SPEED / 16384;
 
         for (let cnt = 0; cnt < 10; cnt ++) {
             timer.update(requiredTicksToTriggerInterrupt + 1);

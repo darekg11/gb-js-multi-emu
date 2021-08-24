@@ -25,7 +25,8 @@ class DivTimer {
             this.ticks -= threshold;
             // DIV is always restarted to 0 so make sure to not overflow it
             // using writeDirect since writing any value to this register reset it back to 0 due to hardware implementation
-            this.memory.directWrite8BitsValue(REGISTERS.TIMERS.DIV_REGISTER, (this.memory.read8BitsValue(REGISTERS.TIMERS.DIV_REGISTER) + 1) & 0xFF);
+            const newTimerValue = this.memory.read8BitsValue(REGISTERS.TIMERS.DIV_REGISTER) + 1;
+            this.memory.directWrite8BitsValue(REGISTERS.TIMERS.DIV_REGISTER, newTimerValue & 0xFF);
         }
     }
 
@@ -37,7 +38,7 @@ class DivTimer {
 
     private calculateThreshold = () => {
         // DIV is always 16KHz
-        return (this.cpuClockSpeed / 256) * (this.doubleSpeed ? 2 : 1);
+        return Math.floor((this.cpuClockSpeed / 16384) * (this.doubleSpeed ? 2 : 1));
     }
 }
 
