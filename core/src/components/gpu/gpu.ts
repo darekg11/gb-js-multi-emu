@@ -91,17 +91,17 @@ class GPU {
 
     private setupLCDWhenDisabled = () => {
         this.ticks = 0;
-        // when LCD is disabled then mode should be set to VBLANK (1)
+        // when LCD is disabled then mode should be set to 0 (HBLANK)
         // and scanline should be reset. In other cases some games such as
         // Mario2 won't play past title screen
         
         // writing anything via memory to LY_REGISTER resets it anyway
         this.memory.write8BitsValue(REGISTERS.GPU.LY_REGISTER, 0);
         
-        // set mode to 1 (VBLANK)
-        // binary 01
+        // set mode to 0 (HBLANK)
+        // binary 00
         let status = this.memory.read8BitsValue(REGISTERS.GPU.LCD_STAT_REGISTER);
-        status = numberUtils.setBit(status, 0);
+        status = numberUtils.unsetBit(status, 0);
         status = numberUtils.unsetBit(status, 1);
         this.memory.write8BitsValue(REGISTERS.GPU.LCD_STAT_REGISTER, status);
 

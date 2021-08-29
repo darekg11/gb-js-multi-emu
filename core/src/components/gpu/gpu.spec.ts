@@ -15,7 +15,7 @@ describe("initialize", () => {
 });
 
 describe("update when LCD disabled", () => {
-    test("should reset LY_REGISTER and set LCD Mode to 1", () => {
+    test("should reset LY_REGISTER and set LCD Mode to 0", () => {
         const eventBus = new EventBus();
         const memory = new Memory(eventBus);
         memory.directWrite8BitsValue(REGISTERS.GPU.LY_REGISTER, 128);
@@ -26,7 +26,7 @@ describe("update when LCD disabled", () => {
         gpu.update(100);
 
         expect(memory.read8BitsValue(REGISTERS.GPU.LY_REGISTER)).toBe(0);
-        expect(memory.read8BitsValue(REGISTERS.GPU.LCD_STAT_REGISTER)).toBe(0b11111101);
+        expect(memory.read8BitsValue(REGISTERS.GPU.LCD_STAT_REGISTER)).toBe(0b11111100);
     })
 });
 
