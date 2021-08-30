@@ -1,6 +1,6 @@
 {
     "name": "gb-js-multi-emu-website",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Website UI for GB JS Multi Emu",
     "main": "index.js",
     "scripts": {

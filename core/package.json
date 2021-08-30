@@ -1,6 +1,6 @@
 {
   "name": "gb-js-multi-emu-core",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "./dist/GameboyEmulator.js",
   "types": "./dist/GameboyEmulator.d.ts",

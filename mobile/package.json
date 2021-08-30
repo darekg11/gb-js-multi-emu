@@ -1,6 +1,6 @@
 {
   "name": "gb-js-multi-emu-mobile",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "build-write-commit": "./scripts/write-git-commit.sh",
