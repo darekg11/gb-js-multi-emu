@@ -103,6 +103,17 @@ Currently those tests are run manually, but in future those will run automatical
 
 ![fairy-lake](https://user-images.githubusercontent.com/11317951/130689865-4e40389b-05b2-4b87-b90d-eafb10f6ddff.png)
 
+# Runnable ROMs
+
+## MBC 0
+
+### Tetris:
+![tetris_title_screen](https://user-images.githubusercontent.com/11317951/131384273-51fcbd45-76cb-49d3-8fb9-a2cee06184de.png)
+![tetris_running_game](https://user-images.githubusercontent.com/11317951/131384290-57be00dd-1eca-4441-b268-97d55c752561.png)
+
+### Dr Mario:
+![dr_mario_title_screen](https://user-images.githubusercontent.com/11317951/131384319-be6c966a-7ace-4d9e-8456-6b64deaff346.png)
+![dr_mario_running](https://user-images.githubusercontent.com/11317951/131384322-1f7d296c-5f1e-4537-b310-bd5326dcff2e.png)
 
 # Knowledge list - articles / tutorials / videos / specs / repos / test ROMs:
 
